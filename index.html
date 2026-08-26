@@ -494,6 +494,7 @@
       <div class="bio">
         <p>Hi there. My name is Kerry (she/her).</p>
         <p>I care deeply about education, learning, the workflows that power them, and building products that help people work and learn more effectively with AI.</p>
+        <p>I look for opportunities to turn complex, fragmented workflows into simple, useful products.</p>
         <p>I build 0→1 products at classroom, statewide, and nationwide scale.</p>
         <p style="color: var(--muted); font-family: 'Instrument Serif', Georgia, serif; font-size: 17px;">Explore the sample collection of my work below.</p>
       </div>
@@ -803,11 +804,12 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-protractor",
     icon: ICONS.protractor,
-    problem: "Measuring angles digitally meant drawing on paper, measuring with a physical protractor, then photographing and uploading the result. A multi-step, error-prone workflow disconnected from the digital assignment.",
-    solution: "Built a digital protractor directly inside the drawing tool. Students draw the angle, then place, rotate, resize, and flip the protractor over it, reading the degree measurement in real time without leaving the assignment.",
+    problem: "Measuring angles digitally required students to draw on paper, measure with a physical protractor, then photograph and upload the result. This was a multi-step, error-prone workflow disconnected from the digital assignment.",
+    solution: "Built a digital protractor directly inside the drawing tool. Students draw the angle, then place, rotate, resize, and flip the protractor over it, reading the angle measurement in real time without leaving the assignment.",
     impactStat: null,
-    impactBody: "Consolidated a multi-step, paper-dependent workflow into one in-tool interaction. Faster for students, and no more illegible photo uploads for teachers to grade.",
-    tech: null,
+    impactBody: "Replaced a multi-step, paper-dependent workflow with a single in-tool interaction, allowing students to measure and submit their work digitally while eliminating photographed paper artifacts for teachers to interpret and grade.",
+    tech: "Kept measurement inside the drawing workflow so students could construct and measure the angle in the same workspace, rather than switching between tools or activities.",
+    techLabel: "Product Decision",
     video: null,
     doc: "https://support.kiddom.co/en/articles/14725022-what-are-student-math-tools"
   },
@@ -819,11 +821,12 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-calculator",
     icon: ICONS.calculator,
-    problem: "Show Work questions needed calculator access for computation-heavy problems, but unrestricted access on every question risks undermining what's actually being assessed: basic arithmetic mastery versus multi-step reasoning.",
-    solution: "Built teacher-controlled, per-question calculator access (Basic, Scientific, or off) inside Show Work questions, configurable independently on each question within the same assignment, with zero effect on auto-grading.",
+    problem: "Show Work questions needed calculator access for computation-heavy problems, but unrestricted access on every question could undermine what was actually being assessed. Some questions test basic arithmetic mastery to multi-step reasoning.",
+    solution: "Built teacher-controlled, per-question calculator access inside Show Work questions, with Basic, Scientific, or no calculator options configurable independently for each question within the same assignment, without affecting auto-grading.",
     impactStat: null,
-    impactBody: "Let teachers match calculator availability to exactly what each question tests, at the question level rather than the whole assignment. The captured Show Work alongside it is what's positioned to support future AI-powered feedback.",
-    tech: null,
+    impactBody: "Gave teachers control over calculator access at the question level, allowing them to match tools to what each question is designed to assess without restricting or enabling calculators across the entire assignment.",
+    tech: "Captured Show Work alongside calculator-enabled responses, preserving the student's reasoning for future AI-powered feedback.",
+    techLabel: "Product Foundation",
     video: null,
     doc: "https://support.kiddom.co/en/articles/15461433-using-the-student-calculator-in-show-work-questions"
   },
@@ -835,11 +838,12 @@ const CASES = [
     sub: "Kiddom · 2025",
     palette: "pal-course",
     icon: ICONS.crosswalk,
-    problem: "Being on a state's approved-adoption list has historically been the practical path to real volume in that state's education market. Building the state-specific course (e.g., mapping OpenSciEd to Florida's standards) lived in spreadsheets, delegated across contractors: more hands meant more error risk, more contractors meant visibly inconsistent writing styles, and both pushed more QA load onto the ID.",
-    solution: "Built Course Builder to take FL's standards sequence, OSE/NGSS's sequence, and a crosswalk map as inputs, then auto-generate a reordered, renumbered draft course and flag standards-alignment gaps for Content Generation. This replaced fragmented, multi-contractor spreadsheet coordination with one system.",
+    origin: "Built from the patterns identified while developing state adoption packages for Texas, Florida, and Tennessee.",
+    problem: "State adoption is a critical path to volume in education markets, but building state-specific courses was fragmented across spreadsheets and contractors. More contributors increased the risk of errors and inconsistent writing, while pushing additional QA work onto Instructional Designers.",
+    solution: "Built Course Builder, a reusable system that takes a state's standards sequence, the source curriculum's sequence, and a crosswalk between them to automatically generate a reordered, renumbered draft course and flag standards-alignment gaps for Content Generation. The system replaces fragmented spreadsheet coordination with a repeatable workflow for future state adoption builds.",
     impactStat: "45%",
-    impactBody: "faster course builds, with higher standards-alignment confidence and fewer errors. That meant Kiddom could submit adoption bids sooner and with more confidence they'd hold up.",
-    tech: "The crosswalk itself was hand-built: find a published scope-and-sequence from a large FL district to infer the state's preferred standards order, then map each NGSS standard (OSE's base) to its FL equivalent. Feed both standards sequences plus that crosswalk into the system, which auto-generates a reordered, renumbered draft course, and flags any standard where NGSS runs over or under FL's assessment boundary so Content Generation knows exactly where to write new material instead of guessing.",
+    impactBody: "faster course builds, while increasing confidence in standards alignment and reducing errors. More importantly, established a scalable workflow that can be reused across future state adoption builds, helping the team respond to new state opportunities faster and with greater confidence.",
+    tech: null,
     video: null,
     doc: null
   },
@@ -851,27 +855,31 @@ const CASES = [
     sub: "Kiddom · TX, FL, TN · 2023–25",
     palette: "pal-ose",
     icon: ICONS.books,
-    problem: "Three states, three different standards frameworks, one base curriculum. Each state adoption had to ship as a complete package (teacher and student workbooks plus digital) that met local standards without diluting the pedagogical integrity of the source material.",
-    solution: "Authored full curriculum adoption packages across Texas, Florida, and Tennessee: OpenSciEd-based grade 6-8 courses and high-school OpenStax courses in biology, chemistry, physics, and anatomy & physiology, for all three states. Each shipped as teacher and student workbooks alongside digital curriculum.",
-    impactStat: "60,000+",
-    impactBody: "students served via Knox County (TN) adoption; earned Kiddom certification as 1 of 6 OpenSciEd distribution partners nationally.",
-    tech: null,
+    problem: "Three states, three different standards frameworks, one base curriculum. Each adoption had to ship as a complete package for teachers and students, meeting local standards without diluting the pedagogical integrity of the source material. That meant understanding both the source curriculum's science framework and each state's standards well enough to identify and author content where they diverged.",
+    solution: "Translated OpenSciEd and OpenStax science curricula into state-specific adoption packages across Texas, Florida, and Tennessee. Mapped source curricula against state standards, identified instructional gaps, and authored the content needed to meet local requirements while preserving the pedagogy of the original materials. Each adoption shipped as teacher and student workbooks alongside digital curriculum.",
+    impactStat: null,
+    impactBody: `Delivered adoption-ready curriculum across three states and multiple science disciplines, supporting districts with different standards requirements while preserving the integrity of the source curricula. The largest adoption serves <strong class="stat">60,000+</strong> students in Knox County, Tennessee.`,
+    evolutionLabel: "Evolution",
+    evolution: "Building these state adoption packages manually revealed a repeatable standards-mapping workflow, which I later productized into State Adoption Course Builder for future builds.",
+    tech: "Mapped OpenSciEd's NGSS-aligned curriculum against state-specific standards, using pedagogical judgment to determine where standards diverged, what instructional content was missing, and how to fill those gaps without disrupting the intended learning progression.",
+    techLabel: "Domain Expertise",
     video: null,
     doc: null
   },
   {
     id: "assessment",
-    title: "Assessment Generator",
+    title: "Science Assessment Generator",
     domain: "curriculum",
     domainLabel: "Curriculum",
     sub: "Kiddom · Tennessee OpenSciEd · 2024",
     palette: "pal-assessment",
     icon: ICONS.assessment,
-    problem: "OpenSciEd's native assessments leaned heavily on essay-style Claim-Evidence-Reasoning prompts. Pedagogically strong, but teachers couldn't hand-grade them for 100+ students and return feedback fast enough to inform remediation. Assessments also needed to mirror the actual shape of state science tests: phenomenon-based, real-world-data problems, leveled by DOK, and aligned to standards.",
-    solution: "Built a Streamlit-based assessment generator producing three-dimensional, NGSS-aligned questions that engage Science and Engineering Practices (SEPs), not just content recall, mirrored to state science assessment format and leveled by DOK. Kept an option for Claim-Evidence-Reasoning questions (itself an SEP), but defaulted toward autogradable types, since that's what most teachers actually chose.",
+    problem: "OpenSciEd's default assessments leaned heavily on essay-style Claim-Evidence-Reasoning tasks. They were pedagogically strong, but weren't always practical as the only assessment format. I needed a way to create alternative science assessments that preserved three-dimensional NGSS instruction while supporting autogradable formats and the phenomenon-based, data-rich structure of state science tests.",
+    solution: "Built a Streamlit-based assessment generator to automate the creation of three-dimensional, NGSS-aligned science questions. I designed the generator around Science and Engineering Practices (SEPs), DOK levels, state assessment formats, and multiple response types, including both Claim-Evidence-Reasoning and more autogradable formats.",
     impactStat: null,
-    impactBody: "Became part of the Tennessee OpenSciEd program, giving teachers standards-aligned, state-test-mirrored assessments they could grade fast enough to act on.",
-    tech: null,
+    impactBody: "Turned a manual assessment-authoring workflow into a working generation tool that could produce alternative OpenSciEd assessments across formats and state testing contexts without replacing the pedagogical rigor of the source curriculum.",
+    tech: "Kept Claim-Evidence-Reasoning question generation available rather than restricting the generator to autogradable question types. CER is itself a Science and Engineering Practice, so the generator treated question format as a design choice based on the assessment goal rather than assuming automation should replace constructed response.",
+    techLabel: "Product Decision",
     video: null,
     doc: null
   },
@@ -883,11 +891,13 @@ const CASES = [
     sub: "iMessage extension · Swift + SpriteKit · WIP",
     palette: "pal-neondrift",
     icon: ICONS.puck,
-    problem: "Real shuffleboard is fun with people; async digital versions usually fail on two counts. They demand a fresh app install, and they only really work when everyone's physically together. Both are friction that kills the impulse to just play a round.",
-    solution: "Built Neon Drift as an iMessage extension, not a standalone app: zero install, and the game lives inside a conversation that already exists. 8-turn simplified ruleset, playable in ~2 minutes. One message bubble per completed turn (the platform floor), with all personalized state living inside the extension UI where it belongs.",
+    problem: "Quick asynchronous games introduce friction before the first move: players need to install and open a separate app, then switch back and forth between the game and the text conversation where they're actually communicating.",
+    solution: "Built Neon Drift as an iMessage extension rather than a standalone app, keeping the game inside the conversation where the invitation, turn-taking, and social interaction already happen. Designed an 8-turn ruleset playable in ~2 minutes, with a persistent game bubble and personalized game state living inside the extension UI.",
+    impactLabel: "What I Learned",
     impactStat: null,
-    impactBody: "A working demonstration that products don't lose to competition; they lose to friction. AI as a bonus layer (on-device Apple Intelligence post-game summary), not a load-bearing feature. The deterministic version always ships first and never blocks on a model call. v2 pivots the physics engine into a physics tutor: exposing the real Coulomb-friction model to the player as the teaching surface.",
-    tech: "Replaced SpriteKit's exponential linearDamping with real Coulomb friction (a = μg) calibrated to cited real-world shuffleboard friction coefficients; corrected puck-vs-puck restitution (0.16 → 0.45) and contact friction (0.65 → 0.15) after realizing the two properties had been conflated. Async multiplayer required inventing a concept the iMessage platform doesn't provide, “which player is this device”, stored locally per gameId, since GameState is identical on both devices by construction.",
+    impactBody: "Used the project to deepen my hands-on skills in refactoring, physics modeling, and UI/UX design. Refactored the physics model around real Coulomb friction and meaningful physical parameters rather than arbitrary game-tuning values, making the game feel more like the physical system it represents. I also refined my interaction design instincts around keeping asynchronous game state inside the extension rather than turning every turn into a new message.",
+    tech: "Chose a persistent game bubble rather than sending a new iMessage after every turn. The conversation remains the social layer; the extension owns the changing game state.",
+    techLabel: "Product Decision",
     video: null,
     doc: null
   }
@@ -975,11 +985,13 @@ const CASES = [
         <div class="rolo-sub">${c.sub}</div>
         <p class="rolo-snippet">${c.problem}</p>
         <div class="rolo-full">
+          ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><p class="field-body">${c.origin}</p></div>` : ''}
           <div class="field"><span class="field-label">Problem</span><p class="field-body">${c.problem}</p></div>
           ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
           <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
-          <div class="field"><span class="field-label">Impact</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
+          <div class="field"><span class="field-label">${c.impactLabel || 'Impact'}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
           ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>` : ''}
+          ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><p class="field-body">${c.evolution}</p></div>` : ''}
           ${c.tech ? `<button class="expand-toggle" data-tech-toggle data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button><div class="tech-details">${c.tech}</div>` : ''}
           ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a></div>` : ''}
           ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a></div>` : ''}
@@ -1113,11 +1125,13 @@ const CASES = [
           <h3 class="flat-title">${c.title}</h3>
           <div class="flat-sub">${c.sub}</div>
           <div class="flat-fields">
+            ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><div>${c.origin}</div></div>` : ''}
             <div class="field"><span class="field-label">Problem</span><div>${c.problem}</div></div>
             ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><div>${c.insight}</div></div>` : ''}
             <div class="field"><span class="field-label">Solution</span><div>${c.solution}</div></div>
-            <div class="field"><span class="field-label">Impact</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
+            <div class="field"><span class="field-label">${c.impactLabel || 'Impact'}</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
             ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><div>${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</div></div>` : ''}
+            ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><div>${c.evolution}</div></div>` : ''}
           </div>
           <div class="flat-actions">
             ${c.video ? `<a href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a>` : ''}
