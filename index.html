@@ -130,7 +130,18 @@
     display: grid; grid-template-columns: 1fr 1fr; gap: 20px; position: relative;
   }
   @media (max-width: 700px) {
-    .loop { grid-template-columns: 1fr; }
+    .loop {
+      gap: 8px;
+      width: min(460px, 88vw);
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .loop-card { min-height: 0; padding: 6px 8px; }
+    .loop-num { font-size: 14px; }
+    .loop-phase { font-size: 15px; }
+    .loop-body, .loop-fork { font-size: 12px; line-height: 1.4; }
+    .loop-fork { margin-top: 6px; padding-top: 6px; }
   }
 
   .loop-card {
