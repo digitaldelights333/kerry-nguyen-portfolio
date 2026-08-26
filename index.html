@@ -738,6 +738,8 @@ const CASES = [
     solution: "Unified static, paper-based district pacing guides and school calendars with digital lesson plans, assignments, and instructional materials in one planning workflow. Provides districts a way to establish instructional direction while preserving teacher autonomy to adapt pacing, combine or clip lessons, add flex days, and schedule assignments.",
     impactStat: null,
     impactBody: "Made dedicated planning and pacing available to every teacher across every grade band and subject area, giving teachers a flexible way to adapt pacing to their students' needs and arrive prepared for instruction.",
+    platformStat: "500K+",
+    platformBody: "users across the platform.",
     tech: null,
     video: "https://go.kiddom.co/cadence",
     doc: null
@@ -974,6 +976,7 @@ const CASES = [
           ${c.insight ? `<div class="field"><span class="field-label">Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
           <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
           <div class="field"><span class="field-label">Impact</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
+          ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>` : ''}
           ${c.tech ? `<button class="expand-toggle" data-tech-toggle>+ Technical details</button><div class="tech-details">${c.tech}</div>` : ''}
           ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a></div>` : ''}
           ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a></div>` : ''}
@@ -1110,6 +1113,7 @@ const CASES = [
             ${c.insight ? `<div class="field"><span class="field-label">Insight</span><div>${c.insight}</div></div>` : ''}
             <div class="field"><span class="field-label">Solution</span><div>${c.solution}</div></div>
             <div class="field"><span class="field-label">Impact</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
+            ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><div>${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</div></div>` : ''}
           </div>
           <div class="flat-actions">
             ${c.video ? `<a href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a>` : ''}
