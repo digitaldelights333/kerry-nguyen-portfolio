@@ -1059,18 +1059,19 @@ const CASES = [
         const offset = i - activeIndex;
         const abs = Math.abs(offset);
         const dir = Math.sign(offset);
-        const x = dir * Math.min(abs, 4) * 42;
-        const y = Math.min(abs, 4) * 14;
-        const rot = dir * Math.min(abs, 4) * 6;
-        const scale = 1 - Math.min(abs, 4) * 0.05;
-        const opacity = abs > 4 ? 0 : (1 - Math.min(abs, 4) * 0.18);
+        const DEPTH = 3;
+        const step = Math.min(abs, DEPTH);
+        const y = step * 5;
+        const rot = dir * step * 1.6;
+        const scale = 1 - step * 0.035;
+        const opacity = abs > DEPTH ? 0 : (1 - step * 0.22);
         const z = 50 - abs;
-        el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rot}deg) scale(${scale})`;
+        el.style.transform = `translate(-50%, calc(-50% + ${y}px)) rotate(${rot}deg) scale(${scale})`;
         el.style.left = '50%';
         el.style.top = CARD_TOP_PX + 'px';
         el.style.zIndex = z;
         el.style.opacity = opacity;
-        el.style.pointerEvents = abs > 1 ? 'none' : 'auto';
+        el.style.pointerEvents = abs === 0 ? 'auto' : 'none';
       }
     });
     if (roloIndexEl) roloIndexEl.textContent = String(activeIndex + 1).padStart(2, '0');
@@ -1092,7 +1093,9 @@ const CASES = [
     const scrollable = rect.height - window.innerHeight;
     if (scrollable <= 0) return;
     const progress = Math.max(0, Math.min(1, scrollTop / scrollable));
-    const nextIndex = Math.min(CASES.length - 1, Math.floor(progress * CASES.length));
+    // Runway is sized for CASES.length + 1 units (see setScrollHeight); the extra
+    // unit loops the deck back to the first card instead of parking on the last one.
+    const nextIndex = Math.floor(progress * (CASES.length + 1)) % CASES.length;
     if (nextIndex !== activeIndex) {
       activeIndex = nextIndex;
       layoutRolodex();
