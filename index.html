@@ -131,17 +131,15 @@
   }
   @media (max-width: 700px) {
     .loop {
-      gap: 8px;
-      width: min(460px, 88vw);
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%);
+      gap: 6px;
+      width: 100%;
+      max-width: none;
     }
-    .loop-card { min-height: 0; padding: 4px 6px; }
-    .loop-num { font-size: 12px; }
-    .loop-phase { font-size: 13px; margin: 2px 0; }
-    .loop-body, .loop-fork { font-size: 12px; line-height: 1.4; }
-    .loop-fork { margin-top: 6px; padding-top: 6px; }
+    .loop-card { min-height: 0; padding: 2px 4px; }
+    .loop-num { font-size: 12px; margin-bottom: 0; }
+    .loop-phase { font-size: 13px; margin: 0; }
+    .loop-body, .loop-fork { font-size: 12px; line-height: 1.35; margin: 2px 0 0; }
+    .loop-fork { margin-top: 4px; padding-top: 4px; }
   }
 
   .loop-card {
