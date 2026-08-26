@@ -1093,9 +1093,7 @@ const CASES = [
     const scrollable = rect.height - window.innerHeight;
     if (scrollable <= 0) return;
     const progress = Math.max(0, Math.min(1, scrollTop / scrollable));
-    // Runway is sized for CASES.length + 1 units (see setScrollHeight); the extra
-    // unit loops the deck back to the first card instead of parking on the last one.
-    const nextIndex = Math.floor(progress * (CASES.length + 1)) % CASES.length;
+    const nextIndex = Math.min(CASES.length - 1, Math.floor(progress * CASES.length));
     if (nextIndex !== activeIndex) {
       activeIndex = nextIndex;
       layoutRolodex();
