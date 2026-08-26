@@ -757,6 +757,7 @@ const CASES = [
     impactStat: null,
     impactBody: "Bilingual expansion into Spanish-language and dual-immersion classrooms, enabling districts with growing demand for bilingual instruction to provide instructional materials in both English and Spanish.",
     tech: "Chose a cross-referenced-locale architecture over heavier inline node-threading with Engineering. That cut engineering complexity while still supporting variable classroom language needs, since not every classroom needs the same language pairing or density of support.",
+    techLabel: "Technical Decision",
     video: "https://go.kiddom.co/bilingual-view",
     doc: null
   },
@@ -773,6 +774,7 @@ const CASES = [
     impactStat: null,
     impactBody: `Reduced content errors from <strong class="stat">1,000+</strong> to <strong class="stat">&lt;100</strong> after deploying the tool across the full <strong class="stat">400+</strong> course-tree library.`,
     tech: "Initial single-prompt translation produced inconsistent quality across grade bands. Redesigned the translation system around grade-band-specific prompting and validated output with a calibrated three-pass human evaluation framework before launch.",
+    techLabel: "AI Evaluation",
     video: null,
     doc: null
   },
@@ -784,11 +786,12 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-keyboard",
     icon: ICONS.keyboard,
-    problem: "Math questions with written responses need real mathematical notation, not plain text. But a single keyboard doesn't work across K-12. A K-2 student and a high schooler need very different tool complexity, and full symbol-shortcut access risks confusing substitutions for younger students.",
-    solution: "Built four grade-band keyboards (K-2, 3-5, middle school, high school/teacher) with MathML support via MathJax, a Text Mode toggle for mixed math/text answers, a “preview as student” mode for teachers, and auto-shortcut symbol conversion restricted to high-school/teacher level only.",
+    problem: "Math questions with written responses need real mathematical notation, not plain text. But a single keyboard doesn't work across K–12: a K–2 student and a high schooler need very different levels of tool complexity, and exposing younger students to symbol shortcuts can create confusing substitutions.",
+    solution: "Built a grade-band-specific math keyboard system spanning K–2, 3–5, middle school, and high school/teacher, with MathML support via MathJax, a Text Mode toggle for mixed math/text answers, teacher “preview as student,” and auto-shortcut symbol conversion restricted to high-school/teacher level.",
     impactStat: null,
-    impactBody: "Closed the gap between “written response” and real mathematical notation at every grade band, without exposing younger students to shortcut substitutions that could confuse rather than help.",
-    tech: null,
+    impactBody: "Enabled students across every grade band to express mathematical reasoning in authentic notation, while keeping the interaction model appropriately simple for younger learners and more powerful for advanced students.",
+    tech: "Rather than expose the full symbol set to every learner, differentiated keyboard capabilities by grade band. Provides simplicity for younger students and introduces shortcut-driven efficiency only when learners were ready for it.",
+    techLabel: "Product Decision",
     video: null,
     doc: "https://support.kiddom.co/en/articles/14725065-math-keyboard"
   },
@@ -973,11 +976,11 @@ const CASES = [
         <p class="rolo-snippet">${c.problem}</p>
         <div class="rolo-full">
           <div class="field"><span class="field-label">Problem</span><p class="field-body">${c.problem}</p></div>
-          ${c.insight ? `<div class="field"><span class="field-label">Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
+          ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
           <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
           <div class="field"><span class="field-label">Impact</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
           ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>` : ''}
-          ${c.tech ? `<button class="expand-toggle" data-tech-toggle>+ Technical details</button><div class="tech-details">${c.tech}</div>` : ''}
+          ${c.tech ? `<button class="expand-toggle" data-tech-toggle data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button><div class="tech-details">${c.tech}</div>` : ''}
           ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a></div>` : ''}
           ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a></div>` : ''}
         </div>
@@ -996,7 +999,8 @@ const CASES = [
           e.stopPropagation();
           const td = techBtn.nextElementSibling;
           td.classList.toggle('is-open');
-          techBtn.textContent = td.classList.contains('is-open') ? '– Hide technical details' : '+ Technical details';
+          const label = techBtn.dataset.techLabel || 'Technical details';
+          techBtn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
         });
       }
     });
@@ -1110,7 +1114,7 @@ const CASES = [
           <div class="flat-sub">${c.sub}</div>
           <div class="flat-fields">
             <div class="field"><span class="field-label">Problem</span><div>${c.problem}</div></div>
-            ${c.insight ? `<div class="field"><span class="field-label">Insight</span><div>${c.insight}</div></div>` : ''}
+            ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><div>${c.insight}</div></div>` : ''}
             <div class="field"><span class="field-label">Solution</span><div>${c.solution}</div></div>
             <div class="field"><span class="field-label">Impact</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
             ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><div>${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</div></div>` : ''}
@@ -1118,7 +1122,7 @@ const CASES = [
           <div class="flat-actions">
             ${c.video ? `<a href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a>` : ''}
             ${c.doc ? `<a href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a>` : ''}
-            ${c.tech ? `<button data-flat-tech>+ Technical details</button>` : ''}
+            ${c.tech ? `<button data-flat-tech data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button>` : ''}
           </div>
           ${c.tech ? `<div class="flat-tech">${c.tech}</div>` : ''}
         </div>
@@ -1129,7 +1133,8 @@ const CASES = [
         btn.addEventListener('click', () => {
           const td = el.querySelector('.flat-tech');
           td.classList.toggle('is-open');
-          btn.textContent = td.classList.contains('is-open') ? '– Hide technical details' : '+ Technical details';
+          const label = btn.dataset.techLabel || 'Technical details';
+          btn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
         });
       }
     });
