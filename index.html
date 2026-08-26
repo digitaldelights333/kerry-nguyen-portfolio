@@ -301,6 +301,17 @@
 
   .rolo-cta { display: none; }
 
+  .rolo-eye {
+    position: absolute; bottom: 14px; right: 16px;
+    width: 22px; height: 22px; color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; opacity: 0.75;
+    transition: opacity 0.25s ease, color 0.25s ease;
+  }
+  .rolo-eye svg { width: 100%; height: 100%; display: block; }
+  .rolo-card:hover .rolo-eye { opacity: 1; color: var(--accent); }
+  .rolo-card.is-open .rolo-eye { display: none; }
+
   .rolo-close {
     position: absolute; top: 12px; right: 12px;
     width: 32px; height: 32px; border-radius: 50%;
@@ -462,7 +473,7 @@
       <h1 class="name">Kerry Nguyen</h1>
       <p class="hero-role">Product manager, builder, educator.</p>
       <div class="bio">
-        <p class="bio-open">Hi there. My name is Kerry (she/her).</p>
+        <p>Hi there. My name is Kerry (she/her).</p>
         <p>I care deeply about education, learning, the workflows that power them, and building products that help people work and learn more effectively with AI.</p>
         <p>I build 0→1 products at classroom, statewide, and nationwide scale.</p>
         <p style="color: var(--muted); font-family: 'Instrument Serif', Georgia, serif; font-size: 17px;">Explore the sample collection of my work below.</p>
@@ -704,9 +715,10 @@ const CASES = [
     palette: "pal-cadence",
     icon: ICONS.cadence,
     problem: "Teacher planning and pacing workflows were fragmented across disconnected tools and habits.",
-    solution: "Built Cadence, a unified planning and pacing experience, in partnership with Engineering, Design, Data Science, and Instructional Design.",
-    impactStat: "99%",
-    impactBody: "of first-90-day activity was planning-related. That signal confirmed fit and told us to protect the first-time-user planning experience rather than dilute focus with secondary features.",
+    insight: "99% of first-90-day activity was planning-related, confirming that planning was the primary job teachers came to the experience to accomplish.",
+    solution: "Unified static, paper-based district pacing guides and school calendars with digital lesson plans, assignments, and instructional materials in one planning workflow. Provides districts a way to establish instructional direction while preserving teacher autonomy to adapt pacing, combine or clip lessons, add flex days, and schedule assignments.",
+    impactStat: null,
+    impactBody: "Made dedicated planning and pacing available to every teacher across every grade band and subject area, giving teachers a flexible way to adapt pacing to their students' needs and arrive prepared for instruction.",
     tech: null,
     video: "https://go.kiddom.co/cadence",
     doc: null
@@ -927,6 +939,12 @@ const CASES = [
       el.dataset.index = i;
       el.innerHTML = `
         <button class="rolo-close" aria-label="Close">×</button>
+        <span class="rolo-eye" aria-hidden="true" title="Click to view details">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </span>
         <div class="rolo-plate">${c.domainLabel}</div>
         <div class="rolo-visual ${c.palette}"><span class="card-icon">${c.icon}</span></div>
         <h3 class="rolo-title">${c.title}</h3>
@@ -934,6 +952,7 @@ const CASES = [
         <p class="rolo-snippet">${c.problem}</p>
         <div class="rolo-full">
           <div class="field"><span class="field-label">Problem</span><p class="field-body">${c.problem}</p></div>
+          ${c.insight ? `<div class="field"><span class="field-label">Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
           <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
           <div class="field"><span class="field-label">Impact</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
           ${c.tech ? `<button class="expand-toggle" data-tech-toggle>+ Technical details</button><div class="tech-details">${c.tech}</div>` : ''}
@@ -1069,6 +1088,7 @@ const CASES = [
           <div class="flat-sub">${c.sub}</div>
           <div class="flat-fields">
             <div class="field"><span class="field-label">Problem</span><div>${c.problem}</div></div>
+            ${c.insight ? `<div class="field"><span class="field-label">Insight</span><div>${c.insight}</div></div>` : ''}
             <div class="field"><span class="field-label">Solution</span><div>${c.solution}</div></div>
             <div class="field"><span class="field-label">Impact</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
           </div>
