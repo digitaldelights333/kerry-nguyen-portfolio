@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kerry Nguyen · Portfolio</title>
+<meta name="description" content="A science educator turned product builder. 0→1 learning products at classroom, statewide, and nationwide scale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #EFEBE6;
+    --surface: #FBF6EC;
+    --surface-2: #F4EFE6;
+    --ink: #1A1814;
+    --ink-2: #33312D;
+    --soft: #5F5546;
+    --muted: #7A6B5B;
+    --rule: #D5CFC7;
+    --rule-2: #C9BEA9;
+    --accent: #B85450;
+    --accent-deep: #7D3212;
+    --shadow-card: 0 1px 2px rgba(60,40,20,0.06), 0 12px 32px -12px rgba(60,40,20,0.12);
+    --shadow-active: 0 12px 32px -14px rgba(184,84,80,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-deep); }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width: 720px) {
+    .wrap { padding: 0 24px; }
+  }
+
+  /* ===== HERO ===== */
+  header.hero { padding: 40px 0 64px; }
+
+  .hero-meta {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 20px; margin-bottom: 56px;
+    border-bottom: 1px solid var(--rule);
+    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .hero-body { display: block; }
+
+  .eyebrow {
+    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 20px;
+  }
+
+  h1.name {
+    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-size: clamp(2.8rem, 7vw, 5rem); line-height: 1; letter-spacing: -0.02em;
+    margin: 0 0 14px; color: var(--ink);
+  }
+
+  .hero-role {
+    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-size: clamp(1.15rem, 2vw, 1.35rem); line-height: 1.4;
+    color: var(--ink-2); margin: 0 0 32px;
+  }
+
+  .bio p {
+    font-family: "DM Sans"; font-size: 15.5px; line-height: 1.65;
+    color: var(--ink-2); margin: 0 0 12px; max-width: 62ch;
+  }
+  .bio p:last-child { margin-bottom: 0; }
+  .bio .bio-open {
+    font-family: "Instrument Serif", Georgia, serif; font-size: 20px; line-height: 1.4;
+    color: var(--ink); margin-bottom: 14px;
+  }
+
+  .bio-meta {
+    display: flex; gap: 14px; padding-top: 16px; margin-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: "DM Sans"; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); flex-wrap: wrap;
+  }
+
+  /* ===== SECTION HEADING ===== */
+  .section-head-band {
+    background: var(--paper);
+    padding: 32px 0 12px;
+  }
+  section.cases-outer .section-head-band {
+    position: sticky; top: 0; z-index: 30;
+  }
+  .section-head {
+    display: flex; align-items: baseline; gap: 24px; margin-bottom: 0;
+  }
+  .how .section-head { margin-bottom: 40px; }
+  .section-head .section-num {
+    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); white-space: nowrap;
+  }
+  .section-head h2 {
+    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; margin: 0; color: var(--ink);
+  }
+  .section-head .rule { flex: 1; height: 1px; background: var(--rule); align-self: center; }
+
+  /* ===== HOW I WORK ===== */
+  section.how { padding: 40px 0 88px; }
+
+  .how-lede {
+    font-family: "Instrument Serif", Georgia, serif;
+    font-size: 20px; line-height: 1.5; color: var(--soft); margin: 0 0 32px; max-width: 60ch;
+  }
+
+  .loop {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; position: relative;
+  }
+  @media (max-width: 700px) {
+    .loop { grid-template-columns: 1fr; }
+  }
+
+  .loop-card {
+    background: var(--surface); border: 2px solid var(--rule-2);
+    padding: 26px 28px; border-radius: 4px;
+    min-height: 240px; display: flex; flex-direction: column;
+    transition: transform 0.6s ease, border-color 0.6s ease, opacity 0.6s ease, box-shadow 0.6s ease;
+  }
+  .loop.is-active .loop-card { opacity: 0.4; }
+  .loop.is-active .loop-card.is-lit {
+    opacity: 1;
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-active);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loop.is-active .loop-card { opacity: 1; }
+  }
+
+  .loop-num {
+    font-family: "Instrument Serif", Georgia, serif; font-size: 22px;
+    color: var(--accent); line-height: 1; margin-bottom: 12px;
+  }
+  .loop-phase {
+    font-family: "DM Serif Display", Georgia, serif; font-size: 32px; line-height: 1;
+    color: var(--ink); margin: 0 0 14px; letter-spacing: -0.01em;
+  }
+  .loop-body {
+    font-family: "DM Sans"; font-size: 14px; line-height: 1.55; color: var(--ink-2); margin: 0;
+  }
+  .loop-fork {
+    margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--rule-2);
+    font-family: "DM Sans"; font-size: 12.5px; color: var(--muted); line-height: 1.55;
+  }
+  .loop-fork strong { font-family: "DM Serif Display"; font-style: normal; color: var(--accent); font-weight: 400; }
+
+  .loop-footnote {
+    margin-top: 24px; text-align: center;
+    font-family: "Instrument Serif", Georgia, serif; font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ===== CASE STUDIES ===== */
+  section.cases-outer { padding: 0; }
+
+  .filter-band {
+    position: sticky; top: 88px; z-index: 20;
+    padding: 12px 0 16px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .filter-row {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  }
+  .filter-label {
+    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-right: 4px;
+  }
+  .pill {
+    font-family: "DM Sans"; font-size: 12.5px; letter-spacing: 0.02em;
+    background: transparent; color: var(--ink);
+    border: 1px solid var(--rule-2); padding: 8px 16px;
+    border-radius: 999px; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .pill:hover { border-color: var(--ink); }
+  .pill.is-active {
+    background: var(--ink); color: var(--paper); border-color: var(--ink);
+  }
+  .pill .count { opacity: 0.65; font-size: 11.5px; margin-left: 6px; }
+  .pill.is-active .count { opacity: 0.75; }
+
+  /* --- ROLODEX (idle state) --- */
+  .rolodex-scroll { position: relative; }
+  /* Height calculated by JS based on card count */
+
+  .rolodex-stage {
+    position: sticky;
+    top: 160px;
+    width: 100%;
+    height: calc(100vh - 160px);
+    min-height: 560px;
+    overflow: hidden;
+  }
+  .rolodex { position: relative; width: 100%; height: 100%; }
+
+  .rolodex-counter {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    font-family: "DM Sans"; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    padding: 6px 14px; border-radius: 999px; border: 1px solid var(--rule);
+  }
+  .rolodex-counter strong { color: var(--ink); font-weight: 500; }
+
+  .rolo-card {
+    position: absolute;
+    width: min(460px, 88vw);
+    height: 520px;
+    background: var(--surface);
+    border: 1px solid var(--rule-2);
+    box-shadow: var(--shadow-card);
+    padding: 28px 32px;
+    transform-origin: center center;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.3, 1), opacity 0.5s ease, box-shadow 0.5s ease;
+    display: flex; flex-direction: column;
+    cursor: pointer;
+  }
+  .rolo-card.is-open {
+    z-index: 100 !important;
+    cursor: default;
+    box-shadow: 0 20px 60px -20px rgba(60,40,20,0.35);
+    width: min(680px, 92vw);
+    height: min(640px, 82vh);
+  }
+  .rolo-card.is-tucked { opacity: 0.15; pointer-events: none; }
+
+  .rolo-plate {
+    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+
+  .rolo-visual {
+    height: 140px; margin-bottom: 20px; border-radius: 3px;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .rolo-card.is-open .rolo-visual { height: 180px; }
+  .rolo-visual::after {
+    content: ""; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,0.35);
+    pointer-events: none;
+  }
+  .card-icon { color: var(--surface); z-index: 1; display: block; }
+  .rolo-visual .card-icon { width: 88px; height: 88px; }
+  .flat-visual .card-icon { width: 140px; height: 140px; }
+  .card-icon svg { width: 100%; height: 100%; display: block; }
+
+  .rolo-title {
+    font-family: "DM Serif Display", Georgia, serif; font-size: 28px; line-height: 1.05;
+    letter-spacing: -0.01em; margin: 0 0 4px; color: var(--ink);
+  }
+  .rolo-sub {
+    font-family: "DM Sans"; font-size: 12.5px; color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .rolo-snippet {
+    font-family: "DM Sans"; font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
+    margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 4; line-clamp: 4;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .rolo-card.is-open .rolo-snippet {
+    display: block; overflow-y: auto; -webkit-line-clamp: unset; line-clamp: unset;
+    flex: 1;
+  }
+
+  .rolo-cta { display: none; }
+
+  .rolo-close {
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--rule-2); background: var(--surface);
+    display: none; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: var(--muted);
+  }
+  .rolo-card.is-open .rolo-close { display: flex; }
+  .rolo-close:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* Full P/S/I only shown when open */
+  .rolo-full {
+    display: none;
+    font-family: "DM Sans"; font-size: 14px; line-height: 1.6; color: var(--ink-2);
+  }
+  .rolo-card.is-open .rolo-full { display: block; }
+  .rolo-card.is-open .rolo-snippet { display: none; }
+
+  .rolo-full .field {
+    display: grid; grid-template-columns: 90px 1fr; gap: 16px; margin-bottom: 14px;
+  }
+  .rolo-full .field-label {
+    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); padding-top: 2px;
+  }
+  .rolo-full .field-body { margin: 0; }
+  .rolo-full .field-body strong.stat {
+    display: inline-block; font-family: "Instrument Serif", Georgia, serif;
+    font-size: 28px; color: var(--accent); line-height: 1; margin-right: 6px; vertical-align: -3px;
+  }
+  .rolo-full .expand-toggle {
+    margin-top: 18px; padding: 10px 14px; background: transparent; border: 1px dashed var(--rule-2);
+    color: var(--muted); font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em;
+    text-transform: uppercase; cursor: pointer; border-radius: 3px;
+  }
+  .rolo-full .expand-toggle:hover { color: var(--ink); border-color: var(--ink); }
+  .rolo-full .tech-details {
+    display: none; margin-top: 14px; padding: 14px 16px; background: var(--surface-2);
+    border-left: 3px solid var(--accent); font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
+  }
+  .rolo-full .tech-details.is-open { display: block; }
+
+  .rolo-full .video-link {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+    font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* --- FLAT (filtered) state --- */
+  .flat-list { display: none; }
+  .flat-list.is-active { display: block; padding-top: 40px; }
+
+  .flat-card {
+    background: var(--surface); border: 1px solid var(--rule-2);
+    border-radius: 4px; padding: 40px;
+    display: grid; grid-template-columns: 280px 1fr; gap: 40px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 720px) {
+    .flat-card { grid-template-columns: 1fr; padding: 28px; gap: 24px; }
+  }
+
+  .flat-visual {
+    height: 240px; border-radius: 3px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .flat-visual::after {
+    content: ""; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,0.35);
+    pointer-events: none;
+  }
+  .flat-plate {
+    margin-top: 12px;
+    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .flat-title {
+    font-family: "DM Serif Display", Georgia, serif; font-size: 40px; line-height: 1;
+    letter-spacing: -0.01em; margin: 0 0 4px; color: var(--ink);
+  }
+  .flat-sub {
+    font-family: "DM Sans"; font-size: 13px; color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .flat-fields {
+    display: flex; flex-direction: column; gap: 16px;
+    padding-top: 18px; border-top: 1px solid var(--ink);
+  }
+  .flat-fields .field {
+    display: grid; grid-template-columns: 90px 1fr; gap: 20px;
+    font-family: "DM Sans"; font-size: 14.5px; line-height: 1.6; color: var(--ink-2);
+  }
+  .flat-fields .field-label {
+    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); padding-top: 2px;
+  }
+  .flat-fields strong.stat {
+    display: inline-block; font-family: "Instrument Serif", Georgia, serif;
+    font-size: 40px; color: var(--accent); line-height: 1; margin-right: 8px; vertical-align: -6px;
+  }
+
+  .flat-actions {
+    margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule);
+    display: flex; gap: 24px; flex-wrap: wrap;
+    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .flat-actions a { color: var(--accent); }
+  .flat-actions button {
+    background: transparent; border: none; padding: 0; cursor: pointer; color: var(--muted);
+    font: inherit; letter-spacing: inherit; text-transform: inherit;
+  }
+  .flat-actions button:hover { color: var(--ink); }
+
+  .flat-tech {
+    display: none; margin-top: 20px; padding: 20px 22px; background: var(--surface-2);
+    border-left: 3px solid var(--accent);
+    font-family: "DM Sans"; font-size: 14px; line-height: 1.6; color: var(--ink-2);
+  }
+  .flat-tech.is-open { display: block; }
+
+  /* ===== FOOTER ===== */
+  footer.foot { padding: 48px 0 72px; margin-top: 48px; border-top: 1px solid var(--rule); }
+  .foot-inner {
+    display: flex; justify-content: center; align-items: baseline;
+    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .foot-inner a { color: var(--muted); text-decoration: none; }
+  .foot-inner a:hover { color: var(--accent); }
+
+  /* Visual palettes per card — plate backgrounds */
+  .pal-cadence { background: linear-gradient(135deg, #E8D5AE 0%, #B85450 100%); }
+  .pal-bilingual { background: linear-gradient(135deg, #B85450 0%, #33312D 100%); }
+  .pal-aitree { background: linear-gradient(135deg, #33312D 0%, #7D3212 100%); }
+  .pal-keyboard { background: linear-gradient(135deg, #7A6B5B 0%, #33312D 100%); }
+  .pal-protractor { background: linear-gradient(135deg, #C9BEA9 0%, #B85450 100%); }
+  .pal-calculator { background: linear-gradient(135deg, #33312D 0%, #5F5546 100%); }
+  .pal-course { background: linear-gradient(135deg, #B85450 0%, #6A2E2C 100%); }
+  .pal-ose { background: linear-gradient(135deg, #7D3212 0%, #33312D 100%); }
+  .pal-assessment { background: linear-gradient(135deg, #E8D5AE 0%, #7A6B5B 100%); }
+  .pal-neondrift { background: radial-gradient(circle at 30% 40%, #FF6EC7 0%, transparent 40%), radial-gradient(circle at 70% 60%, #62D2A2 0%, transparent 40%), radial-gradient(circle at 50% 20%, #F5D67B 0%, transparent 40%), #1A1814; }
+
+</style>
+</head>
+<body>
+
+<!-- ============ HERO + BIO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-meta">
+      <span>Portfolio</span>
+      <span></span>
+      <span>nguyenkerry1@gmail.com</span>
+    </div>
+
+    <div class="hero-body">
+      <h1 class="name">Kerry Nguyen</h1>
+      <p class="hero-role">Product manager, builder, educator.</p>
+      <div class="bio">
+        <p class="bio-open">Hi there. My name is Kerry (she/her).</p>
+        <p>I care deeply about education, learning, the workflows that power them, and building products that help people work and learn more effectively with AI.</p>
+        <p>I build 0→1 products at classroom, statewide, and nationwide scale.</p>
+        <p style="color: var(--muted); font-family: 'Instrument Serif', Georgia, serif; font-size: 17px;">Explore the sample collection of my work below.</p>
+      </div>
+      <div class="bio-meta">
+        <span>500K+ users nationally</span><span>·</span><span>60K+ students statewide</span><span>·</span><span>10 sample works</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOW I WORK ============ -->
+<section class="how" id="how-i-work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Method</h2>
+      <div class="rule"></div>
+    </div>
+
+    <div class="loop" id="loop">
+      <div class="loop-card">
+        <div class="loop-num">i.</div>
+        <h3 class="loop-phase">Discover</h3>
+        <p class="loop-body">A signal surfaces a problem. Get underneath it with user research: interviews, observation, pilots.</p>
+      </div>
+
+      <div class="loop-card">
+        <div class="loop-num">ii.</div>
+        <h3 class="loop-phase">Define</h3>
+        <p class="loop-body">Frame the problem, then decide the approach.</p>
+        <div class="loop-fork"><strong>either</strong> scan the landscape and improve what exists, <strong>or</strong> start from first principles and open new territory.</div>
+      </div>
+
+      <div class="loop-card">
+        <div class="loop-num">iv.</div>
+        <h3 class="loop-phase">Deliver</h3>
+        <p class="loop-body">Build scalably with engineering. Launch. Collect data, and it feeds the next Discover.</p>
+      </div>
+
+      <div class="loop-card">
+        <div class="loop-num">iii.</div>
+        <h3 class="loop-phase">Develop</h3>
+        <p class="loop-body">Prototype the idea. Scope with engineering. Finalize UI/UX with design.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CASE STUDIES ============ -->
+<section class="cases-outer" id="case-studies">
+  <div class="section-head-band">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Collection</h2>
+        <div class="rule"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-band" id="filter-band">
+    <div class="wrap">
+      <div class="filter-row" id="filter-row">
+        <span class="filter-label">Filter</span>
+        <button class="pill" data-filter="all">All<span class="count">10</span></button>
+        <button class="pill" data-filter="product">Product<span class="count">6</span></button>
+        <button class="pill" data-filter="curriculum">Curriculum<span class="count">3</span></button>
+        <button class="pill" data-filter="side">Side Projects<span class="count">1</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rolodex (idle state — visible when no filter is active) -->
+  <div class="rolodex-scroll" id="rolodex-scroll">
+    <div class="rolodex-stage" id="rolodex-stage">
+      <div class="rolodex" id="rolodex">
+        <!-- Cards injected by JS -->
+        <div class="rolodex-counter"><strong id="rolo-index">01</strong> / 10</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flat list (filtered state) -->
+  <div class="wrap">
+    <div class="flat-list" id="flat-list">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-inner">
+      <a href="mailto:nguyenkerry1@gmail.com">nguyenkerry1@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   ICONS — consistent minimal line-art, 100×100 viewBox, currentColor stroke
+===================================================================== */
+const ICONS = {
+  cadence: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="18" y="24" width="64" height="60" rx="2"/>
+    <line x1="18" y1="40" x2="82" y2="40"/>
+    <line x1="30" y1="18" x2="30" y2="30"/>
+    <line x1="70" y1="18" x2="70" y2="30"/>
+    <line x1="34" y1="40" x2="34" y2="84"/>
+    <line x1="50" y1="40" x2="50" y2="84"/>
+    <line x1="66" y1="40" x2="66" y2="84"/>
+    <line x1="18" y1="55" x2="82" y2="55"/>
+    <line x1="18" y1="70" x2="82" y2="70"/>
+    <rect x="36" y="57" width="12" height="11" fill="currentColor" stroke="none" opacity="0.5"/>
+  </svg>`,
+  bilingual: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="10" y="18" width="36" height="64" rx="2"/>
+    <rect x="54" y="18" width="36" height="64" rx="2"/>
+    <line x1="16" y1="30" x2="40" y2="30"/>
+    <line x1="16" y1="38" x2="40" y2="38"/>
+    <line x1="16" y1="46" x2="34" y2="46"/>
+    <line x1="16" y1="54" x2="40" y2="54"/>
+    <line x1="60" y1="30" x2="84" y2="30"/>
+    <line x1="60" y1="38" x2="84" y2="38"/>
+    <line x1="60" y1="46" x2="78" y2="46"/>
+    <line x1="60" y1="54" x2="84" y2="54"/>
+    <text x="28" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="12" stroke="none" fill="currentColor">EN</text>
+    <text x="72" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="12" stroke="none" fill="currentColor">ES</text>
+  </svg>`,
+  aitree: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="20" r="6" fill="currentColor" stroke="none"/>
+    <path d="M 50 26 L 26 44"/>
+    <path d="M 50 26 L 74 44"/>
+    <circle cx="26" cy="50" r="5"/>
+    <circle cx="74" cy="50" r="5"/>
+    <path d="M 26 55 L 14 74"/>
+    <path d="M 26 55 L 38 74"/>
+    <path d="M 74 55 L 62 74"/>
+    <path d="M 74 55 L 86 74"/>
+    <circle cx="14" cy="80" r="4"/>
+    <circle cx="38" cy="80" r="4"/>
+    <circle cx="62" cy="80" r="4"/>
+    <circle cx="86" cy="80" r="4"/>
+  </svg>`,
+  keyboard: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="10" y="30" width="80" height="46" rx="4"/>
+    <rect x="16" y="36" width="14" height="10" rx="1"/>
+    <rect x="34" y="36" width="14" height="10" rx="1"/>
+    <rect x="52" y="36" width="14" height="10" rx="1"/>
+    <rect x="70" y="36" width="14" height="10" rx="1"/>
+    <rect x="16" y="50" width="14" height="10" rx="1"/>
+    <rect x="34" y="50" width="14" height="10" rx="1"/>
+    <rect x="52" y="50" width="14" height="10" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
+    <rect x="70" y="50" width="14" height="10" rx="1"/>
+    <rect x="16" y="64" width="32" height="10" rx="1"/>
+    <rect x="52" y="64" width="14" height="10" rx="1"/>
+    <rect x="70" y="64" width="14" height="10" rx="1"/>
+  </svg>`,
+  protractor: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 15 65 A 35 35 0 0 1 85 65 Z"/>
+    <line x1="15" y1="65" x2="85" y2="65"/>
+    <line x1="24" y1="43" x2="27" y2="47"/>
+    <line x1="36" y1="34" x2="38" y2="39"/>
+    <line x1="50" y1="30" x2="50" y2="36"/>
+    <line x1="64" y1="34" x2="62" y2="39"/>
+    <line x1="76" y1="43" x2="73" y2="47"/>
+    <circle cx="50" cy="65" r="3" fill="currentColor" stroke="none"/>
+    <line x1="50" y1="65" x2="78" y2="42"/>
+  </svg>`,
+  calculator: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="24" y="14" width="52" height="72" rx="3"/>
+    <rect x="30" y="20" width="40" height="14" rx="1"/>
+    <rect x="30" y="40" width="9" height="9" rx="1"/>
+    <rect x="42" y="40" width="9" height="9" rx="1"/>
+    <rect x="54" y="40" width="9" height="9" rx="1"/>
+    <rect x="30" y="53" width="9" height="9" rx="1"/>
+    <rect x="42" y="53" width="9" height="9" rx="1"/>
+    <rect x="54" y="53" width="9" height="9" rx="1"/>
+    <rect x="30" y="66" width="9" height="9" rx="1"/>
+    <rect x="42" y="66" width="9" height="9" rx="1"/>
+    <rect x="54" y="66" width="9" height="9" rx="1"/>
+    <rect x="66" y="40" width="4" height="9" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
+    <rect x="66" y="53" width="4" height="9" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
+    <rect x="66" y="66" width="4" height="9" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
+  </svg>`,
+  crosswalk: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="25" cy="22" r="4"/>
+    <circle cx="25" cy="40" r="4"/>
+    <circle cx="25" cy="58" r="4"/>
+    <circle cx="25" cy="76" r="4" fill="currentColor" stroke="none"/>
+    <circle cx="75" cy="22" r="4"/>
+    <circle cx="75" cy="40" r="4"/>
+    <circle cx="75" cy="58" r="4"/>
+    <circle cx="75" cy="76" r="4" fill="currentColor" stroke="none"/>
+    <line x1="30" y1="22" x2="70" y2="40"/>
+    <line x1="30" y1="40" x2="70" y2="22"/>
+    <line x1="30" y1="58" x2="70" y2="58"/>
+    <line x1="30" y1="76" x2="70" y2="76"/>
+  </svg>`,
+  books: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="20" y="20" width="60" height="10" rx="1"/>
+    <rect x="22" y="34" width="56" height="10" rx="1"/>
+    <rect x="18" y="48" width="64" height="10" rx="1"/>
+    <rect x="24" y="62" width="52" height="10" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
+    <line x1="30" y1="23" x2="30" y2="27"/>
+    <line x1="32" y1="37" x2="32" y2="41"/>
+    <line x1="28" y1="51" x2="28" y2="55"/>
+  </svg>`,
+  assessment: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="18" y="14" width="64" height="72" rx="2"/>
+    <line x1="26" y1="26" x2="70" y2="26"/>
+    <circle cx="30" cy="38" r="3"/>
+    <line x1="36" y1="38" x2="60" y2="38"/>
+    <circle cx="30" cy="50" r="3" fill="currentColor" stroke="none"/>
+    <line x1="36" y1="50" x2="58" y2="50"/>
+    <circle cx="30" cy="62" r="3"/>
+    <line x1="36" y1="62" x2="62" y2="62"/>
+    <line x1="26" y1="76" x2="72" y2="76"/>
+  </svg>`,
+  puck: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 50 15 L 20 85 L 80 85 Z"/>
+    <line x1="30" y1="61" x2="70" y2="61"/>
+    <line x1="40" y1="38" x2="60" y2="38"/>
+    <circle cx="50" cy="70" r="6" fill="currentColor" stroke="none"/>
+  </svg>`
+};
+
+/* =====================================================================
+   CASE STUDIES DATA
+===================================================================== */
+const CASES = [
+  {
+    id: "cadence",
+    title: "Cadence",
+    domain: "product",
+    domainLabel: "Product",
+    sub: "Kiddom · 2026",
+    palette: "pal-cadence",
+    icon: ICONS.cadence,
+    problem: "Teacher planning and pacing workflows were fragmented across disconnected tools and habits.",
+    solution: "Built Cadence, a unified planning and pacing experience, in partnership with Engineering, Design, Data Science, and Instructional Design.",
+    impactStat: "99%",
+    impactBody: "of first-90-day activity was planning-related. That signal confirmed fit and told us to protect the first-time-user planning experience rather than dilute focus with secondary features.",
+    tech: null,
+    video: "https://go.kiddom.co/cadence",
+    doc: null
+  },
+  {
+    id: "bilingual",
+    title: "Bilingual View + Print",
+    domain: "product",
+    domainLabel: "Product",
+    sub: "Kiddom · 2026",
+    palette: "pal-bilingual",
+    icon: ICONS.bilingual,
+    problem: "Teachers needed Spanish-language support for English learners, but a full-translation toggle doesn't serve language acquisition. It swaps one language for another rather than supporting bilingual learning.",
+    solution: "Built a side-by-side English/Spanish view designed around language acquisition, prioritizing Spanish first based on its relevance to 76%+ of English learners nationally.",
+    impactStat: "500K+",
+    impactBody: "users on the shipping platform; fit confirmed by district adoption and usage patterns matching real classroom language-support workflows.",
+    tech: "Chose a cross-referenced-locale architecture over heavier inline node-threading with Engineering. That cut engineering complexity while still supporting variable classroom language needs, since not every classroom needs the same language pairing or density of support.",
+    video: "https://go.kiddom.co/bilingual-view",
+    doc: null
+  },
+  {
+    id: "aitree",
+    title: "AI Tree Tool",
+    domain: "product",
+    domainLabel: "Product · AI",
+    sub: "Kiddom · 2025",
+    palette: "pal-aitree",
+    icon: ICONS.aitree,
+    problem: "Curriculum content across 400+ course trees was generating a rising volume of grammar and content-error tickets, eroding user trust. Broken links to assets went undetected at that scale, and the market began demanding Spanish-language materials, with no realistic way to manually check every piece of content across 400+ trees.",
+    solution: "Built an all-in-one, multi-prompt LLM system, adding a capability as each need surfaced: a grammar-check prompt, a book-title-capitalization prompt (also formats poem names correctly), a broken-link checker/corrector, and an English-to-Spanish translation prompt that splits into grade-band-specific trees. The translation capability later became the technical foundation for Bilingual View + Print.",
+    impactStat: "1000s → <100",
+    impactBody: "content errors, after the tool shipped across the full 400+ course-tree library.",
+    tech: "Initial single-prompt translation produced inconsistent quality across grade bands, so the translation prompt was redesigned around grade-band-specific prompting, validated with a calibrated three-pass human evaluation framework before launch.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "keyboard",
+    title: "Math Keyboard",
+    domain: "product",
+    domainLabel: "Product",
+    sub: "Kiddom · 2026",
+    palette: "pal-keyboard",
+    icon: ICONS.keyboard,
+    problem: "Math questions with written responses need real mathematical notation, not plain text. But a single keyboard doesn't work across K-12. A K-2 student and a high schooler need very different tool complexity, and full symbol-shortcut access risks confusing substitutions for younger students.",
+    solution: "Built four grade-band keyboards (K-2, 3-5, middle school, high school/teacher) with MathML support via MathJax, a Text Mode toggle for mixed math/text answers, a “preview as student” mode for teachers, and auto-shortcut symbol conversion restricted to high-school/teacher level only.",
+    impactStat: null,
+    impactBody: "Closed the gap between “written response” and real mathematical notation at every grade band, without exposing younger students to shortcut substitutions that could confuse rather than help.",
+    tech: null,
+    video: null,
+    doc: "https://support.kiddom.co/en/articles/14725065-math-keyboard"
+  },
+  {
+    id: "protractor",
+    title: "Digital Protractor",
+    domain: "product",
+    domainLabel: "Product",
+    sub: "Kiddom · 2026",
+    palette: "pal-protractor",
+    icon: ICONS.protractor,
+    problem: "Measuring angles digitally meant drawing on paper, measuring with a physical protractor, then photographing and uploading the result. A multi-step, error-prone workflow disconnected from the digital assignment.",
+    solution: "Built a digital protractor directly inside the drawing tool. Students draw the angle, then place, rotate, resize, and flip the protractor over it, reading the degree measurement in real time without leaving the assignment.",
+    impactStat: null,
+    impactBody: "Consolidated a multi-step, paper-dependent workflow into one in-tool interaction. Faster for students, and no more illegible photo uploads for teachers to grade.",
+    tech: null,
+    video: null,
+    doc: "https://support.kiddom.co/en/articles/14725022-what-are-student-math-tools"
+  },
+  {
+    id: "calculator",
+    title: "Student Calculator",
+    domain: "product",
+    domainLabel: "Product",
+    sub: "Kiddom · 2026",
+    palette: "pal-calculator",
+    icon: ICONS.calculator,
+    problem: "Show Work questions needed calculator access for computation-heavy problems, but unrestricted access on every question risks undermining what's actually being assessed: basic arithmetic mastery versus multi-step reasoning.",
+    solution: "Built teacher-controlled, per-question calculator access (Basic, Scientific, or off) inside Show Work questions, configurable independently on each question within the same assignment, with zero effect on auto-grading.",
+    impactStat: null,
+    impactBody: "Let teachers match calculator availability to exactly what each question tests, at the question level rather than the whole assignment. The captured Show Work alongside it is what's positioned to support future AI-powered feedback.",
+    tech: null,
+    video: null,
+    doc: "https://support.kiddom.co/en/articles/15461433-using-the-student-calculator-in-show-work-questions"
+  },
+  {
+    id: "course-builder",
+    title: "State Adoption Course Builder",
+    domain: "curriculum",
+    domainLabel: "Curriculum",
+    sub: "Kiddom · 2025",
+    palette: "pal-course",
+    icon: ICONS.crosswalk,
+    problem: "Being on a state's approved-adoption list has historically been the practical path to real volume in that state's education market. Building the state-specific course (e.g., mapping OpenSciEd to Florida's standards) lived in spreadsheets, delegated across contractors: more hands meant more error risk, more contractors meant visibly inconsistent writing styles, and both pushed more QA load onto the ID.",
+    solution: "Built Course Builder to take FL's standards sequence, OSE/NGSS's sequence, and a crosswalk map as inputs, then auto-generate a reordered, renumbered draft course and flag standards-alignment gaps for Content Generation. This replaced fragmented, multi-contractor spreadsheet coordination with one system.",
+    impactStat: "45%",
+    impactBody: "faster course builds, with higher standards-alignment confidence and fewer errors. That meant Kiddom could submit adoption bids sooner and with more confidence they'd hold up.",
+    tech: "The crosswalk itself was hand-built: find a published scope-and-sequence from a large FL district to infer the state's preferred standards order, then map each NGSS standard (OSE's base) to its FL equivalent. Feed both standards sequences plus that crosswalk into the system, which auto-generates a reordered, renumbered draft course, and flags any standard where NGSS runs over or under FL's assessment boundary so Content Generation knows exactly where to write new material instead of guessing.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "ose",
+    title: "OpenSciEd & OpenStax State Adoptions",
+    domain: "curriculum",
+    domainLabel: "Curriculum",
+    sub: "Kiddom · TX, FL, TN · 2023–25",
+    palette: "pal-ose",
+    icon: ICONS.books,
+    problem: "Three states, three different standards frameworks, one base curriculum. Each state adoption had to ship as a complete package (teacher and student workbooks plus digital) that met local standards without diluting the pedagogical integrity of the source material.",
+    solution: "Authored full curriculum adoption packages across Texas, Florida, and Tennessee: OpenSciEd-based grade 6-8 courses and high-school OpenStax courses in biology, chemistry, physics, and anatomy & physiology, for all three states. Each shipped as teacher and student workbooks alongside digital curriculum.",
+    impactStat: "60,000+",
+    impactBody: "students served via Knox County (TN) adoption; earned Kiddom certification as 1 of 6 OpenSciEd distribution partners nationally.",
+    tech: null,
+    video: null,
+    doc: null
+  },
+  {
+    id: "assessment",
+    title: "Assessment Generator",
+    domain: "curriculum",
+    domainLabel: "Curriculum",
+    sub: "Kiddom · Tennessee OpenSciEd · 2024",
+    palette: "pal-assessment",
+    icon: ICONS.assessment,
+    problem: "OpenSciEd's native assessments leaned heavily on essay-style Claim-Evidence-Reasoning prompts. Pedagogically strong, but teachers couldn't hand-grade them for 100+ students and return feedback fast enough to inform remediation. Assessments also needed to mirror the actual shape of state science tests: phenomenon-based, real-world-data problems, leveled by DOK, and aligned to standards.",
+    solution: "Built a Streamlit-based assessment generator producing three-dimensional, NGSS-aligned questions that engage Science and Engineering Practices (SEPs), not just content recall, mirrored to state science assessment format and leveled by DOK. Kept an option for Claim-Evidence-Reasoning questions (itself an SEP), but defaulted toward autogradable types, since that's what most teachers actually chose.",
+    impactStat: null,
+    impactBody: "Became part of the Tennessee OpenSciEd program, giving teachers standards-aligned, state-test-mirrored assessments they could grade fast enough to act on.",
+    tech: null,
+    video: null,
+    doc: null
+  },
+  {
+    id: "neondrift",
+    title: "Neon Drift",
+    domain: "side",
+    domainLabel: "Side Project",
+    sub: "iMessage extension · Swift + SpriteKit · WIP",
+    palette: "pal-neondrift",
+    icon: ICONS.puck,
+    problem: "Real shuffleboard is fun with people; async digital versions usually fail on two counts. They demand a fresh app install, and they only really work when everyone's physically together. Both are friction that kills the impulse to just play a round.",
+    solution: "Built Neon Drift as an iMessage extension, not a standalone app: zero install, and the game lives inside a conversation that already exists. 8-turn simplified ruleset, playable in ~2 minutes. One message bubble per completed turn (the platform floor), with all personalized state living inside the extension UI where it belongs.",
+    impactStat: null,
+    impactBody: "A working demonstration that products don't lose to competition; they lose to friction. AI as a bonus layer (on-device Apple Intelligence post-game summary), not a load-bearing feature. The deterministic version always ships first and never blocks on a model call. v2 pivots the physics engine into a physics tutor: exposing the real Coulomb-friction model to the player as the teaching surface.",
+    tech: "Replaced SpriteKit's exponential linearDamping with real Coulomb friction (a = μg) calibrated to cited real-world shuffleboard friction coefficients; corrected puck-vs-puck restitution (0.16 → 0.45) and contact friction (0.65 → 0.15) after realizing the two properties had been conflated. Async multiplayer required inventing a concept the iMessage platform doesn't provide, “which player is this device”, stored locally per gameId, since GameState is identical on both devices by construction.",
+    video: null,
+    doc: null
+  }
+];
+
+/* =====================================================================
+   HOW I WORK — pulse trigger via IntersectionObserver
+===================================================================== */
+(function () {
+  const loop = document.getElementById('loop');
+  if (!loop) return;
+  const cards = loop.querySelectorAll('.loop-card');
+  // DOM order: [0]=Discover TL, [1]=Define TR, [2]=Deliver BL, [3]=Develop BR
+  // Clockwise loop TL -> TR -> BR -> BL: DOM indices 0, 1, 3, 2
+  const LOOP_ORDER = [0, 1, 3, 2];
+  let step = 0;
+  let timer = null;
+
+  function tick() {
+    cards.forEach(c => c.classList.remove('is-lit'));
+    cards[LOOP_ORDER[step]].classList.add('is-lit');
+    step = (step + 1) % LOOP_ORDER.length;
+  }
+
+  function start() {
+    if (timer) return;
+    loop.classList.add('is-active');
+    tick();
+    timer = setInterval(tick, 1500);
+  }
+  function stop() {
+    if (!timer) return;
+    clearInterval(timer);
+    timer = null;
+    loop.classList.remove('is-active');
+    cards.forEach(c => c.classList.remove('is-lit'));
+  }
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => e.isIntersecting ? start() : stop());
+    }, { threshold: 0.3 });
+    io.observe(loop);
+  } else {
+    start();
+  }
+})();
+
+/* =====================================================================
+   ROLODEX + FLAT — render, scroll-through, filter, expand
+===================================================================== */
+(function () {
+  const rolodexEl = document.getElementById('rolodex');
+  const rolodexScrollEl = document.getElementById('rolodex-scroll');
+  const rolodexStageEl = document.getElementById('rolodex-stage');
+  const flatListEl = document.getElementById('flat-list');
+  const filterRow = document.getElementById('filter-row');
+  const roloIndexEl = document.getElementById('rolo-index');
+  if (!rolodexEl || !flatListEl) return;
+
+  let currentFilter = null;   // null = idle rolodex; 'all' | 'product' | 'curriculum' | 'side' = flat
+  let activeIndex = 0;        // 0..(n-1), which card is front-and-center
+  let openId = null;          // clicked-open card id
+
+  /* --- Render rolodex cards --- */
+  function renderRolodex() {
+    const existing = rolodexEl.querySelectorAll('.rolo-card');
+    existing.forEach(el => el.remove());
+    CASES.forEach((c, i) => {
+      const el = document.createElement('div');
+      el.className = 'rolo-card';
+      el.dataset.id = c.id;
+      el.dataset.index = i;
+      el.innerHTML = `
+        <button class="rolo-close" aria-label="Close">×</button>
+        <div class="rolo-plate">${c.domainLabel}</div>
+        <div class="rolo-visual ${c.palette}"><span class="card-icon">${c.icon}</span></div>
+        <h3 class="rolo-title">${c.title}</h3>
+        <div class="rolo-sub">${c.sub}</div>
+        <p class="rolo-snippet">${c.problem}</p>
+        <div class="rolo-full">
+          <div class="field"><span class="field-label">Problem</span><p class="field-body">${c.problem}</p></div>
+          <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
+          <div class="field"><span class="field-label">Impact</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
+          ${c.tech ? `<button class="expand-toggle" data-tech-toggle>+ Technical details</button><div class="tech-details">${c.tech}</div>` : ''}
+          ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener">▶ Watch product video</a></div>` : ''}
+          ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a></div>` : ''}
+        </div>
+      `;
+      // Insert BEFORE the counter (which is a sibling child of rolodex)
+      const counter = rolodexEl.querySelector('.rolodex-counter');
+      rolodexEl.insertBefore(el, counter);
+      el.addEventListener('click', () => toggleCard(c.id));
+      el.querySelector('.rolo-close').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleCard(null);
+      });
+      const techBtn = el.querySelector('[data-tech-toggle]');
+      if (techBtn) {
+        techBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const td = techBtn.nextElementSibling;
+          td.classList.toggle('is-open');
+          techBtn.textContent = td.classList.contains('is-open') ? '– Hide technical details' : '+ Technical details';
+        });
+      }
+    });
+  }
+
+  /* --- Layout: position each rolodex card as a fan around activeIndex --- */
+  // Card center Y position (in px from stage top). Card is 520px tall, so 300 puts card top at 40px from stage top.
+  const CARD_TOP_PX = 300;
+
+  function layoutRolodex() {
+    const cards = rolodexEl.querySelectorAll('.rolo-card');
+    cards.forEach((el, i) => {
+      if (openId) {
+        // In open mode, only the open card is centered vertically, others tuck
+        if (el.dataset.id === openId) {
+          el.classList.add('is-open');
+          el.classList.remove('is-tucked');
+          el.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+          el.style.left = '50%';
+          el.style.top = '50%';
+          el.style.opacity = 1;
+          el.style.pointerEvents = 'auto';
+          el.style.zIndex = 100;
+        } else {
+          el.classList.remove('is-open');
+          el.classList.add('is-tucked');
+        }
+      } else {
+        el.classList.remove('is-open', 'is-tucked');
+        const offset = i - activeIndex;
+        const abs = Math.abs(offset);
+        const dir = Math.sign(offset);
+        const x = dir * Math.min(abs, 4) * 42;
+        const y = Math.min(abs, 4) * 14;
+        const rot = dir * Math.min(abs, 4) * 6;
+        const scale = 1 - Math.min(abs, 4) * 0.05;
+        const opacity = abs > 4 ? 0 : (1 - Math.min(abs, 4) * 0.18);
+        const z = 50 - abs;
+        el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rot}deg) scale(${scale})`;
+        el.style.left = '50%';
+        el.style.top = CARD_TOP_PX + 'px';
+        el.style.zIndex = z;
+        el.style.opacity = opacity;
+        el.style.pointerEvents = abs > 1 ? 'none' : 'auto';
+      }
+    });
+    if (roloIndexEl) roloIndexEl.textContent = String(activeIndex + 1).padStart(2, '0');
+    rolodexEl.classList.toggle('is-consumed', activeIndex > 0);
+  }
+
+  /* --- Scroll-linked progress: activeIndex derived from scroll within rolodex-scroll --- */
+  function setScrollHeight() {
+    // 2x faster than v1: each card now gets ~45vh of scroll
+    const cardScrollUnit = window.innerHeight * 0.45;
+    const totalHeight = cardScrollUnit * (CASES.length + 1);
+    rolodexScrollEl.style.height = totalHeight + 'px';
+  }
+
+  function onScroll() {
+    if (currentFilter) return; // flat mode — ignore
+    const rect = rolodexScrollEl.getBoundingClientRect();
+    const scrollTop = -rect.top;
+    const scrollable = rect.height - window.innerHeight;
+    if (scrollable <= 0) return;
+    const progress = Math.max(0, Math.min(1, scrollTop / scrollable));
+    const nextIndex = Math.min(CASES.length - 1, Math.floor(progress * CASES.length));
+    if (nextIndex !== activeIndex) {
+      activeIndex = nextIndex;
+      layoutRolodex();
+    }
+  }
+
+  /* --- Open/close card --- */
+  function toggleCard(id) {
+    openId = (openId === id) ? null : id;
+    layoutRolodex();
+  }
+
+  /* --- Filter --- */
+  function applyFilter(filter) {
+    if (currentFilter === filter) {
+      // Deselecting active filter → back to rolodex
+      currentFilter = null;
+      filterRow.querySelectorAll('.pill').forEach(p => p.classList.remove('is-active'));
+      rolodexScrollEl.style.display = '';
+      flatListEl.classList.remove('is-active');
+    } else {
+      currentFilter = filter;
+      filterRow.querySelectorAll('.pill').forEach(p => p.classList.toggle('is-active', p.dataset.filter === filter));
+      rolodexScrollEl.style.display = 'none';
+      renderFlat(filter);
+      flatListEl.classList.add('is-active');
+      openId = null;
+      // No scrollIntoView — keep the page where the user is
+    }
+  }
+
+  function renderFlat(filter) {
+    flatListEl.innerHTML = '';
+    const list = (filter === 'all') ? CASES : CASES.filter(c => c.domain === filter);
+    list.forEach((c, i) => {
+      const el = document.createElement('article');
+      el.className = 'flat-card';
+      el.innerHTML = `
+        <div>
+          <div class="flat-visual ${c.palette}"><span class="card-icon">${c.icon}</span></div>
+          <div class="flat-plate">${c.domainLabel}</div>
+        </div>
+        <div>
+          <h3 class="flat-title">${c.title}</h3>
+          <div class="flat-sub">${c.sub}</div>
+          <div class="flat-fields">
+            <div class="field"><span class="field-label">Problem</span><div>${c.problem}</div></div>
+            <div class="field"><span class="field-label">Solution</span><div>${c.solution}</div></div>
+            <div class="field"><span class="field-label">Impact</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
+          </div>
+          <div class="flat-actions">
+            ${c.video ? `<a href="${c.video}" target="_blank" rel="noopener">▶ Watch product video</a>` : ''}
+            ${c.doc ? `<a href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a>` : ''}
+            ${c.tech ? `<button data-flat-tech>+ Technical details</button>` : ''}
+          </div>
+          ${c.tech ? `<div class="flat-tech">${c.tech}</div>` : ''}
+        </div>
+      `;
+      flatListEl.appendChild(el);
+      const btn = el.querySelector('[data-flat-tech]');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          const td = el.querySelector('.flat-tech');
+          td.classList.toggle('is-open');
+          btn.textContent = td.classList.contains('is-open') ? '– Hide technical details' : '+ Technical details';
+        });
+      }
+    });
+  }
+
+  /* --- Wire it up --- */
+  filterRow.querySelectorAll('.pill').forEach(p => {
+    p.addEventListener('click', () => applyFilter(p.dataset.filter));
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { setScrollHeight(); layoutRolodex(); });
+
+  renderRolodex();
+  setScrollHeight();
+  layoutRolodex();
+})();
+</script>
+
+</body>
+</html>
