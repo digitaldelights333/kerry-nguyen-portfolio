@@ -359,6 +359,10 @@
     font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
     color: var(--accent);
   }
+  .play-icon {
+    width: 10px; height: 10px; display: inline-block;
+    color: currentColor; flex-shrink: 0;
+  }
 
   @media (max-width: 700px) {
     .rolo-card.is-open {
@@ -971,7 +975,7 @@ const CASES = [
           <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
           <div class="field"><span class="field-label">Impact</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
           ${c.tech ? `<button class="expand-toggle" data-tech-toggle>+ Technical details</button><div class="tech-details">${c.tech}</div>` : ''}
-          ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener">▶ Watch product video</a></div>` : ''}
+          ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a></div>` : ''}
           ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a></div>` : ''}
         </div>
       `;
@@ -1108,7 +1112,7 @@ const CASES = [
             <div class="field"><span class="field-label">Impact</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
           </div>
           <div class="flat-actions">
-            ${c.video ? `<a href="${c.video}" target="_blank" rel="noopener">▶ Watch product video</a>` : ''}
+            ${c.video ? `<a href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a>` : ''}
             ${c.doc ? `<a href="${c.doc}" target="_blank" rel="noopener">↗ Support documentation</a>` : ''}
             ${c.tech ? `<button data-flat-tech>+ Technical details</button>` : ''}
           </div>
