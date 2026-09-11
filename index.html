@@ -272,6 +272,26 @@
     box-shadow: 0 20px 60px -20px rgba(60,40,20,0.35);
     width: min(680px, 92vw);
     height: min(640px, 82vh);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  /* The open card is a fixed box, so the detail fields take the leftover
+     space and scroll inside it instead of spilling past the card edge. */
+  .rolo-card.is-open .rolo-full {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 10px;
+  }
+  .rolo-card.is-open .rolo-plate,
+  .rolo-card.is-open .rolo-title,
+  .rolo-card.is-open .rolo-sub { flex-shrink: 0; }
+  .rolo-card.is-open .rolo-full::-webkit-scrollbar { width: 6px; }
+  .rolo-card.is-open .rolo-full::-webkit-scrollbar-thumb {
+    background: var(--rule-2); border-radius: 999px;
   }
 
   .rolo-card.is-tucked { opacity: 0.15; pointer-events: none; }
@@ -286,7 +306,7 @@
     position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
   }
-  .rolo-card.is-open .rolo-visual { height: 180px; }
+  .rolo-card.is-open .rolo-visual { height: 104px; margin-bottom: 16px; }
   .rolo-visual::after {
     content: ""; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,0.35);
     pointer-events: none;
@@ -385,21 +405,6 @@
     color: currentColor; flex-shrink: 0;
   }
   .flat-actions a { display: inline-flex; align-items: center; gap: 6px; }
-
-  @media (max-width: 700px) {
-    .rolo-card.is-open {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .rolo-card.is-open .rolo-full {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-right: 4px;
-    }
-  }
 
   /* --- FLAT (filtered) state --- */
   .flat-list { display: none; }
