@@ -248,16 +248,23 @@
 
   .rolo-card {
     position: absolute;
-    width: min(460px, 88vw);
-    height: 520px;
+    width: min(440px, 76vw);
+    height: clamp(430px, calc(100vh - 300px), 520px);
     background: var(--surface);
     border: 1px solid var(--rule-2);
     box-shadow: var(--shadow-card);
     padding: 28px 32px;
     transform-origin: center center;
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.3, 1), opacity 0.5s ease, box-shadow 0.5s ease;
+    /* No transform transition: slots are fixed, so nothing slides or shuffles. */
+    transition: box-shadow 0.5s ease;
     display: flex; flex-direction: column;
     cursor: pointer;
+    will-change: transform;
+  }
+  /* Cards behind the front one read as a fan, not a single card */
+  .rolo-card:not(.is-front):not(.is-open) .rolo-eye { display: none; }
+  .rolo-card:not(.is-front):not(.is-open):hover {
+    box-shadow: 0 18px 44px -18px rgba(60,40,20,0.35);
   }
   .rolo-card.is-open {
     z-index: 100 !important;
@@ -266,6 +273,7 @@
     width: min(680px, 92vw);
     height: min(640px, 82vh);
   }
+
   .rolo-card.is-tucked { opacity: 0.15; pointer-events: none; }
 
   .rolo-plate {
@@ -274,7 +282,7 @@
   }
 
   .rolo-visual {
-    height: 140px; margin-bottom: 20px; border-radius: 3px;
+    height: 140px; flex-shrink: 0; margin-bottom: 20px; border-radius: 3px;
     position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
   }
@@ -1021,7 +1029,14 @@ const CASES = [
       // Insert BEFORE the counter (which is a sibling child of rolodex)
       const counter = rolodexEl.querySelector('.rolodex-counter');
       rolodexEl.insertBefore(el, counter);
-      el.addEventListener('click', () => toggleCard(c.id));
+      el.addEventListener('click', () => {
+        // A card in the wings deals itself to the front; the front card opens.
+        if (!openId && Number(el.dataset.index) !== activeIndex) {
+          goToIndex(Number(el.dataset.index));
+          return;
+        }
+        toggleCard(c.id);
+      });
       el.querySelector('.rolo-close').addEventListener('click', (e) => {
         e.stopPropagation();
         toggleCard(null);
@@ -1040,8 +1055,37 @@ const CASES = [
   }
 
   /* --- Layout: position each rolodex card as a fan around activeIndex --- */
-  // Card center Y position (in px from stage top). Card is 520px tall, so 300 puts card top at 40px from stage top.
-  const CARD_TOP_PX = 300;
+  // Fan geometry, recomputed on resize so the spread fits the stage.
+  // The fan is one-sided: only the two cards still ahead of the front one show.
+  const DEPTH = 2;
+  let fan = { depth: DEPTH, xGap: 75, rotStep: 3.6, yStep: 14, topPx: 300 };
+
+  function measureFan() {
+    const stageW = rolodexStageEl.clientWidth || window.innerWidth;
+    const card = rolodexEl.querySelector('.rolo-card');
+    const cardW = card ? card.offsetWidth : 440;
+    const cardH = card ? card.offsetHeight : 520;
+    const narrow = stageW < 820;
+
+    const depth = DEPTH;
+    const rotStep = narrow ? 3.5 : 3.6;
+    const yStep = narrow ? 10 : 14;
+
+    // Widest the fan may spread before a wing runs off the stage. On phones the
+    // outer wings are allowed to bleed past the edge, so the deck still reads
+    // as a deck when there is no room to spread.
+    const maxRot = (depth * rotStep) * Math.PI / 180;
+    const halfW = (cardW / 2) * Math.cos(maxRot) + (cardH / 2) * Math.sin(maxRot);
+    const bleed = narrow ? cardW * 0.45 : 0;
+    const room = Math.max(0, (stageW / 2) - halfW - 8 + bleed);
+    const xGap = Math.min(narrow ? 17 : 75, room / depth);
+
+    // Push the pivot down far enough that lifted, rotated wings stay inside the stage.
+    const halfH = (cardW / 2) * Math.sin(maxRot) + (cardH / 2) * Math.cos(maxRot);
+    const topPx = Math.max(cardH / 2 + 12, halfH + depth * yStep + 10);
+
+    fan = { depth, xGap, rotStep, yStep, topPx };
+  }
 
   function layoutRolodex() {
     const cards = rolodexEl.querySelectorAll('.rolo-card');
@@ -1050,7 +1094,7 @@ const CASES = [
         // In open mode, only the open card is centered vertically, others tuck
         if (el.dataset.id === openId) {
           el.classList.add('is-open');
-          el.classList.remove('is-tucked');
+          el.classList.remove('is-tucked', 'is-front');
           el.style.transform = 'translate(-50%, -50%) rotate(0deg)';
           el.style.left = '50%';
           el.style.top = '50%';
@@ -1058,27 +1102,32 @@ const CASES = [
           el.style.pointerEvents = 'auto';
           el.style.zIndex = 100;
         } else {
-          el.classList.remove('is-open');
+          el.classList.remove('is-open', 'is-front');
           el.classList.add('is-tucked');
+          // Drop the inline opacity from the fan so .is-tucked can dim the card.
+          el.style.opacity = '';
+          el.style.pointerEvents = 'none';
         }
       } else {
         el.classList.remove('is-open', 'is-tucked');
+        // One-sided fan: the front card, then the next two, all to its right.
         const offset = i - activeIndex;
-        const abs = Math.abs(offset);
-        const dir = Math.sign(offset);
-        const DEPTH = 3;
-        const step = Math.min(abs, DEPTH);
-        const y = step * 5;
-        const rot = dir * step * 1.6;
-        const scale = 1 - step * 0.035;
-        const opacity = abs > DEPTH ? 0 : (1 - step * 0.22);
-        const z = 50 - abs;
-        el.style.transform = `translate(-50%, calc(-50% + ${y}px)) rotate(${rot}deg) scale(${scale})`;
+        const step = Math.min(Math.max(offset, 0), fan.depth);
+        const visible = offset >= 0 && offset <= fan.depth;
+        const x = step * fan.xGap;
+        const y = -step * fan.yStep;
+        const rot = step * fan.rotStep;
+        const scale = 1 - step * 0.045;
+        const opacity = visible ? (1 - step * 0.14) : 0;
+        const z = 50 - Math.abs(offset);
+        el.classList.toggle('is-front', offset === 0);
+        el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rot}deg) scale(${scale})`;
         el.style.left = '50%';
-        el.style.top = CARD_TOP_PX + 'px';
+        el.style.top = fan.topPx + 'px';
         el.style.zIndex = z;
         el.style.opacity = opacity;
-        el.style.pointerEvents = abs === 0 ? 'auto' : 'none';
+        el.style.pointerEvents = visible ? 'auto' : 'none';
+        el.setAttribute('aria-hidden', visible ? 'false' : 'true');
       }
     });
     if (roloIndexEl) roloIndexEl.textContent = String(activeIndex + 1).padStart(2, '0');
@@ -1105,6 +1154,15 @@ const CASES = [
       activeIndex = nextIndex;
       layoutRolodex();
     }
+  }
+
+  /* --- Deal a wing card to the front by scrolling to its slot --- */
+  function goToIndex(i) {
+    const scrollable = rolodexScrollEl.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return;
+    const progress = (i + 0.5) / CASES.length;
+    const top = rolodexScrollEl.offsetTop + progress * scrollable;
+    window.scrollTo({ top, behavior: 'smooth' });
   }
 
   /* --- Open/close card --- */
@@ -1182,10 +1240,11 @@ const CASES = [
   });
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { setScrollHeight(); layoutRolodex(); });
+  window.addEventListener('resize', () => { setScrollHeight(); measureFan(); layoutRolodex(); });
 
   renderRolodex();
   setScrollHeight();
+  measureFan();
   layoutRolodex();
 })();
 </script>
