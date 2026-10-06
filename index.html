@@ -1356,6 +1356,8 @@ const CASES = [
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const sleep = (ms) => (reduceMotion ? Promise.resolve() : new Promise((r) => setTimeout(r, ms)));
+  // The pause before each reply always runs, so messages arrive one at a time even with Reduce motion on.
+  const pause = (ms) => new Promise((r) => setTimeout(r, ms));
   if (ASSISTANT_NAME && nameEl) nameEl.textContent = ASSISTANT_NAME;
 
   /* --- Avatar: layered PNGs exported from assets/avatar (see manifest.json) --- */
@@ -1403,17 +1405,21 @@ const CASES = [
       all.appendChild(img);
     });
     host.appendChild(root);
+    // One eye pose at a time: open, worried, or closed (blink replaces the open eye).
+    let isWorried = false, isBlinking = false;
+    function showEyes() {
+      ['right', 'left'].forEach((side) => {
+        els['eye-' + side + '-default'].hidden = isBlinking || isWorried;
+        els['eye-' + side + '-worried'].hidden = isBlinking || !isWorried;
+        els['eye-' + side + '-blink'].hidden = !isBlinking;
+      });
+    }
     return {
       root,
       mouth(n) { for (let i = 1; i <= 6; i++) els['mouth-' + i].hidden = i !== n; },
-      worried(on) {
-        ['right', 'left'].forEach((s) => {
-          els['eye-' + s + '-default'].hidden = on;
-          els['eye-' + s + '-worried'].hidden = !on;
-        });
-      },
+      worried(on) { isWorried = on; showEyes(); },
       steam(n) { for (let i = 1; i <= 11; i++) els['steam-' + i].hidden = i !== n; },
-      blink(on) { els['eye-right-blink'].hidden = els['eye-left-blink'].hidden = !on; },
+      blink(on) { isBlinking = on; showEyes(); },
     };
   }
 
@@ -1532,7 +1538,7 @@ const CASES = [
     const dots = typingDots();
     bubble.appendChild(dots);
     scrollLog();
-    await sleep(opts.fast ? 350 : 650 + Math.random() * 350);
+    await pause(opts.fast ? 450 : 800 + Math.random() * 400);
     dots.remove();
     if (!opts.keepState) setState('talking');
     for (const text of paragraphs) {
@@ -1766,6 +1772,7 @@ const CASES = [
 
   /* --- Intro --- */
   async function intro() {
+    await pause(400);
     const hello = ASSISTANT_NAME
       ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's product portfolio assistant.`
       : "Hi there! I'm Kerry's product portfolio assistant.";
