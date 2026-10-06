@@ -1342,8 +1342,9 @@ const CASES = [
    Edit ASSISTANT_NAME and TOPICS below; project answers come from CASES.
 ===================================================================== */
 (function () {
-  const ASSISTANT_NAME = '';   // TODO: name the assistant (leave '' for "Portfolio assistant")
+  const ASSISTANT_NAME = 'Java';
   const EMAIL = 'nguyenkerry1@gmail.com';
+  const LINKEDIN = 'https://www.linkedin.com/in/nguyenkerry/';
 
   const logEl = document.getElementById('chat-log');
   const chipsEl = document.getElementById('chat-chips');
@@ -1505,6 +1506,7 @@ const CASES = [
     if (a.href) {
       el = document.createElement('a');
       el.href = a.href;
+      if (/^https?:/.test(a.href)) { el.target = '_blank'; el.rel = 'noopener'; }
     } else {
       el = document.createElement('button');
       el.type = 'button';
@@ -1557,14 +1559,26 @@ const CASES = [
   const showCase = (id) => () => { if (window.showCase) window.showCase(id); };
   const n = CASES.length;
 
+  const OTHER_BUILDS = 'a digital asset manager, a job search automation tool, a personalized treadmill logger based on height, and a 6-week reset tracker that takes in water, sleep, exercise, and food';
+
   const TOPICS = [
     {
       id: 'what', chip: 'What does Kerry do?',
       say: [
-        'Kerry Nguyen is a product manager, builder, and educator.',
-        'She cares deeply about education, learning, and the workflows that power them, and builds products that help people work and learn more effectively with AI.',
-        'She looks for opportunities to turn complex, fragmented workflows into simple, useful products.',
+        "Kerry is a product manager who finds where a user's workflow breaks and designs the path through it.",
+        'She turns early prototypes into AI-powered products people adopt, return to, and depend on, then scales what works.',
       ],
+    },
+    {
+      id: 'background', chip: "What's Kerry's background?",
+      say: [
+        'Kerry has been a teacher, coach, instructional designer, prototype builder, and product manager.',
+        'She sees her path as an evolution, with each role building on the last.',
+      ],
+    },
+    {
+      id: 'where', chip: 'Where did Kerry do this work?',
+      say: ["Most of the collection comes from Kerry's work at Kiddom, 2023 to 2026."],
     },
     {
       id: 'how', chip: 'How does Kerry work?',
@@ -1574,8 +1588,18 @@ const CASES = [
     { id: 'projects', chip: 'Show me projects' },
     {
       id: 'ai', chip: 'What has Kerry built with AI?',
-      say: ['Kerry builds products that help people work and learn more effectively with AI. One example is the AI Tree Tool, which cut content errors from 1,000+ to under 100 across a 400+ course-tree library.'],
+      say: [
+        'Kerry builds products that help people work and learn more effectively with AI. This portfolio was built with AI too.',
+        'One example from the collection is the AI Tree Tool, which cut content errors from 1,000+ to under 100 across a 400+ course-tree library.',
+      ],
       action: { label: 'View the AI Tree Tool', onClick: showCase('aitree') },
+    },
+    {
+      id: 'technical', chip: 'How technical is Kerry?',
+      say: [
+        'Kerry is a product manager with solid technical knowledge.',
+        'She can sit in a meeting with engineers, ask the right questions to understand the tradeoffs, and suggest other paths.',
+      ],
     },
     {
       id: 'scale', chip: 'How big is the impact?',
@@ -1583,8 +1607,25 @@ const CASES = [
       action: { label: 'Browse the collection', href: '#case-studies' },
     },
     {
+      id: 'role', chip: 'What kind of role is Kerry looking for?',
+      say: [
+        'Kerry is looking for Product Manager, Senior or Lead Product Manager, or AI Product Manager roles, with a focus on education and AI.',
+        'She does her best work where a workflow is fragmented, the user problem is real, and an early prototype can grow into a product people depend on.',
+      ],
+    },
+    {
+      id: 'now', chip: 'What is Kerry working on now?',
+      say: ['Outside of work, Kerry keeps building on her own: ' + OTHER_BUILDS + '. She is also working on Neon Drift, an iMessage game that is still in progress.'],
+      action: { label: 'See Neon Drift', onClick: showCase('neondrift') },
+    },
+    {
+      id: 'linkedin', chip: 'Where can I find Kerry on LinkedIn?',
+      say: ['Kerry is on LinkedIn at linkedin.com/in/nguyenkerry.'],
+      action: { label: 'Open LinkedIn', href: LINKEDIN },
+    },
+    {
       id: 'contact', chip: 'How can I reach Kerry?',
-      say: ['Email is best: ' + EMAIL + '.'],
+      say: ['Email is best: ' + EMAIL + '.', 'She is also on LinkedIn at linkedin.com/in/nguyenkerry.'],
       action: { label: 'Send an email', href: 'mailto:' + EMAIL },
     },
   ];
@@ -1626,6 +1667,10 @@ const CASES = [
 
   const projectChips = (exceptId) => [
     ...CASES.filter((c) => c.id !== exceptId).map((c) => ({ label: c.title, run: () => askCase(c) })),
+    ...(exceptId === 'other' ? [] : [{ label: 'Other things Kerry has built', run: () => ask('Other things Kerry has built', async () => {
+        await botSay(['Outside the collection, Kerry has also built ' + OTHER_BUILDS + '.']);
+        showChips(projectChips('other'));
+      }) }]),
     { label: 'Back to questions', quiet: true, run: () => ask('Back to questions', async () => {
         await botSay(['Sure. What else would you like to know?'], null, { fast: true });
         showChips(topicChips(null));
