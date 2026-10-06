@@ -1,164 +1,213 @@
 {
+ "character": "Coffee (Adobe Character Animator starter puppet)",
  "scale": 0.5,
  "canvas": {
-  "w": 418,
-  "h": 341
+  "w": 436,
+  "h": 464
  },
  "parts": {
-  "body": {
-   "file": "body.png",
-   "x": 0,
-   "y": 0,
-   "w": 418,
-   "h": 341
-  },
-  "blush": {
-   "file": "blush.png",
-   "x": 104,
-   "y": 185,
-   "w": 206,
-   "h": 41
-  },
   "back-arm-right": {
    "file": "back-arm-right.png",
-   "x": 38,
-   "y": 128,
+   "x": 0,
+   "y": 248,
    "w": 100,
    "h": 103
   },
   "back-arm-left": {
    "file": "back-arm-left.png",
-   "x": 276,
-   "y": 128,
+   "x": 238,
+   "y": 248,
    "w": 100,
    "h": 103
   },
-  "front-arm-right": {
-   "file": "front-arm-right.png",
-   "x": 60,
-   "y": 149,
-   "w": 56,
-   "h": 56
+  "body": {
+   "file": "body.png",
+   "x": 8,
+   "y": 145,
+   "w": 428,
+   "h": 320
   },
-  "front-arm-left": {
-   "file": "front-arm-left.png",
-   "x": 298,
-   "y": 149,
-   "w": 56,
-   "h": 56
+  "steam-1": {
+   "file": "steam-1.png",
+   "x": 152,
+   "y": 132,
+   "w": 79,
+   "h": 58
   },
-  "mouth-1": {
-   "file": "mouth-1.png",
-   "x": 184,
-   "y": 173,
-   "w": 48,
-   "h": 13
+  "steam-2": {
+   "file": "steam-2.png",
+   "x": 152,
+   "y": 86,
+   "w": 86,
+   "h": 103
   },
-  "mouth-2": {
-   "file": "mouth-2.png",
-   "x": 182,
-   "y": 173,
-   "w": 50,
-   "h": 18
+  "steam-3": {
+   "file": "steam-3.png",
+   "x": 118,
+   "y": 76,
+   "w": 119,
+   "h": 114
   },
-  "mouth-3": {
-   "file": "mouth-3.png",
-   "x": 182,
-   "y": 173,
-   "w": 50,
-   "h": 23
+  "steam-4": {
+   "file": "steam-4.png",
+   "x": 79,
+   "y": 44,
+   "w": 158,
+   "h": 144
   },
-  "mouth-4": {
-   "file": "mouth-4.png",
-   "x": 182,
-   "y": 173,
-   "w": 50,
-   "h": 28
+  "steam-5": {
+   "file": "steam-5.png",
+   "x": 79,
+   "y": 8,
+   "w": 158,
+   "h": 181
   },
-  "mouth-5": {
-   "file": "mouth-5.png",
-   "x": 182,
-   "y": 173,
-   "w": 50,
-   "h": 30
+  "steam-6": {
+   "file": "steam-6.png",
+   "x": 79,
+   "y": 0,
+   "w": 158,
+   "h": 189
   },
-  "mouth-6": {
-   "file": "mouth-6.png",
-   "x": 182,
-   "y": 173,
-   "w": 50,
+  "steam-7": {
+   "file": "steam-7.png",
+   "x": 79,
+   "y": 0,
+   "w": 158,
+   "h": 156
+  },
+  "steam-8": {
+   "file": "steam-8.png",
+   "x": 79,
+   "y": 0,
+   "w": 149,
+   "h": 110
+  },
+  "steam-9": {
+   "file": "steam-9.png",
+   "x": 79,
+   "y": 0,
+   "w": 149,
+   "h": 100
+  },
+  "steam-10": {
+   "file": "steam-10.png",
+   "x": 79,
+   "y": 0,
+   "w": 149,
+   "h": 68
+  },
+  "steam-11": {
+   "file": "steam-11.png",
+   "x": 141,
+   "y": 0,
+   "w": 87,
    "h": 32
+  },
+  "blush": {
+   "file": "blush.png",
+   "x": 66,
+   "y": 306,
+   "w": 206,
+   "h": 41
   },
   "eye-right-default": {
    "file": "eye-right-default.png",
-   "x": 126,
-   "y": 147,
+   "x": 88,
+   "y": 268,
    "w": 38,
    "h": 39
   },
   "eye-right-worried": {
    "file": "eye-right-worried.png",
-   "x": 124,
-   "y": 149,
+   "x": 86,
+   "y": 270,
    "w": 43,
    "h": 37
   },
-  "eye-right-squint": {
-   "file": "eye-right-squint.png",
-   "x": 114,
-   "y": 163,
-   "w": 62,
-   "h": 23
-  },
-  "eye-right-impressed": {
-   "file": "eye-right-impressed.png",
-   "x": 122,
-   "y": 146,
-   "w": 46,
-   "h": 28
-  },
   "eye-right-blink": {
    "file": "eye-right-blink.png",
-   "x": 122,
-   "y": 160,
+   "x": 84,
+   "y": 281,
    "w": 46,
    "h": 27
   },
   "eye-left-default": {
    "file": "eye-left-default.png",
-   "x": 247,
-   "y": 147,
+   "x": 209,
+   "y": 268,
    "w": 38,
    "h": 39
   },
   "eye-left-worried": {
    "file": "eye-left-worried.png",
-   "x": 245,
-   "y": 149,
+   "x": 207,
+   "y": 270,
    "w": 43,
    "h": 37
   },
-  "eye-left-squint": {
-   "file": "eye-left-squint.png",
-   "x": 234,
-   "y": 163,
-   "w": 62,
-   "h": 23
-  },
-  "eye-left-impressed": {
-   "file": "eye-left-impressed.png",
-   "x": 243,
-   "y": 146,
-   "w": 46,
-   "h": 28
-  },
   "eye-left-blink": {
    "file": "eye-left-blink.png",
-   "x": 243,
-   "y": 160,
+   "x": 205,
+   "y": 281,
    "w": 45,
    "h": 27
+  },
+  "mouth-1": {
+   "file": "mouth-1.png",
+   "x": 146,
+   "y": 294,
+   "w": 48,
+   "h": 13
+  },
+  "mouth-2": {
+   "file": "mouth-2.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 18
+  },
+  "mouth-3": {
+   "file": "mouth-3.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 23
+  },
+  "mouth-4": {
+   "file": "mouth-4.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 28
+  },
+  "mouth-5": {
+   "file": "mouth-5.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 30
+  },
+  "mouth-6": {
+   "file": "mouth-6.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 32
+  },
+  "front-arm-right": {
+   "file": "front-arm-right.png",
+   "x": 22,
+   "y": 270,
+   "w": 56,
+   "h": 56
+  },
+  "front-arm-left": {
+   "file": "front-arm-left.png",
+   "x": 260,
+   "y": 270,
+   "w": 56,
+   "h": 56
   }
- },
- "note": "Layers exported from Adobe Character Animator starter puppet \"Toast\". Coordinates are px at exported size, relative to the puppet canvas."
+ }
 }

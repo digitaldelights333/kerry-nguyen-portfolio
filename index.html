@@ -152,13 +152,13 @@
   @keyframes typing-dot { 0%, 100% { opacity: .3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
 
   /* ----- Avatar (layered PNGs from assets/avatar, positioned by %) ----- */
-  .av { position: relative; aspect-ratio: 418 / 341; }
+  .av { position: relative; aspect-ratio: 436 / 464; }
   .av-all { position: absolute; inset: 0; transform-origin: 50% 90%; }
   .av img {
     position: absolute; display: block; height: auto;
     user-select: none; -webkit-user-drag: none; pointer-events: none;
   }
-  .chat-head .av { width: 92px; }
+  .chat-head .av { width: 84px; }
   .av [hidden] { display: none; }
 
   .chat-avatar[data-state="idle"] .av-all { animation: av-bob 3.8s ease-in-out infinite; }
@@ -177,7 +177,7 @@
   }
   @media (max-width: 720px) {
     .chat-head { padding: 12px 16px; gap: 12px; }
-    .chat-head .av { width: 76px; }
+    .chat-head .av { width: 72px; }
     .chat-name { font-size: 23px; }
     .chat-log { padding: 16px; }
     .chat-chips { padding: 12px 16px 16px; }
@@ -1357,21 +1357,27 @@ const CASES = [
 
   /* --- Avatar: layered PNGs exported from assets/avatar (see manifest.json) --- */
   const AV_DIR = 'assets/avatar/';
-  const AV_W = 418, AV_H = 341;
-  // [key, x, y, w] in px on the 418x341 canvas, back-to-front
+  const AV_W = 436, AV_H = 464;
+  // [key, x, y, w] in px on the 436x464 canvas, back-to-front
   const AV_LAYERS = [
-    ['back-arm-right', 38, 128, 100], ['back-arm-left', 276, 128, 100],
-    ['body', 0, 0, 418], ['blush', 104, 185, 206],
-    ['eye-right-default', 126, 147, 38], ['eye-left-default', 247, 147, 38],
-    ['eye-right-worried', 124, 149, 43], ['eye-left-worried', 245, 149, 43],
-    ['eye-right-blink', 122, 160, 46], ['eye-left-blink', 243, 160, 45],
-    ['mouth-1', 184, 173, 48], ['mouth-2', 182, 173, 50], ['mouth-3', 182, 173, 50],
-    ['mouth-4', 182, 173, 50], ['mouth-5', 182, 173, 50], ['mouth-6', 182, 173, 50],
-    ['front-arm-right', 60, 149, 56], ['front-arm-left', 298, 149, 56],
+    ['back-arm-right', 0, 248, 100], ['back-arm-left', 238, 248, 100],
+    ['body', 8, 145, 428],
+    ['steam-1', 152, 132, 79], ['steam-2', 152, 86, 86], ['steam-3', 118, 76, 119],
+    ['steam-4', 79, 44, 158], ['steam-5', 79, 8, 158], ['steam-6', 79, 0, 158],
+    ['steam-7', 79, 0, 158], ['steam-8', 79, 0, 149], ['steam-9', 79, 0, 149],
+    ['steam-10', 79, 0, 149], ['steam-11', 141, 0, 87],
+    ['blush', 66, 306, 206],
+    ['eye-right-default', 88, 268, 38], ['eye-left-default', 209, 268, 38],
+    ['eye-right-worried', 86, 270, 43], ['eye-left-worried', 207, 270, 43],
+    ['eye-right-blink', 84, 281, 46], ['eye-left-blink', 205, 281, 45],
+    ['mouth-1', 146, 294, 48], ['mouth-2', 144, 294, 50], ['mouth-3', 144, 294, 50],
+    ['mouth-4', 144, 294, 50], ['mouth-5', 144, 294, 50], ['mouth-6', 144, 294, 50],
+    ['front-arm-right', 22, 270, 56], ['front-arm-left', 260, 270, 56],
   ];
+  const STEAM_STILL = 7;   // frame shown when steam isn't animating
   const pct = (n, total) => (n / total * 100).toFixed(3) + '%';
 
-  function buildAvatar(host) {
+  function buildAvatar(host, live) {
     const root = document.createElement('div');
     root.className = 'av';
     const all = document.createElement('div');
@@ -1379,6 +1385,8 @@ const CASES = [
     root.appendChild(all);
     const els = {};
     AV_LAYERS.forEach(([key, x, y, w]) => {
+      const steamFrame = /^steam-(\d+)$/.exec(key);
+      if (steamFrame && !live && Number(steamFrame[1]) !== STEAM_STILL) return;   // small avatars: one still frame
       const img = document.createElement('img');
       img.src = AV_DIR + key + '.png';
       img.alt = '';
@@ -1386,7 +1394,7 @@ const CASES = [
       img.style.left = pct(x, AV_W);
       img.style.top = pct(y, AV_H);
       img.style.width = pct(w, AV_W);
-      if (/mouth-[2-6]|worried|blink/.test(key)) img.hidden = true;
+      if (/mouth-[2-6]|worried|blink/.test(key) || (steamFrame && (live || Number(steamFrame[1]) !== STEAM_STILL))) img.hidden = true;
       if (key === 'front-arm-right') img.classList.add('av-arm-r');
       els[key] = img;
       all.appendChild(img);
@@ -1401,11 +1409,12 @@ const CASES = [
           els['eye-' + s + '-worried'].hidden = !on;
         });
       },
+      steam(n) { for (let i = 1; i <= 11; i++) els['steam-' + i].hidden = i !== n; },
       blink(on) { els['eye-right-blink'].hidden = els['eye-left-blink'].hidden = !on; },
     };
   }
 
-  const headAv = buildAvatar(headAvatarEl);
+  const headAv = buildAvatar(headAvatarEl, true);
   let avState = 'idle';
   let talkTimer = null;
   let blinkTimer = null;
@@ -1421,6 +1430,17 @@ const CASES = [
     } else {
       headAv.mouth(s === 'wave' ? 4 : 1);
     }
+  }
+
+  let steamFrame = STEAM_STILL;
+  function runSteam() {
+    headAv.steam(STEAM_STILL);
+    if (reduceMotion) return;
+    setInterval(() => {
+      if (document.hidden) return;
+      steamFrame = steamFrame % 11 + 1;
+      headAv.steam(steamFrame);
+    }, 150);
   }
 
   function scheduleBlink() {
@@ -1447,7 +1467,7 @@ const CASES = [
     if (who === 'bot') {
       const mini = document.createElement('div');
       mini.className = 'mini-av';
-      const miniAv = buildAvatar(mini);
+      const miniAv = buildAvatar(mini, false);
       miniAv.root.style.width = '100%';
       mini.style.width = '44px';
       mini.style.flex = 'none';
@@ -1642,6 +1662,7 @@ const CASES = [
   }
 
   setState('idle');
+  runSteam();
   scheduleBlink();
   intro();
 })();
