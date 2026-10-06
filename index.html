@@ -67,7 +67,7 @@
 
   /* ----- Chat card ----- */
   .chat {
-    max-width: 780px;
+    max-width: 1000px; margin: 0 auto;
     background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 22px;
@@ -95,12 +95,12 @@
   }
 
   .chat-log {
-    height: clamp(300px, 52vh, 440px);
+    height: clamp(320px, 56vh, 500px);
     overflow-y: auto; overscroll-behavior: contain;
     padding: 20px 22px;
     display: flex; flex-direction: column; gap: 12px;
   }
-  .msg { display: flex; align-items: flex-end; gap: 10px; max-width: 90%; }
+  .msg { display: flex; align-items: flex-end; gap: 10px; max-width: min(78%, 720px); }
   .msg--bot { align-self: flex-start; }
   .msg--me { align-self: flex-end; }
   .msg .av { flex: none; width: 44px; }
