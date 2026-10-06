@@ -2,11 +2,11 @@
 
 This file lists every question and answer in the chat window, so they can be reviewed and edited in one place.
 
-- **Settled** answers were reviewed and approved. They are **not yet applied** to `index.html`, so the live chat still shows the earlier wording for these.
+- **Settled** answers were reviewed and approved, and are **applied** in `index.html`.
 - **Not yet reviewed** answers are the wording currently in the chat, exactly as visitors see it today.
 - **Removed** chips are kept at the bottom for reference.
 
-Voice: third person ("Kerry ..."). The PM process answer uses `<b>...</b>` for phase names. The chat needs small bold-text support for that (only `<b>` allowed).
+Voice: third person ("Kerry ..."). The PM process answer uses `<b>...</b>` for phase names. The chat supports bold with `<b>` only; no other markup is parsed.
 
 ---
 
@@ -20,7 +20,7 @@ Every answer then offers two related chips plus a dashed **Something else** chip
 
 ---
 
-## Settled answers (not yet applied)
+## Settled answers (applied)
 
 ### Who is Kerry?
 Kerry is a product manager with nine years of experience across K-12 STEM classrooms, curriculum development, and AI product management.
@@ -29,7 +29,7 @@ She builds 0-to-1 products at increasing scale, from the classroom to nationwide
 Note: the Cadence case study and other site copy still say 500K+ users.
 
 ### How did Kerry get into product?
-(Replaces the chip "What's Kerry's background?")
+(Chip was "What's Kerry's background?")
 
 Kerry started as a high school science teacher and FIRST Robotics coach, then moved into EdTech as a science instructional designer.
 She began building with AI, which led to product management for internal tools and core product experiences.
@@ -43,7 +43,7 @@ Then she **Develops** by prototyping, refining, and committing, and **Delivers**
 Links: See the full method (Method section) | Related case study: AI Tree Tool
 
 ### How does Kerry build with AI?
-(Replaces the chip "What has Kerry built with AI?")
+(Chip was "What has Kerry built with AI?")
 
 Kerry builds with AI both at work and on her own.
 At work, she builds prototypes and agents that orchestrate product workflows.
@@ -52,7 +52,7 @@ On her own, she has built many personalized apps and automated workflows. This p
 Links: See: Product work | See: Personal projects
 
 ### How does Kerry work with engineers?
-(Replaces the chip "How technical is Kerry?")
+(Chip was "How technical is Kerry?")
 
 Kerry is a product manager with solid technical knowledge. She can sit in a meeting with engineers, ask the right questions to understand the tradeoffs, and suggest other paths.
 For Bilingual View & Print, she worked with Engineering to choose a cross-referenced-locale architecture over heavier inline node-threading, which cut engineering complexity while still supporting variable classroom language needs.
@@ -61,10 +61,12 @@ Link: See: Bilingual View & Print
 
 Open: the example uses jargon; optionally drop the repeated "Kerry is a product manager" opener.
 
-### Naming decisions
+Note: the answer's link opens the Bilingual View & Print card on the page. In the AI answer, "See: Product work" and "See: Personal projects" open those project areas inside the chat.
+
+### Naming decisions (applied)
 - Third project area: **Personal projects** (was "Side projects").
 - Chip that returns to the three project areas: **All projects** (was "Other projects").
-- Also rename the page's "Side Projects" filter pill and Neon Drift's card label to match.
+- The page's filter pill ("Personal Projects") and Neon Drift's card label ("Personal Project") were renamed to match.
 
 ---
 
@@ -83,8 +85,8 @@ She is also on LinkedIn at linkedin.com/in/nguyenkerry.
 Link: Send an email
 
 ### Show me projects
-Kerry has 10 sample works across product, curriculum, and one side project. Where would you like to start?
-Chips: Product work | Curriculum work | Side projects
+Kerry has 10 sample works across product, curriculum, and one personal project. Where would you like to start?
+Chips: Product work | Curriculum work | Personal projects
 
 ### Product work
 Here are the product projects in the collection. Pick one to hear the story.
@@ -94,7 +96,7 @@ Chips (two at a time): Cadence, Bilingual View & Print, More product work, then 
 Here are the curriculum projects. Pick one to hear the story.
 Chips: State Adoption Course Builder, OpenSciEd & OpenStax State Adoptions, More curriculum work, then Science Assessment Generator.
 
-### Side projects
+### Personal projects
 Outside of the main collection, Kerry also builds on her own.
 Chips: Neon Drift, Other things Kerry has built, Something else.
 
@@ -103,7 +105,7 @@ Outside the collection, Kerry has also built a digital asset manager, a job sear
 
 ### More / navigation lines
 - "More product work" and "More curriculum work" reply: Here are a few more.
-- "Other projects" (back to the three areas) replies: Sure. Which area would you like to explore?
+- "All projects" (back to the three areas) replies: Sure. Which area would you like to explore?
 
 ### Project answers (generated from the case studies)
 Each answer ends with a link: **View the full case study**. Text is taken from the case study, cut to about 300 characters per part. Neon Drift's last line is first person ("my hands-on skills") because it is copied from the case study; it should be reworded for the chat.

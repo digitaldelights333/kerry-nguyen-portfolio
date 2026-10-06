@@ -108,12 +108,15 @@
     background: var(--accent); color: #fff; border-bottom-right-radius: 5px;
   }
   .bubble p { margin: 0 0 8px; }
+  .bubble b { font-weight: 600; color: var(--ink); }
   .bubble p:last-child { margin-bottom: 0; }
+  .chat-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 10px; }
   .chat-action {
-    display: inline-block; margin-top: 10px; padding: 0;
-    font: inherit; font-weight: 500; font-size: 14.5px;
+    display: inline-block; margin-top: 0; padding: 0;
+    font: inherit; font-weight: 500; font-size: 14.5px; text-align: left;
     color: var(--accent); background: none; border: 0; cursor: pointer;
   }
+  .chat-actions .chat-action { margin-top: 0; }
   .chat-action:hover { color: var(--accent-deep); text-decoration: underline; }
 
   .typing { display: inline-flex; gap: 5px; padding: 6px 2px; }
@@ -669,7 +672,7 @@
         <button class="pill" data-filter="all">All<span class="count">10</span></button>
         <button class="pill" data-filter="product">Product<span class="count">6</span></button>
         <button class="pill" data-filter="curriculum">Curriculum<span class="count">3</span></button>
-        <button class="pill" data-filter="side">Side Projects<span class="count">1</span></button>
+        <button class="pill" data-filter="side">Personal Projects<span class="count">1</span></button>
       </div>
     </div>
   </div>
@@ -998,7 +1001,7 @@ const CASES = [
     id: "neondrift",
     title: "Neon Drift",
     domain: "side",
-    domainLabel: "Side Project",
+    domainLabel: "Personal Project",
     sub: "WIP Aug 2026",
     palette: "pal-neondrift",
     icon: ICONS.puck,
@@ -1496,11 +1499,35 @@ const CASES = [
     return d;
   }
 
+  // Answers may use <b>...</b> for bold. Nothing else is parsed; all other text stays literal.
+  function parseRich(text) {
+    const segs = [];
+    let bold = false;
+    text.split(/(<\/?b>)/).forEach((part) => {
+      if (part === '<b>') bold = true;
+      else if (part === '</b>') bold = false;
+      else if (part) segs.push({ text: part, bold });
+    });
+    return segs;
+  }
+  function renderRich(el, segs, count) {
+    el.textContent = '';
+    let left = count;
+    for (const seg of segs) {
+      if (left <= 0) break;
+      const piece = seg.text.slice(0, left);
+      left -= piece.length;
+      if (seg.bold) { const b = document.createElement('b'); b.textContent = piece; el.appendChild(b); }
+      else el.appendChild(document.createTextNode(piece));
+    }
+  }
   async function typeText(el, text) {
-    if (reduceMotion) { el.textContent = text; scrollLog(); return; }
-    const perChar = Math.max(7, Math.min(20, 2200 / Math.max(text.length, 1)));
-    for (let i = 1; i <= text.length; i++) {
-      el.textContent = text.slice(0, i);
+    const segs = parseRich(text);
+    const total = segs.reduce((n, sg) => n + sg.text.length, 0);
+    if (reduceMotion) { renderRich(el, segs, total); scrollLog(); return; }
+    const perChar = Math.max(7, Math.min(20, 2200 / Math.max(total, 1)));
+    for (let i = 1; i <= total; i++) {
+      renderRich(el, segs, i);
       if (i % 3 === 0) scrollLog();
       await sleep(perChar);
     }
@@ -1540,7 +1567,14 @@ const CASES = [
       await typeText(p, text);
       await sleep(120);
     }
-    if (action) { bubble.appendChild(makeAction(action)); scrollLog(); }
+    const actions = [].concat(action || []);
+    if (actions.length) {
+      const row = document.createElement('div');
+      row.className = 'chat-actions';
+      actions.forEach((a) => row.appendChild(makeAction(a)));
+      bubble.appendChild(row);
+      scrollLog();
+    }
     if (!opts.keepState) setState('idle');
     logEl.removeAttribute('aria-busy');
   }
@@ -1571,37 +1605,50 @@ const CASES = [
     {
       id: 'what', chip: 'Who is Kerry?',
       say: [
-        "Kerry is a product manager who finds where a user's workflow breaks and designs the path through it.",
-        'She turns early prototypes into AI-powered products people adopt, return to, and depend on, then scales what works.',
+        'Kerry is a product manager with nine years of experience across K-12 STEM classrooms, curriculum development, and AI product management.',
+        'She builds 0-to-1 products at increasing scale, from the classroom to nationwide products reaching over 550K users.',
       ],
     },
     {
-      id: 'background', chip: "What's Kerry's background?",
+      id: 'background', chip: 'How did Kerry get into product?',
       say: [
-        'Kerry has been a high school science teacher, FIRST Robotics coach, instructional designer, product builder, and product manager.',
+        'Kerry started as a high school science teacher and FIRST Robotics coach, then moved into EdTech as a science instructional designer.',
+        'She began building with AI, which led to product management for internal tools and core product experiences.',
         'She sees her path as an evolution, with each role building on the last.',
       ],
     },
     {
       id: 'how', chip: "What is Kerry's PM process?",
-      say: ["Kerry's PM process is a loop: Discover (find the signal worth investigating), Define (understand the problem and explore directions), Develop (prototype, refine, commit), and Deliver (launch, measure outcomes, learn and iterate)."],
-      action: { label: 'See the method', href: '#how-i-work' },
+      say: [
+        "Kerry's process is a 4-phase loop. Starting with <b>Discover</b>, she finds the signal worth investigating.",
+        'In <b>Define</b>, she decides how far to go. Sometimes the right move is to improve one part of an existing workflow. Other times the right move is to re-imagine how the whole workflow happens, designing something new from first principles.',
+        'Then she <b>Develops</b> by prototyping, refining, and committing, and <b>Delivers</b> by launching, measuring outcomes, and iterating back to Discover.',
+      ],
+      action: [
+        { label: 'See the full method', href: '#how-i-work' },
+        { label: 'Related case study: AI Tree Tool', onClick: showCase('aitree') },
+      ],
     },
     { id: 'projects', chip: 'Show me projects' },
     {
-      id: 'ai', chip: 'What has Kerry built with AI?',
+      id: 'ai', chip: 'How does Kerry build with AI?',
       say: [
-        'Kerry builds products that help people work and learn more effectively with AI. This portfolio was built with AI too.',
-        'One example from the collection is the AI Tree Tool, which cut content errors from 1,000+ to under 100 across a 400+ course-tree library.',
+        'Kerry builds with AI both at work and on her own.',
+        'At work, she builds prototypes and agents that orchestrate product workflows.',
+        'On her own, she has built many personalized apps and automated workflows. This portfolio was built with the support of AI too.',
       ],
-      action: { label: 'View the AI Tree Tool', onClick: showCase('aitree') },
+      action: [
+        { label: 'See: Product work', onClick: () => openArea('product') },
+        { label: 'See: Personal projects', onClick: () => openArea('side') },
+      ],
     },
     {
-      id: 'technical', chip: 'How technical is Kerry?',
+      id: 'technical', chip: 'How does Kerry work with engineers?',
       say: [
-        'Kerry is a product manager with solid technical knowledge.',
-        'She can sit in a meeting with engineers, ask the right questions to understand the tradeoffs, and suggest other paths.',
+        'Kerry is a product manager with solid technical knowledge. She can sit in a meeting with engineers, ask the right questions to understand the tradeoffs, and suggest other paths.',
+        'For Bilingual View & Print, she worked with Engineering to choose a cross-referenced-locale architecture over heavier inline node-threading, which cut engineering complexity while still supporting variable classroom language needs.',
       ],
+      action: { label: 'See: Bilingual View & Print', onClick: showCase('bilingual') },
     },
     {
       id: 'role', chip: 'What roles is Kerry interested in?',
@@ -1631,10 +1678,17 @@ const CASES = [
     });
   }
 
+  let asking = false;   // ignore taps on older links while an answer is still being written
   async function ask(label, answer) {
-    chipsEl.textContent = '';
-    userSay(label);
-    await answer();
+    if (asking) return;
+    asking = true;
+    try {
+      chipsEl.textContent = '';
+      userSay(label);
+      await answer();
+    } finally {
+      asking = false;
+    }
   }
 
   /* --- Conversation tree: every answer offers 2 related chips + "Something else" --- */
@@ -1655,7 +1709,7 @@ const CASES = [
       intro: 'Here are the product projects in the collection. Pick one to hear the story.' },
     { id: 'curriculum', chip: 'Curriculum work', more: 'More curriculum work', cases: CASES.filter((c) => c.domain === 'curriculum'),
       intro: 'Here are the curriculum projects. Pick one to hear the story.' },
-    { id: 'side', chip: 'Side projects', cases: CASES.filter((c) => c.domain === 'side'),
+    { id: 'side', chip: 'Personal projects', cases: CASES.filter((c) => c.domain === 'side'),
       intro: 'Outside of the main collection, Kerry also builds on her own.' },
   ];
   const PAGE = 2;
@@ -1673,13 +1727,19 @@ const CASES = [
   function askTopic(id) {
     const t = T[id];
     return ask(t.chip, async () => {
-      if (id === 'projects') return projectHome(`Kerry has ${n} sample works across product, curriculum, and one side project. Where would you like to start?`);
+      if (id === 'projects') return projectHome(`Kerry has ${n} sample works across product, curriculum, and one personal project. Where would you like to start?`);
       await botSay(t.say, t.action);
       showChips([...NEXT[id].map(topicChip), somethingElse()]);
     });
   }
 
   /* --- Projects: three areas, paged two at a time --- */
+  // Jumps into a project area from a link inside an answer (acts like tapping that chip).
+  function openArea(id) {
+    const g = GROUPS.find((x) => x.id === id);
+    return ask(g.chip, () => openGroup(g, 0));
+  }
+
   const groupChip = (g) => ({ label: g.chip, run: () => ask(g.chip, () => openGroup(g, 0)) });
 
   async function projectHome(line) {
@@ -1693,7 +1753,7 @@ const CASES = [
       await botSay(['Outside the collection, Kerry has also built ' + OTHER_BUILDS + '.']);
       showChips([
         ...CASES.filter((c) => c.domain === 'side').map(caseChip),
-        { label: 'Other projects', run: () => ask('Other projects', () => projectHome('Sure. Which area would you like to explore?')) },
+        { label: 'All projects', run: () => ask('All projects', () => projectHome('Sure. Which area would you like to explore?')) },
         somethingElse(),
       ]);
     }),
@@ -1734,7 +1794,7 @@ const CASES = [
       const sibling = g.cases.length > 1 ? caseChip(g.cases[(i + 1) % g.cases.length]) : otherBuildsChip();
       showChips([
         sibling,
-        { label: 'Other projects', run: () => ask('Other projects', () => projectHome('Sure. Which area would you like to explore?')) },
+        { label: 'All projects', run: () => ask('All projects', () => projectHome('Sure. Which area would you like to explore?')) },
         somethingElse(),
       ]);
     });
