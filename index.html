@@ -54,59 +54,135 @@
 
   .hero-meta {
     display: flex; justify-content: space-between; align-items: baseline;
-    padding-bottom: 20px; margin-bottom: 56px;
+    padding-bottom: 20px; margin-bottom: 32px;
     border-bottom: 1px solid var(--rule);
     font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--muted);
   }
 
-  .hero-body { display: block; }
-
-  .eyebrow {
-    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent); margin: 0 0 20px;
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
 
-  h1.name {
-    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
-    font-size: clamp(2.8rem, 7vw, 5rem); line-height: 1; letter-spacing: -0.02em;
-    margin: 0 0 14px; color: var(--ink);
+  /* ----- Chat card ----- */
+  .chat {
+    max-width: 780px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 22px;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .chat-head {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 22px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .chat-id { min-width: 0; }
+  .chat-name {
+    font-family: "Instrument Serif", Georgia, serif; font-size: 26px; line-height: 1.1;
+    color: var(--ink);
+  }
+  .chat-status {
+    display: flex; align-items: center; gap: 8px; margin-top: 2px;
+    font-size: 12.5px; line-height: 1.4; color: var(--muted);
+  }
+  .chat-status::before {
+    content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%;
+    background: #5E9E73;
   }
 
-  .hero-role {
-    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
-    font-size: clamp(1.15rem, 2vw, 1.35rem); line-height: 1.4;
-    color: var(--ink-2); margin: 0 0 32px;
+  .chat-log {
+    height: clamp(300px, 52vh, 440px);
+    overflow-y: auto; overscroll-behavior: contain;
+    padding: 20px 22px;
+    display: flex; flex-direction: column; gap: 12px;
   }
+  .msg { display: flex; align-items: flex-end; gap: 10px; max-width: 90%; }
+  .msg--bot { align-self: flex-start; }
+  .msg--me { align-self: flex-end; }
+  .msg .av { flex: none; width: 44px; }
+  .bubble {
+    padding: 10px 15px; border-radius: 18px;
+    font-size: 15.5px; line-height: 1.55; color: var(--ink-2);
+    animation: bubble-in .22s ease-out both;
+  }
+  .msg--bot .bubble {
+    background: var(--paper); border: 1px solid var(--rule); border-bottom-left-radius: 5px;
+  }
+  .msg--me .bubble {
+    background: var(--accent); color: #fff; border-bottom-right-radius: 5px;
+  }
+  .bubble p { margin: 0 0 8px; }
+  .bubble p:last-child { margin-bottom: 0; }
+  .chat-action {
+    display: inline-block; margin-top: 10px; padding: 0;
+    font: inherit; font-weight: 500; font-size: 14.5px;
+    color: var(--accent); background: none; border: 0; cursor: pointer;
+  }
+  .chat-action:hover { color: var(--accent-deep); text-decoration: underline; }
 
-  .bio p {
-    font-family: "DM Sans"; font-size: 15.5px; line-height: 1.65;
-    color: var(--ink-2); margin: 0 0 12px; max-width: 62ch;
+  .typing { display: inline-flex; gap: 5px; padding: 6px 2px; }
+  .typing i {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
+    animation: typing-dot 1s ease-in-out infinite;
   }
-  .bio p:last-child { margin-bottom: 0; }
-  .bio .bio-open {
-    font-family: "Instrument Serif", Georgia, serif; font-size: 20px; line-height: 1.4;
-    color: var(--ink); margin-bottom: 14px;
-  }
+  .typing i:nth-child(2) { animation-delay: .15s; }
+  .typing i:nth-child(3) { animation-delay: .3s; }
 
-  .bio-list {
-    list-style: none; margin: 0 0 12px; padding: 0;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-  .bio-list li {
-    font-family: "DM Sans"; font-size: 15.5px; line-height: 1.65;
-    color: var(--ink-2); max-width: 62ch;
-    padding-left: 20px; position: relative;
-  }
-  .bio-list li::before {
-    content: "•"; position: absolute; left: 0; color: var(--ink-2);
-  }
-
-  .bio-meta {
-    display: flex; gap: 14px; padding-top: 16px; margin-top: 20px;
+  .chat-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 14px 22px 18px; min-height: 68px;
     border-top: 1px solid var(--rule);
-    font-family: "DM Sans"; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--muted); flex-wrap: wrap;
+  }
+  .chip {
+    font: inherit; font-size: 14px; line-height: 1.2;
+    padding: 9px 15px; border-radius: 999px;
+    color: var(--ink-2); background: var(--surface);
+    border: 1px solid var(--rule-2); cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+    animation: bubble-in .22s ease-out both;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: #fff; }
+  .chip--quiet { color: var(--muted); border-style: dashed; }
+
+  @keyframes bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @keyframes typing-dot { 0%, 100% { opacity: .3; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+
+  /* ----- Avatar (layered PNGs from assets/avatar, positioned by %) ----- */
+  .av { position: relative; aspect-ratio: 418 / 341; }
+  .av-all { position: absolute; inset: 0; transform-origin: 50% 90%; }
+  .av img {
+    position: absolute; display: block; height: auto;
+    user-select: none; -webkit-user-drag: none; pointer-events: none;
+  }
+  .chat-head .av { width: 92px; }
+  .av [hidden] { display: none; }
+
+  .chat-avatar[data-state="idle"] .av-all { animation: av-bob 3.8s ease-in-out infinite; }
+  .chat-avatar[data-state="talking"] .av-all { animation: av-talk .5s ease-in-out infinite; }
+  .chat-avatar[data-state="thinking"] .av-all { transform: rotate(-5deg); transition: transform .25s; }
+  .chat-avatar[data-state="wave"] .av-all { animation: av-bob 1.6s ease-in-out infinite; }
+  .chat-avatar[data-state="wave"] .av-arm-r { animation: av-wave .5s ease-in-out infinite alternate; }
+  .av-arm-r { transform-origin: 85% 85%; }
+
+  @keyframes av-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3%); } }
+  @keyframes av-talk { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-2%) scale(1.02); } }
+  @keyframes av-wave { from { transform: rotate(-14deg) translateY(-18%); } to { transform: rotate(16deg) translateY(-30%); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chat *, .chat *::before { animation: none !important; transition: none !important; }
+  }
+  @media (max-width: 720px) {
+    .chat-head { padding: 12px 16px; gap: 12px; }
+    .chat-head .av { width: 76px; }
+    .chat-name { font-size: 23px; }
+    .chat-log { padding: 16px; }
+    .chat-chips { padding: 12px 16px 16px; }
+    .msg { max-width: 96%; }
+    .msg .av { width: 36px; }
   }
 
   /* ===== SECTION HEADING ===== */
@@ -518,22 +594,21 @@
       <span>nguyenkerry1@gmail.com</span>
     </div>
 
-    <div class="hero-body">
-      <h1 class="name">Kerry Nguyen</h1>
-      <p class="hero-role">Product manager, builder, educator.</p>
-      <div class="bio">
-        <p>Hi there. My name is Kerry (she/her).</p>
-        <ul class="bio-list">
-          <li>I care deeply about education, learning, the workflows that power them, and building products that help people work and learn more effectively with AI.</li>
-          <li>I look for opportunities to turn complex, fragmented workflows into simple, useful products.</li>
-          <li>I build 0→1 products at classroom, statewide, and nationwide scale.</li>
-        </ul>
-        <p style="color: var(--muted); font-family: 'Instrument Serif', Georgia, serif; font-size: 17px;">Explore the sample collection of my work below.</p>
+    <h1 class="sr-only">Kerry Nguyen: product manager, builder, educator</h1>
+    <section class="chat" id="home" aria-label="Chat with Kerry's portfolio assistant">
+      <div class="chat-head">
+        <div class="chat-avatar" id="chat-avatar" data-state="idle" aria-hidden="true"></div>
+        <div class="chat-id">
+          <div class="chat-name" id="chat-name">Portfolio assistant</div>
+          <div class="chat-status">Kerry Nguyen · Product manager, builder, educator</div>
+        </div>
       </div>
-      <div class="bio-meta">
-        <span>500K+ users nationally</span><span>·</span><span>60K+ students statewide</span><span>·</span><span>10 sample works</span>
-      </div>
-    </div>
+      <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></div>
+      <div class="chat-chips" id="chat-chips" aria-label="Suggested questions"></div>
+      <noscript>
+        <p style="padding: 0 22px 18px; font-size: 15.5px;">Kerry Nguyen is a product manager, builder, and educator who builds 0→1 learning products at classroom, statewide, and nationwide scale. Scroll down to explore her work, or email <a href="mailto:nguyenkerry1@gmail.com">nguyenkerry1@gmail.com</a>.</p>
+      </noscript>
+    </section>
   </div>
 </header>
 
@@ -1239,6 +1314,16 @@ const CASES = [
     });
   }
 
+  /* --- Public hook so the hero chat can jump to a case --- */
+  window.showCase = function (id) {
+    const i = CASES.findIndex((c) => c.id === id);
+    if (i < 0) return;
+    if (currentFilter) applyFilter(currentFilter);   // same filter again = back to the rolodex
+    openId = null;
+    layoutRolodex();
+    requestAnimationFrame(() => goToIndex(i));
+  };
+
   /* --- Wire it up --- */
   filterRow.querySelectorAll('.pill').forEach(p => {
     p.addEventListener('click', () => applyFilter(p.dataset.filter));
@@ -1251,6 +1336,314 @@ const CASES = [
   setScrollHeight();
   measureFan();
   layoutRolodex();
+})();
+/* =====================================================================
+   HERO CHAT — scripted portfolio assistant (no AI / no API calls)
+   Edit ASSISTANT_NAME and TOPICS below; project answers come from CASES.
+===================================================================== */
+(function () {
+  const ASSISTANT_NAME = '';   // TODO: name the assistant (leave '' for "Portfolio assistant")
+  const EMAIL = 'nguyenkerry1@gmail.com';
+
+  const logEl = document.getElementById('chat-log');
+  const chipsEl = document.getElementById('chat-chips');
+  const headAvatarEl = document.getElementById('chat-avatar');
+  const nameEl = document.getElementById('chat-name');
+  if (!logEl || !chipsEl || !headAvatarEl) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sleep = (ms) => (reduceMotion ? Promise.resolve() : new Promise((r) => setTimeout(r, ms)));
+  if (ASSISTANT_NAME && nameEl) nameEl.textContent = ASSISTANT_NAME;
+
+  /* --- Avatar: layered PNGs exported from assets/avatar (see manifest.json) --- */
+  const AV_DIR = 'assets/avatar/';
+  const AV_W = 418, AV_H = 341;
+  // [key, x, y, w] in px on the 418x341 canvas, back-to-front
+  const AV_LAYERS = [
+    ['back-arm-right', 38, 128, 100], ['back-arm-left', 276, 128, 100],
+    ['body', 0, 0, 418], ['blush', 104, 185, 206],
+    ['eye-right-default', 126, 147, 38], ['eye-left-default', 247, 147, 38],
+    ['eye-right-worried', 124, 149, 43], ['eye-left-worried', 245, 149, 43],
+    ['eye-right-blink', 122, 160, 46], ['eye-left-blink', 243, 160, 45],
+    ['mouth-1', 184, 173, 48], ['mouth-2', 182, 173, 50], ['mouth-3', 182, 173, 50],
+    ['mouth-4', 182, 173, 50], ['mouth-5', 182, 173, 50], ['mouth-6', 182, 173, 50],
+    ['front-arm-right', 60, 149, 56], ['front-arm-left', 298, 149, 56],
+  ];
+  const pct = (n, total) => (n / total * 100).toFixed(3) + '%';
+
+  function buildAvatar(host) {
+    const root = document.createElement('div');
+    root.className = 'av';
+    const all = document.createElement('div');
+    all.className = 'av-all';
+    root.appendChild(all);
+    const els = {};
+    AV_LAYERS.forEach(([key, x, y, w]) => {
+      const img = document.createElement('img');
+      img.src = AV_DIR + key + '.png';
+      img.alt = '';
+      img.decoding = 'async';
+      img.style.left = pct(x, AV_W);
+      img.style.top = pct(y, AV_H);
+      img.style.width = pct(w, AV_W);
+      if (/mouth-[2-6]|worried|blink/.test(key)) img.hidden = true;
+      if (key === 'front-arm-right') img.classList.add('av-arm-r');
+      els[key] = img;
+      all.appendChild(img);
+    });
+    host.appendChild(root);
+    return {
+      root,
+      mouth(n) { for (let i = 1; i <= 6; i++) els['mouth-' + i].hidden = i !== n; },
+      worried(on) {
+        ['right', 'left'].forEach((s) => {
+          els['eye-' + s + '-default'].hidden = on;
+          els['eye-' + s + '-worried'].hidden = !on;
+        });
+      },
+      blink(on) { els['eye-right-blink'].hidden = els['eye-left-blink'].hidden = !on; },
+    };
+  }
+
+  const headAv = buildAvatar(headAvatarEl);
+  let avState = 'idle';
+  let talkTimer = null;
+  let blinkTimer = null;
+
+  function setState(s) {
+    avState = s;
+    headAvatarEl.dataset.state = s;
+    clearInterval(talkTimer);
+    headAv.worried(s === 'thinking');
+    if (s === 'talking') {
+      if (reduceMotion) { headAv.mouth(3); return; }
+      talkTimer = setInterval(() => headAv.mouth(2 + Math.floor(Math.random() * 4)), 120);
+    } else {
+      headAv.mouth(s === 'wave' ? 4 : 1);
+    }
+  }
+
+  function scheduleBlink() {
+    if (reduceMotion) return;
+    blinkTimer = setTimeout(() => {
+      if (avState !== 'thinking') {
+        headAv.blink(true);
+        setTimeout(() => headAv.blink(false), 140);
+      }
+      scheduleBlink();
+    }, 2600 + Math.random() * 2800);
+  }
+  document.addEventListener('visibilitychange', () => {
+    clearTimeout(blinkTimer);
+    if (!document.hidden) scheduleBlink();
+  });
+
+  /* --- Message helpers --- */
+  function scrollLog() { logEl.scrollTop = logEl.scrollHeight; }
+
+  function addMsg(who) {
+    const msg = document.createElement('div');
+    msg.className = 'msg msg--' + who;
+    if (who === 'bot') {
+      const mini = document.createElement('div');
+      mini.className = 'mini-av';
+      const miniAv = buildAvatar(mini);
+      miniAv.root.style.width = '100%';
+      mini.style.width = '44px';
+      mini.style.flex = 'none';
+      msg.appendChild(mini);
+    }
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    msg.appendChild(bubble);
+    logEl.appendChild(msg);
+    scrollLog();
+    return bubble;
+  }
+
+  function typingDots() {
+    const d = document.createElement('span');
+    d.className = 'typing';
+    d.setAttribute('aria-hidden', 'true');
+    d.innerHTML = '<i></i><i></i><i></i>';
+    return d;
+  }
+
+  async function typeText(el, text) {
+    if (reduceMotion) { el.textContent = text; scrollLog(); return; }
+    const perChar = Math.max(7, Math.min(20, 2200 / Math.max(text.length, 1)));
+    for (let i = 1; i <= text.length; i++) {
+      el.textContent = text.slice(0, i);
+      if (i % 3 === 0) scrollLog();
+      await sleep(perChar);
+    }
+    scrollLog();
+  }
+
+  function makeAction(a) {
+    let el;
+    if (a.href) {
+      el = document.createElement('a');
+      el.href = a.href;
+    } else {
+      el = document.createElement('button');
+      el.type = 'button';
+      el.addEventListener('click', () => a.onClick && a.onClick());
+    }
+    el.className = 'chat-action';
+    el.textContent = a.label + ' →';
+    return el;
+  }
+
+  // One assistant turn: thinking dots, then typed paragraphs, then optional action link.
+  async function botSay(paragraphs, action, opts = {}) {
+    logEl.setAttribute('aria-busy', 'true');
+    if (!opts.keepState) setState('thinking');
+    const bubble = addMsg('bot');
+    const dots = typingDots();
+    bubble.appendChild(dots);
+    scrollLog();
+    await sleep(opts.fast ? 350 : 650 + Math.random() * 350);
+    dots.remove();
+    if (!opts.keepState) setState('talking');
+    for (const text of paragraphs) {
+      const p = document.createElement('p');
+      bubble.appendChild(p);
+      await typeText(p, text);
+      await sleep(120);
+    }
+    if (action) { bubble.appendChild(makeAction(action)); scrollLog(); }
+    if (!opts.keepState) setState('idle');
+    logEl.removeAttribute('aria-busy');
+  }
+
+  function userSay(text) {
+    const bubble = addMsg('me');
+    bubble.textContent = text;
+    scrollLog();
+  }
+
+  /* --- Content --- */
+  const stripHtml = (html) => new DOMParser().parseFromString(html || '', 'text/html').body.textContent.trim();
+  function brief(text, max = 300) {
+    const sentences = text.split(/(?<=[.!?])\s+/);
+    let out = '';
+    for (const s of sentences) {
+      if (out && (out + ' ' + s).length > max) break;
+      out = out ? out + ' ' + s : s;
+    }
+    return out;
+  }
+  const showCase = (id) => () => { if (window.showCase) window.showCase(id); };
+  const n = CASES.length;
+
+  const TOPICS = [
+    {
+      id: 'what', chip: 'What does Kerry do?',
+      say: [
+        'Kerry Nguyen is a product manager, builder, and educator.',
+        'She cares deeply about education, learning, and the workflows that power them, and builds products that help people work and learn more effectively with AI.',
+        'She looks for opportunities to turn complex, fragmented workflows into simple, useful products.',
+      ],
+    },
+    {
+      id: 'how', chip: 'How does Kerry work?',
+      say: ["Kerry's method is a loop: Discover (find the signal worth investigating), Define (understand the problem and explore directions), Develop (prototype, refine, commit), and Deliver (launch, measure outcomes, learn and iterate)."],
+      action: { label: 'See the method', href: '#how-i-work' },
+    },
+    { id: 'projects', chip: 'Show me projects' },
+    {
+      id: 'ai', chip: 'What has Kerry built with AI?',
+      say: ['Kerry builds products that help people work and learn more effectively with AI. One example is the AI Tree Tool, which cut content errors from 1,000+ to under 100 across a 400+ course-tree library.'],
+      action: { label: 'View the AI Tree Tool', onClick: showCase('aitree') },
+    },
+    {
+      id: 'scale', chip: 'How big is the impact?',
+      say: ["Kerry's work has reached 500K+ users nationally and 60K+ students statewide. For example, Cadence serves 500K+ users across the platform, and the largest state curriculum adoption serves 60,000+ students in Knox County, Tennessee."],
+      action: { label: 'Browse the collection', href: '#case-studies' },
+    },
+    {
+      id: 'contact', chip: 'How can I reach Kerry?',
+      say: ['Email is best: ' + EMAIL + '.'],
+      action: { label: 'Send an email', href: 'mailto:' + EMAIL },
+    },
+  ];
+
+  /* --- Chips --- */
+  function showChips(items) {
+    chipsEl.textContent = '';
+    items.forEach((it, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip' + (it.quiet ? ' chip--quiet' : '');
+      b.textContent = it.label;
+      b.style.animationDelay = (reduceMotion ? 0 : i * 45) + 'ms';
+      b.addEventListener('click', () => it.run());
+      chipsEl.appendChild(b);
+    });
+  }
+
+  const topicChips = (exceptId) =>
+    TOPICS.filter((t) => t.id !== exceptId).map((t) => ({ label: t.chip, run: () => askTopic(t) }));
+
+  async function ask(label, answer) {
+    chipsEl.textContent = '';
+    userSay(label);
+    await answer();
+  }
+
+  function askTopic(t) {
+    return ask(t.chip, async () => {
+      if (t.id === 'projects') {
+        await botSay([`Kerry has ${n} sample works across product, curriculum, and one side project. Which would you like to hear about?`]);
+        showChips(projectChips(null));
+        return;
+      }
+      await botSay(t.say, t.action);
+      showChips(topicChips(t.id));
+    });
+  }
+
+  const projectChips = (exceptId) => [
+    ...CASES.filter((c) => c.id !== exceptId).map((c) => ({ label: c.title, run: () => askCase(c) })),
+    { label: 'Back to questions', quiet: true, run: () => ask('Back to questions', async () => {
+        await botSay(['Sure. What else would you like to know?'], null, { fast: true });
+        showChips(topicChips(null));
+      }) },
+  ];
+
+  function askCase(c) {
+    return ask(c.title, async () => {
+      const impactLabel = c.impactLabel === 'What I Learned' ? 'What Kerry learned' : 'Impact';
+      const impact = (c.impactStat ? c.impactStat + ' ' : '') + stripHtml(c.impactBody);
+      await botSay(
+        [
+          `${c.title} (${c.sub}).`,
+          'The problem: ' + brief(stripHtml(c.problem)),
+          impactLabel + ': ' + brief(impact),
+        ],
+        { label: 'View the full case study', onClick: showCase(c.id) }
+      );
+      showChips(projectChips(c.id));
+    });
+  }
+
+  /* --- Intro --- */
+  async function intro() {
+    setState('wave');
+    const hello = ASSISTANT_NAME
+      ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's portfolio assistant.`
+      : "Hi there! I'm Kerry's portfolio assistant.";
+    await botSay([hello], null, { keepState: true });
+    setState('idle');
+    await botSay(['Kerry builds 0→1 products at classroom, statewide, and nationwide scale. Pick a question below to get started.']);
+    await botSay([`500K+ users nationally · 60K+ students statewide · ${n} sample works`], null, { fast: true });
+    showChips(topicChips(null));
+  }
+
+  setState('idle');
+  scheduleBlink();
+  intro();
 })();
 </script>
 
