@@ -154,16 +154,18 @@
   .av [hidden] { display: none; }
   .av .av-steam { filter: brightness(.38) sepia(.55) drop-shadow(0 0 1px rgba(120,98,76,.55)); }
 
-  .chat-avatar[data-state="idle"] .av-all { animation: av-bob 3.2s ease-in-out infinite; }
   .chat-avatar[data-state="talking"] .av-all { animation: av-talk .5s ease-in-out infinite; }
   .chat-avatar[data-state="thinking"] .av-all { transform: rotate(-5deg); transition: transform .25s; }
-  .chat-avatar[data-state="wave"] .av-all { animation: av-bob 1.6s ease-in-out infinite; }
-  .chat-avatar[data-state="wave"] .av-arm-r { animation: av-wave .5s ease-in-out infinite alternate; }
+  .chat-avatar.is-waving .av-arm-r { animation: av-wave 1.4s ease-in-out 3; }
   .av-arm-r { transform-origin: 85% 85%; }
 
-  @keyframes av-bob { 0%, 100% { transform: translateY(0) rotate(-1.2deg); } 50% { transform: translateY(-6%) rotate(1.2deg); } }
   @keyframes av-talk { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-3%) scale(1.03, .97); } }
-  @keyframes av-wave { from { transform: rotate(-18deg) translateY(-30%); } to { transform: rotate(22deg) translateY(-60%); } }
+  @keyframes av-wave {
+    0%, 100% { transform: rotate(0) translateY(0); }
+    25% { transform: rotate(-18deg) translateY(-45%); }
+    50% { transform: rotate(22deg) translateY(-62%); }
+    75% { transform: rotate(-12deg) translateY(-45%); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .chat *, .chat *::before { animation: none !important; transition: none !important; }
@@ -1368,7 +1370,6 @@ const CASES = [
     ['mouth-4', 144, 294, 50], ['mouth-5', 144, 294, 50], ['mouth-6', 144, 294, 50],
     ['front-arm-right', 22, 270, 56], ['front-arm-left', 260, 270, 56],
   ];
-  const STEAM_STILL = 7;   // frame shown when steam isn't animating
   const pct = (n, total) => (n / total * 100).toFixed(3) + '%';
 
   function buildAvatar(host, live) {
@@ -1380,7 +1381,7 @@ const CASES = [
     const els = {};
     AV_LAYERS.forEach(([key, x, y, w]) => {
       const steamFrame = /^steam-(\d+)$/.exec(key);
-      if (steamFrame && !live && Number(steamFrame[1]) !== STEAM_STILL) return;   // small avatars: one still frame
+      if (steamFrame && !live) return;   // only the header cup steams
       const img = document.createElement('img');
       img.src = AV_DIR + key + '.png';
       img.alt = '';
@@ -1388,7 +1389,7 @@ const CASES = [
       img.style.left = pct(x, AV_W);
       img.style.top = pct(y, AV_H);
       img.style.width = pct(w, AV_W);
-      if (/mouth-[2-6]|worried|blink/.test(key) || (steamFrame && (live || Number(steamFrame[1]) !== STEAM_STILL))) img.hidden = true;
+      if (/mouth-[2-6]|worried|blink/.test(key) || steamFrame) img.hidden = true;
       if (key === 'front-arm-right') img.classList.add('av-arm-r');
       if (steamFrame) img.classList.add('av-steam');
       els[key] = img;
@@ -1410,45 +1411,53 @@ const CASES = [
   }
 
   const headAv = buildAvatar(headAvatarEl, true);
-  let avState = 'idle';
   let talkTimer = null;
-  let blinkTimer = null;
 
   function setState(s) {
-    avState = s;
     headAvatarEl.dataset.state = s;
     clearInterval(talkTimer);
     headAv.worried(s === 'thinking');
     if (s === 'talking') {
       talkTimer = setInterval(() => headAv.mouth(2 + Math.floor(Math.random() * 4)), 120);
     } else {
-      headAv.mouth(s === 'wave' ? 4 : 1);
+      headAv.mouth(1);
     }
   }
 
-  let steamFrame = STEAM_STILL;
-  function runSteam() {
-    headAv.steam(STEAM_STILL);
-    setInterval(() => {
-      if (document.hidden) return;
-      steamFrame = steamFrame % 11 + 1;
-      headAv.steam(steamFrame);
-    }, 150);
-  }
+  /* Scheduled motion, repeating every 60s from page load (t = 0 is the greeting):
+       0-5s   wave 3 times and blink 3 times
+       0s, 30s one steam loop
+     The cup is still the rest of the time. */
+  const CYCLE_MS = 60000;
+  const BLINK_AT = [400, 1900, 3400];
+  const STEAM_AT = [0, 30000];
+  const STEAM_FRAME_MS = 150;
 
-  function scheduleBlink() {
-    blinkTimer = setTimeout(() => {
-      if (avState !== 'thinking') {
-        headAv.blink(true);
-        setTimeout(() => headAv.blink(false), 170);
-      }
-      scheduleBlink();
-    }, 1800 + Math.random() * 2200);
+  function wave() {
+    if (document.hidden) return;
+    headAvatarEl.classList.add('is-waving');
+    setTimeout(() => headAvatarEl.classList.remove('is-waving'), 1400 * 3 + 100);
   }
-  document.addEventListener('visibilitychange', () => {
-    clearTimeout(blinkTimer);
-    if (!document.hidden) scheduleBlink();
-  });
+  function blink() {
+    if (document.hidden) return;
+    headAv.blink(true);
+    setTimeout(() => headAv.blink(false), 170);
+  }
+  function steamLoop() {
+    if (document.hidden) return;
+    let frame = 1;
+    headAv.steam(frame);
+    const t = setInterval(() => {
+      frame += 1;
+      if (frame > 11) { clearInterval(t); headAv.steam(0); return; }
+      headAv.steam(frame);
+    }, STEAM_FRAME_MS);
+  }
+  function runCycle() {
+    wave();
+    BLINK_AT.forEach((ms) => setTimeout(blink, ms));
+    STEAM_AT.forEach((ms) => setTimeout(steamLoop, ms));
+  }
 
   /* --- Message helpers --- */
   function scrollLog() { logEl.scrollTop = logEl.scrollHeight; }
@@ -1750,20 +1759,18 @@ const CASES = [
 
   /* --- Intro --- */
   async function intro() {
-    setState('wave');
     const hello = ASSISTANT_NAME
       ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's product portfolio assistant.`
       : "Hi there! I'm Kerry's product portfolio assistant.";
-    await botSay([hello], null, { keepState: true });
-    await sleep(900);
-    setState('idle');
+    await botSay([hello]);
     await botSay(["I know Kerry's work inside and out, so ask away. Select a question below to learn more."]);
     showChips(rootChips());
   }
 
   setState('idle');
-  runSteam();
-  scheduleBlink();
+  headAv.steam(0);
+  runCycle();
+  setInterval(runCycle, CYCLE_MS);
   intro();
 })();
 </script>
