@@ -1346,7 +1346,6 @@ const CASES = [
 (function () {
   const ASSISTANT_NAME = 'Java';
   const EMAIL = 'nguyenkerry1@gmail.com';
-  const LINKEDIN = 'https://www.linkedin.com/in/nguyenkerry/';
 
   const logEl = document.getElementById('chat-log');
   const chipsEl = document.getElementById('chat-chips');
@@ -1570,7 +1569,7 @@ const CASES = [
 
   const TOPICS = [
     {
-      id: 'what', chip: 'What does Kerry do?',
+      id: 'what', chip: 'Who is Kerry?',
       say: [
         "Kerry is a product manager who finds where a user's workflow breaks and designs the path through it.",
         'She turns early prototypes into AI-powered products people adopt, return to, and depend on, then scales what works.',
@@ -1579,17 +1578,13 @@ const CASES = [
     {
       id: 'background', chip: "What's Kerry's background?",
       say: [
-        'Kerry has been a teacher, coach, instructional designer, prototype builder, and product manager.',
+        'Kerry has been a high school science teacher, FIRST Robotics coach, instructional designer, product builder, and product manager.',
         'She sees her path as an evolution, with each role building on the last.',
       ],
     },
     {
-      id: 'where', chip: 'Where did Kerry do this work?',
-      say: ["Most of the collection comes from Kerry's work at Kiddom, 2023 to 2026."],
-    },
-    {
-      id: 'how', chip: 'How does Kerry work?',
-      say: ["Kerry's method is a loop: Discover (find the signal worth investigating), Define (understand the problem and explore directions), Develop (prototype, refine, commit), and Deliver (launch, measure outcomes, learn and iterate)."],
+      id: 'how', chip: "What is Kerry's PM process?",
+      say: ["Kerry's PM process is a loop: Discover (find the signal worth investigating), Define (understand the problem and explore directions), Develop (prototype, refine, commit), and Deliver (launch, measure outcomes, learn and iterate)."],
       action: { label: 'See the method', href: '#how-i-work' },
     },
     { id: 'projects', chip: 'Show me projects' },
@@ -1609,26 +1604,11 @@ const CASES = [
       ],
     },
     {
-      id: 'scale', chip: 'How big is the impact?',
-      say: ["Kerry's work has reached 500K+ users nationally and 60K+ students statewide. For example, Cadence serves 500K+ users across the platform, and the largest state curriculum adoption serves 60,000+ students in Knox County, Tennessee."],
-      action: { label: 'Browse the collection', href: '#case-studies' },
-    },
-    {
-      id: 'role', chip: 'What is Kerry looking for?',
+      id: 'role', chip: 'What roles is Kerry interested in?',
       say: [
         'Kerry is looking for Product Manager, Senior or Lead Product Manager, or AI Product Manager roles, with a focus on education and AI.',
         'She does her best work where a workflow is fragmented, the user problem is real, and an early prototype can grow into a product people depend on.',
       ],
-    },
-    {
-      id: 'now', chip: 'What is Kerry working on now?',
-      say: ['Outside of work, Kerry keeps building on her own: ' + OTHER_BUILDS + '. She is also working on Neon Drift, an iMessage game that is still in progress.'],
-      action: { label: 'See Neon Drift', onClick: showCase('neondrift') },
-    },
-    {
-      id: 'linkedin', chip: 'Where can I find Kerry on LinkedIn?',
-      say: ['Kerry is on LinkedIn at linkedin.com/in/nguyenkerry.'],
-      action: { label: 'Open LinkedIn', href: LINKEDIN },
     },
     {
       id: 'contact', chip: 'How can I reach Kerry?',
@@ -1663,15 +1643,11 @@ const CASES = [
   const NEXT = {
     what: ['how', 'background'],
     how: ['ai', 'technical'],
-    background: ['where', 'technical'],
-    where: ['scale', 'projects'],
+    background: ['technical', 'projects'],
     technical: ['ai', 'role'],
-    ai: ['projects', 'now'],
-    scale: ['projects', 'role'],
-    role: ['contact', 'linkedin'],
-    now: ['projects', 'contact'],
-    contact: ['linkedin', 'projects'],
-    linkedin: ['contact', 'what'],
+    ai: ['projects', 'role'],
+    role: ['contact', 'what'],
+    contact: ['projects', 'what'],
   };
 
   const GROUPS = [
