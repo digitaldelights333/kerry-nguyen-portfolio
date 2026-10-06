@@ -1607,7 +1607,7 @@ const CASES = [
       action: { label: 'Browse the collection', href: '#case-studies' },
     },
     {
-      id: 'role', chip: 'What kind of role is Kerry looking for?',
+      id: 'role', chip: 'What is Kerry looking for?',
       say: [
         'Kerry is looking for Product Manager, Senior or Lead Product Manager, or AI Product Manager roles, with a focus on education and AI.',
         'She does her best work where a workflow is fragmented, the user problem is real, and an early prototype can grow into a product people depend on.',
@@ -1644,38 +1644,95 @@ const CASES = [
     });
   }
 
-  const topicChips = (exceptId) =>
-    TOPICS.filter((t) => t.id !== exceptId).map((t) => ({ label: t.chip, run: () => askTopic(t) }));
-
   async function ask(label, answer) {
     chipsEl.textContent = '';
     userSay(label);
     await answer();
   }
 
-  function askTopic(t) {
+  /* --- Conversation tree: every answer offers 2 related chips + "Something else" --- */
+  const T = Object.fromEntries(TOPICS.map((t) => [t.id, t]));
+  const ROOT = ['what', 'projects', 'role'];
+  const NEXT = {
+    what: ['how', 'background'],
+    how: ['ai', 'technical'],
+    background: ['where', 'technical'],
+    where: ['scale', 'projects'],
+    technical: ['ai', 'role'],
+    ai: ['projects', 'now'],
+    scale: ['projects', 'role'],
+    role: ['contact', 'linkedin'],
+    now: ['projects', 'contact'],
+    contact: ['linkedin', 'projects'],
+    linkedin: ['contact', 'what'],
+  };
+
+  const GROUPS = [
+    { id: 'product', chip: 'Product work', more: 'More product work', cases: CASES.filter((c) => c.domain === 'product'),
+      intro: 'Here are the product projects in the collection. Pick one to hear the story.' },
+    { id: 'curriculum', chip: 'Curriculum work', more: 'More curriculum work', cases: CASES.filter((c) => c.domain === 'curriculum'),
+      intro: 'Here are the curriculum projects. Pick one to hear the story.' },
+    { id: 'side', chip: 'Side projects', cases: CASES.filter((c) => c.domain === 'side'),
+      intro: 'Outside of the main collection, Kerry also builds on her own.' },
+  ];
+  const PAGE = 2;
+
+  const topicChip = (id) => ({ label: T[id].chip, run: () => askTopic(id) });
+  const rootChips = () => ROOT.map(topicChip);
+  const somethingElse = () => ({
+    label: 'Something else', quiet: true,
+    run: () => ask('Something else', async () => {
+      await botSay(['Sure. What else would you like to know?'], null, { fast: true });
+      showChips(rootChips());
+    }),
+  });
+
+  function askTopic(id) {
+    const t = T[id];
     return ask(t.chip, async () => {
-      if (t.id === 'projects') {
-        await botSay([`Kerry has ${n} sample works across product, curriculum, and one side project. Which would you like to hear about?`]);
-        showChips(projectChips(null));
-        return;
-      }
+      if (id === 'projects') return projectHome(`Kerry has ${n} sample works across product, curriculum, and one side project. Where would you like to start?`);
       await botSay(t.say, t.action);
-      showChips(topicChips(t.id));
+      showChips([...NEXT[id].map(topicChip), somethingElse()]);
     });
   }
 
-  const projectChips = (exceptId) => [
-    ...CASES.filter((c) => c.id !== exceptId).map((c) => ({ label: c.title, run: () => askCase(c) })),
-    ...(exceptId === 'other' ? [] : [{ label: 'Other things Kerry has built', run: () => ask('Other things Kerry has built', async () => {
-        await botSay(['Outside the collection, Kerry has also built ' + OTHER_BUILDS + '.']);
-        showChips(projectChips('other'));
-      }) }]),
-    { label: 'Back to questions', quiet: true, run: () => ask('Back to questions', async () => {
-        await botSay(['Sure. What else would you like to know?'], null, { fast: true });
-        showChips(topicChips(null));
-      }) },
-  ];
+  /* --- Projects: three areas, paged two at a time --- */
+  const groupChip = (g) => ({ label: g.chip, run: () => ask(g.chip, () => openGroup(g, 0)) });
+
+  async function projectHome(line) {
+    await botSay([line]);
+    showChips(GROUPS.map(groupChip));
+  }
+
+  const otherBuildsChip = () => ({
+    label: 'Other things Kerry has built',
+    run: () => ask('Other things Kerry has built', async () => {
+      await botSay(['Outside the collection, Kerry has also built ' + OTHER_BUILDS + '.']);
+      showChips([
+        ...CASES.filter((c) => c.domain === 'side').map(caseChip),
+        { label: 'Other projects', run: () => ask('Other projects', () => projectHome('Sure. Which area would you like to explore?')) },
+        somethingElse(),
+      ]);
+    }),
+  });
+
+  const caseChip = (c) => ({ label: c.title, run: () => askCase(c) });
+
+  async function openGroup(g, page) {
+    await botSay([page === 0 ? g.intro : 'Here are a few more.']);
+    showChips(groupChips(g, page));
+  }
+
+  function groupChips(g, page) {
+    if (g.id === 'side') return [...g.cases.map(caseChip), otherBuildsChip(), somethingElse()];
+    const items = g.cases.slice(page * PAGE, page * PAGE + PAGE).map(caseChip);
+    if (g.cases.length > (page + 1) * PAGE) {
+      return [...items, { label: g.more, run: () => ask(g.more, () => openGroup(g, page + 1)) }];
+    }
+    // Last page: top up with the other areas, then "Something else".
+    const others = GROUPS.filter((x) => x.id !== g.id).map(groupChip);
+    return [...items, ...others.slice(0, PAGE - items.length), somethingElse()];
+  }
 
   function askCase(c) {
     return ask(c.title, async () => {
@@ -1689,7 +1746,14 @@ const CASES = [
         ],
         { label: 'View the full case study', onClick: showCase(c.id) }
       );
-      showChips(projectChips(c.id));
+      const g = GROUPS.find((x) => x.id === c.domain);
+      const i = g.cases.indexOf(c);
+      const sibling = g.cases.length > 1 ? caseChip(g.cases[(i + 1) % g.cases.length]) : otherBuildsChip();
+      showChips([
+        sibling,
+        { label: 'Other projects', run: () => ask('Other projects', () => projectHome('Sure. Which area would you like to explore?')) },
+        somethingElse(),
+      ]);
     });
   }
 
@@ -1701,9 +1765,8 @@ const CASES = [
       : "Hi there! I'm Kerry's portfolio assistant.";
     await botSay([hello], null, { keepState: true });
     setState('idle');
-    await botSay(['Kerry builds 0→1 products at classroom, statewide, and nationwide scale. Pick a question below to get started.']);
-    await botSay([`500K+ users nationally · 60K+ students statewide · ${n} sample works`], null, { fast: true });
-    showChips(topicChips(null));
+    await botSay(["I know Kerry's work inside and out, so ask away. Pick a question below to get started."]);
+    showChips(rootChips());
   }
 
   setState('idle');
