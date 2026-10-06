@@ -1373,7 +1373,6 @@ const CASES = [
     ['steam-10', 79, 0, 149], ['steam-11', 141, 0, 87],
     ['blush', 66, 306, 206],
     ['eye-right-default', 88, 268, 38], ['eye-left-default', 209, 268, 38],
-    ['eye-right-worried', 86, 270, 43], ['eye-left-worried', 207, 270, 43],
     ['eye-right-blink', 84, 281, 46], ['eye-left-blink', 205, 281, 45],
     ['mouth-1', 146, 294, 48], ['mouth-2', 144, 294, 50], ['mouth-3', 144, 294, 50],
     ['mouth-4', 144, 294, 50], ['mouth-5', 144, 294, 50], ['mouth-6', 144, 294, 50],
@@ -1398,28 +1397,24 @@ const CASES = [
       img.style.left = pct(x, AV_W);
       img.style.top = pct(y, AV_H);
       img.style.width = pct(w, AV_W);
-      if (/mouth-[2-6]|worried|blink/.test(key) || steamFrame) img.hidden = true;
+      if (/mouth-[2-6]|blink/.test(key) || steamFrame) img.hidden = true;
       if (key === 'front-arm-right') img.classList.add('av-arm-r');
       if (steamFrame) img.classList.add('av-steam');
       els[key] = img;
       all.appendChild(img);
     });
     host.appendChild(root);
-    // One eye pose at a time: open, worried, or closed (blink replaces the open eye).
-    let isWorried = false, isBlinking = false;
-    function showEyes() {
-      ['right', 'left'].forEach((side) => {
-        els['eye-' + side + '-default'].hidden = isBlinking || isWorried;
-        els['eye-' + side + '-worried'].hidden = isBlinking || !isWorried;
-        els['eye-' + side + '-blink'].hidden = !isBlinking;
-      });
-    }
     return {
       root,
       mouth(n) { for (let i = 1; i <= 6; i++) els['mouth-' + i].hidden = i !== n; },
-      worried(on) { isWorried = on; showEyes(); },
       steam(n) { for (let i = 1; i <= 11; i++) els['steam-' + i].hidden = i !== n; },
-      blink(on) { isBlinking = on; showEyes(); },
+      // Blink swaps the open eye for the closed-eye layer.
+      blink(on) {
+        ['right', 'left'].forEach((side) => {
+          els['eye-' + side + '-default'].hidden = on;
+          els['eye-' + side + '-blink'].hidden = !on;
+        });
+      },
     };
   }
 
@@ -1429,7 +1424,6 @@ const CASES = [
   function setState(s) {
     headAvatarEl.dataset.state = s;
     clearInterval(talkTimer);
-    headAv.worried(s === 'thinking');
     if (s === 'talking') {
       talkTimer = setInterval(() => headAv.mouth(2 + Math.floor(Math.random() * 4)), 120);
     } else {

@@ -118,13 +118,6 @@
    "w": 38,
    "h": 39
   },
-  "eye-right-worried": {
-   "file": "eye-right-worried.png",
-   "x": 86,
-   "y": 270,
-   "w": 43,
-   "h": 37
-  },
   "eye-right-blink": {
    "file": "eye-right-blink.png",
    "x": 84,
@@ -138,13 +131,6 @@
    "y": 268,
    "w": 38,
    "h": 39
-  },
-  "eye-left-worried": {
-   "file": "eye-left-worried.png",
-   "x": 207,
-   "y": 270,
-   "w": 43,
-   "h": 37
   },
   "eye-left-blink": {
    "file": "eye-left-blink.png",
