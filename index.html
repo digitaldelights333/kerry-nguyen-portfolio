@@ -85,14 +85,6 @@
     font-family: "Instrument Serif", Georgia, serif; font-size: 26px; line-height: 1.1;
     color: var(--ink);
   }
-  .chat-status {
-    display: flex; align-items: center; gap: 8px; margin-top: 2px;
-    font-size: 12.5px; line-height: 1.4; color: var(--muted);
-  }
-  .chat-status::before {
-    content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%;
-    background: #5E9E73;
-  }
 
   .chat-log {
     height: clamp(320px, 56vh, 500px);
@@ -600,7 +592,6 @@
         <div class="chat-avatar" id="chat-avatar" data-state="idle" aria-hidden="true"></div>
         <div class="chat-id">
           <div class="chat-name" id="chat-name">Portfolio assistant</div>
-          <div class="chat-status">Kerry Nguyen · Product manager, builder, educator</div>
         </div>
       </div>
       <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></div>
@@ -1761,11 +1752,11 @@ const CASES = [
   async function intro() {
     setState('wave');
     const hello = ASSISTANT_NAME
-      ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's portfolio assistant.`
-      : "Hi there! I'm Kerry's portfolio assistant.";
+      ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's product portfolio assistant.`
+      : "Hi there! I'm Kerry's product portfolio assistant.";
     await botSay([hello], null, { keepState: true });
     setState('idle');
-    await botSay(["I know Kerry's work inside and out, so ask away. Pick a question below to get started."]);
+    await botSay(["I know Kerry's work inside and out, so ask away. Select a question below to learn more."]);
     showChips(rootChips());
   }
 
