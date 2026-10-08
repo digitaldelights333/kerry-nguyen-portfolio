@@ -51,7 +51,7 @@ Kerry works like a teammate who builds. She brings prototypes to engineers, desi
 
 Outside of work, Kerry forages for mushrooms, grows fruit trees she brings indoors every winter, and loves a good puzzle. She coached a FIRST Robotics team for six years and, true to form, builds small tools for her own daily routines.
 
-## 8. What is Kerry looking for next? ⚠️ trim pass pending
+## 8. What is Kerry looking for next? ✅ (confirmed)
 
 Kerry is looking for product roles with AI at the center, where she can turn real user problems into products at scale. She's drawn to teams building AI-powered experiences for the people who use them every day, and she brings hands-on experience building with AI herself.
 
@@ -65,9 +65,9 @@ Prefer email? Reach Kerry at [address].
 
 ---
 
-## Closer (after the last chip) ⚠️ pick one
+## Closer (after the last chip) ❌ removed
 
-Option A (my pick): "That's the full tour! If Kerry sounds like a fit, she'd love to hear about the role." [ Schedule a call ]
+**Removed.** After the eighth chip is answered, nothing further appears: no closer message and no chips.
 
 ## Persistent: header button
 
@@ -78,8 +78,8 @@ Option A (my pick): "That's the full tour! If Kerry sounds like a fit, she'd lov
 ## Still open
 
 1. ~~Chip 5: "led" vs. "designed" for the evaluation framework.~~ Resolved: new confirmed wording above.
-2. Chip 8: trim and voice pass. It's the longest chip left, and it still says "looking for" in two sentences in a row (which was approved). It's also the last place to check the cheerleader tone.
-3. Closer: confirm A, and whether to add the email fallback line.
+2. ~~Chip 8: trim and voice pass.~~ Confirmed by Kerry.
+3. ~~Closer.~~ Removed.
 4. Voice pass across all chips: an earlier offer to make them read as one narrator. Chips 1 and 4 have the most voice now, and 2, 3, 6, and 7 are plainer. Do you want that pass?
 5. ~~Placeholder: your email address in chip 8.~~ Filled with nguyenkerry1@gmail.com, the address already on the site. Change it if you want a different one.
 
@@ -157,7 +157,7 @@ Welcome (fixed): Who is Kerry? / What has Kerry shipped? / How does Kerry build 
 - Eval and Teams are reachable from every start, which was the original concern. Eval always follows AI, and Teams follows Eval.
 - A recruiter who starts with proof (Shipped or AI) still sees "Who" and "How" in slots 2 and 3 until they tap them, so the origin story is never lost.
 - "Looking for next" comes late on every path, but anyone who stops early has the header button.
-- The closer appears only after all eight chips. Walkthrough 3 shows the wrap-around: after Looking, the unvisited chips (Who, How, Shipped) come back.
+- Kerry removed the closer. The "Closer" rows in the walkthroughs now mean nothing further is shown. Walkthrough 3 shows the wrap-around: after Looking, the unvisited chips (Who, How, Shipped) come back.
 
 ### One thing to decide
 

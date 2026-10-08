@@ -1694,7 +1694,7 @@ const CASES = [
   /* --- Slot rule: three inline chips after every tap ---
      Slot 1: the next unvisited chip after the one just tapped (wrapping around).
      Slots 2-3: the earliest unvisited chips on the spine.
-     Visited chips never return. When all eight are visited, Java shows the closer.
+     Visited chips never return. After the eighth chip nothing more is shown.
      Skip counter: with SKIP_AFTER set, a chip shown that many times and ignored
      drops to the back of the queue. Off by default, because the walkthroughs in
      docs/chat-pathway.md keep "Who" and "How" in slots 2-3 until they are tapped. */
@@ -1754,12 +1754,7 @@ const CASES = [
       clearChips();
       userSay(t.chip);
       await botSay(t.say, t.actions);
-      const next = nextChips(id);
-      if (next.length) {
-        showChips(next);
-      } else {
-        await botSay(["That's the full tour! If Kerry sounds like a fit, she'd love to hear about the role.", { cta: true }]);
-      }
+      showChips(nextChips(id));   // after the eighth chip there is nothing left to show
     } finally {
       asking = false;
     }
