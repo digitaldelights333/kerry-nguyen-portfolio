@@ -55,7 +55,7 @@ Outside of work, Kerry forages for mushrooms, grows fruit trees she brings indoo
 
 Kerry is looking for product roles with AI at the center, where she can turn real user problems into products at scale. She's drawn to teams building AI-powered experiences for the people who use them every day, and she brings hands-on experience building with AI herself.
 
-She's based in the Central time zone and is looking for remote roles, with hybrid in the Chicago area as an option.
+Based in the Central time zone, Kerry is interested in remote roles and available for hybrid roles in the Chicago area.
 
 If that sounds like a fit, Kerry would love to hear about the role.
 

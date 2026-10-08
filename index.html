@@ -82,6 +82,7 @@
   }
   .chat-schedule {
     margin-left: auto; flex: none; align-self: center;
+    margin-top: 28px;   /* same offset as .chat-id, so name, button and cup body share one line */
     font-size: 14px; font-weight: 500; line-height: 1;
     padding: 10px 16px; border-radius: 999px;
     color: var(--accent); background: var(--surface);
@@ -212,7 +213,7 @@
     .msg { max-width: 96%; }
     .msg .av { width: 36px; }
     .chips-inline { padding-left: 46px; }
-    .chat-schedule { font-size: 13px; padding: 9px 12px; }
+    .chat-schedule { font-size: 13px; padding: 9px 12px; margin-top: 24px; }
   }
 
   /* ===== SECTION HEADING ===== */
@@ -1681,7 +1682,7 @@ const CASES = [
     { id: 'looking', chip: 'What is Kerry looking for next?',
       say: [
         "Kerry is looking for product roles with AI at the center, where she can turn real user problems into products at scale. She's drawn to teams building AI-powered experiences for the people who use them every day, and she brings hands-on experience building with AI herself.",
-        "She's based in the Central time zone and is looking for remote roles, with hybrid in the Chicago area as an option.",
+        "Based in the Central time zone, Kerry is interested in remote roles and available for hybrid roles in the Chicago area.",
         'If that sounds like a fit, Kerry would love to hear about the role.',
         { cta: true },
         'Prefer email? Reach Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
