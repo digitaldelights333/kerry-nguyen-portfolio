@@ -119,10 +119,15 @@
     background: var(--accent); color: #fff; border-bottom-right-radius: 5px;
   }
   .bubble p { margin: 0 0 8px; }
+  /* Counter (1/3, 2/3, 3/3) sits in the bubble's lower right corner, not on its own line.
+     The last paragraph keeps a small gap at its end so text never runs under the counter. */
+  .bubble.has-count { position: relative; }
+  .bubble.has-count p:last-of-type::after { content: ""; display: inline-block; width: 30px; }
+  .bubble.has-count p:last-of-type { margin-bottom: 0; }
   .bubble-count {
-    display: block; margin-top: 6px; text-align: right;
-    font-size: 11.5px; line-height: 1; color: var(--muted);
-    font-variant-numeric: tabular-nums;
+    position: absolute; right: 12px; bottom: 6px;
+    font-size: 11px; line-height: 1; color: var(--muted);
+    font-variant-numeric: tabular-nums; pointer-events: none;
   }
   .bubble b { font-weight: 600; color: var(--ink); }
   .bubble p:last-child { margin-bottom: 0; }
@@ -1620,11 +1625,11 @@ const CASES = [
     return el;
   }
 
-  // Time to read a bubble before the next one starts: about 500ms plus 60ms a word, at most 2.5s.
+  // Time to read a bubble before the next one starts: about 700ms plus 80ms a word, at most 3s.
   // Uses real time even with Reduce motion on, so bubbles never pile up at once. When the text
   // is typed out, the reader has already had time while it appeared, so the pause is halved.
   const readingPause = (text) => {
-    const full = Math.min(2500, 500 + 60 * text.replace(/\d+\/\d+$/, '').trim().split(/\s+/).length);
+    const full = Math.min(3000, 700 + 80 * text.replace(/\d+\/\d+$/, '').trim().split(/\s+/).length);
     return reduceMotion ? full : full * 0.5;
   };
 
@@ -1637,6 +1642,7 @@ const CASES = [
     const openBubble = async (fast) => {
       if (!opts.keepState) setState('thinking');
       bubble = addMsg('bot');
+      if (total > 1) bubble.classList.add('has-count');   // reserve room for the 1/3 counter from the start
       const dots = typingDots();
       bubble.appendChild(dots);
       scrollLog();
