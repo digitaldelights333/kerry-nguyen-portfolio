@@ -120,7 +120,6 @@
   .section-head {
     display: flex; align-items: baseline; gap: 24px; margin-bottom: 0;
   }
-  .how .section-head { margin-bottom: 40px; }
   .section-head .section-num {
     font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--accent); white-space: nowrap;
@@ -130,68 +129,6 @@
     font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; margin: 0; color: var(--ink);
   }
   .section-head .rule { flex: 1; height: 1px; background: var(--rule); align-self: center; }
-
-  /* ===== HOW I WORK ===== */
-  section.how { padding: 40px 0 88px; }
-
-  .how-lede {
-    font-family: "Instrument Serif", Georgia, serif;
-    font-size: 20px; line-height: 1.5; color: var(--soft); margin: 0 0 32px; max-width: 60ch;
-  }
-
-  .loop {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; position: relative;
-  }
-  @media (max-width: 700px) {
-    .loop {
-      gap: 10px;
-      grid-template-columns: 160px 160px;
-      width: 330px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .loop-card { min-height: 0; padding: 14px 14px; }
-    .loop-num { font-size: 15px; margin-bottom: 6px; }
-    .loop-phase { font-size: 10px; margin: 0 0 8px; }
-    .loop-body { font-size: 12.5px; line-height: 1.45; }
-    .loop-fork { margin-top: 8px; padding-top: 8px; font-size: 11.5px; line-height: 1.45; }
-  }
-
-  .loop-card {
-    background: var(--surface); border: 2px solid var(--rule-2);
-    padding: 26px 28px; border-radius: 4px;
-    min-height: 240px; display: flex; flex-direction: column;
-    transition: transform 0.6s ease, border-color 0.6s ease, opacity 0.6s ease, box-shadow 0.6s ease;
-  }
-  .loop.is-active .loop-card { opacity: 0.4; }
-  .loop.is-active .loop-card.is-lit {
-    opacity: 1;
-    transform: translateY(-6px);
-    border-color: var(--accent);
-    box-shadow: var(--shadow-active);
-  }
-  .loop-num {
-    font-family: "Instrument Serif", Georgia, serif; font-size: 22px;
-    color: var(--accent); line-height: 1; margin-bottom: 12px;
-  }
-  .loop-phase {
-    font-family: "DM Serif Display", Georgia, serif; font-size: 32px; line-height: 1;
-    color: var(--ink); margin: 0 0 14px; letter-spacing: -0.01em;
-  }
-  .loop-body {
-    font-family: "DM Sans"; font-size: 14px; line-height: 1.55; color: var(--ink-2); margin: 0;
-  }
-  .loop-fork {
-    margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--rule-2);
-    font-family: "DM Sans"; font-size: 12.5px; color: var(--muted); line-height: 1.55;
-  }
-  .loop-fork strong { font-family: "DM Serif Display"; font-style: normal; color: var(--accent); font-weight: 400; }
-
-  .loop-footnote {
-    margin-top: 24px; text-align: center;
-    font-family: "Instrument Serif", Georgia, serif; font-size: 13px;
-    color: var(--muted);
-  }
 
   /* ===== CASE STUDIES ===== */
   section.cases-outer { padding: 0; }
@@ -412,43 +349,6 @@
     </div>
   </div>
 </header>
-
-<!-- ============ HOW I WORK ============ -->
-<section class="how" id="how-i-work">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Method</h2>
-      <div class="rule"></div>
-    </div>
-
-    <div class="loop" id="loop">
-      <div class="loop-card">
-        <div class="loop-num">1.</div>
-        <h3 class="loop-phase">Discover</h3>
-        <p class="loop-body">Find the signal worth investigating.</p>
-      </div>
-
-      <div class="loop-card">
-        <div class="loop-num">2.</div>
-        <h3 class="loop-phase">Define</h3>
-        <p class="loop-body">Understand the problem. Explore possible directions.</p>
-      </div>
-
-      <div class="loop-card">
-        <div class="loop-num">4.</div>
-        <h3 class="loop-phase">Deliver</h3>
-        <p class="loop-body">Launch. Measure outcomes. Learn and iterate.</p>
-      </div>
-
-      <div class="loop-card">
-        <div class="loop-num">3.</div>
-        <h3 class="loop-phase">Develop</h3>
-        <p class="loop-body">Prototype. Refine. Commit.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
 
 <!-- ============ CASE STUDIES ============ -->
 <section class="cases-outer" id="case-studies">
@@ -785,50 +685,7 @@ const CASES = [
 ];
 
 /* =====================================================================
-   HOW I WORK — pulse trigger via IntersectionObserver
-===================================================================== */
-(function () {
-  const loop = document.getElementById('loop');
-  if (!loop) return;
-  const cards = loop.querySelectorAll('.loop-card');
-  // DOM order: [0]=Discover TL, [1]=Define TR, [2]=Deliver BL, [3]=Develop BR
-  // Clockwise loop TL -> TR -> BR -> BL: DOM indices 0, 1, 3, 2
-  const LOOP_ORDER = [0, 1, 3, 2];
-  let step = 0;
-  let timer = null;
-
-  function tick() {
-    cards.forEach(c => c.classList.remove('is-lit'));
-    cards[LOOP_ORDER[step]].classList.add('is-lit');
-    step = (step + 1) % LOOP_ORDER.length;
-  }
-
-  function start() {
-    if (timer) return;
-    loop.classList.add('is-active');
-    tick();
-    timer = setInterval(tick, 1500);
-  }
-  function stop() {
-    if (!timer) return;
-    clearInterval(timer);
-    timer = null;
-    loop.classList.remove('is-active');
-    cards.forEach(c => c.classList.remove('is-lit'));
-  }
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => e.isIntersecting ? start() : stop());
-    }, { threshold: 0.3 });
-    io.observe(loop);
-  } else {
-    start();
-  }
-})();
-
-/* =====================================================================
-   CASE STUDIES — square card grid, filter, detail modal
+   CASE STUDIES — square card grid, detail modal
 ===================================================================== */
 (function () {
   const gridEl = document.getElementById('cases-grid');
