@@ -232,7 +232,7 @@
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   .case-foot {
-    margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px;
+    margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px;
   }
   .case-sub {
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -266,7 +266,7 @@
     padding: 28px 32px; display: flex; flex-direction: column;
   }
   .case-sheet .rolo-plate { flex-shrink: 0; }
-  .case-sheet .rolo-visual { height: 104px; margin-bottom: 16px; }
+  .case-sheet .rolo-visual { height: 104px; margin: 24px 0 16px; }
   .case-sheet .rolo-title, .case-sheet .rolo-sub { flex-shrink: 0; }
   .case-sheet .rolo-full {
     display: block; flex: 1 1 auto; min-height: 0; overflow-y: auto;
@@ -795,7 +795,7 @@ const CASES = [
     title: "Neon Drift",
     domain: "side",
     domainLabel: "Side Project",
-    sub: "WIP Aug 2026",
+    sub: "Personal Project · August 2026",
     palette: "pal-neondrift",
     icon: ICONS.puck,
     problem: "Quick asynchronous games introduce friction before the first move, forcing players to install and open a separate app and constantly switch back to the conversation where they're actually talking.",
@@ -881,7 +881,6 @@ const CASES = [
         <h3 class="case-title">${c.cardTitle || c.title}</h3>
         <p class="case-blurb">${c.blurb || ''}</p>
         <div class="case-foot">
-          <div class="case-sub">${c.sub}</div>
           <span class="case-eye" aria-hidden="true" title="View details">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
           </span>
@@ -898,7 +897,6 @@ const CASES = [
     lastFocus = document.activeElement;
     sheetEl.innerHTML = `
       <button class="rolo-close" aria-label="Close">×</button>
-      <div class="rolo-plate">${c.domainLabel}</div>
       <div class="rolo-visual ${c.palette}"><span class="card-icon">${c.icon}</span></div>
       <h3 class="rolo-title">${c.title}</h3>
       <div class="rolo-sub">${c.sub}</div>
