@@ -87,6 +87,7 @@
     padding: 10px 16px; border-radius: 999px;
     color: var(--accent); background: var(--surface);
     border: 1px solid var(--accent); text-decoration: none;
+    font-family: inherit; cursor: pointer;
     transition: background .15s, color .15s;
   }
   .chat-schedule:hover { background: var(--accent); color: #fff; }
@@ -632,7 +633,7 @@
         <div class="chat-id">
           <div class="chat-name" id="chat-name">Portfolio assistant</div>
         </div>
-        <a class="chat-schedule" id="chat-schedule" href="#">Schedule a call</a>
+        <button type="button" class="chat-schedule" id="chat-schedule">Schedule a call</button>
       </div>
       <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></div>
       <noscript>
@@ -1597,8 +1598,6 @@ const CASES = [
     }
     return a;
   }
-  const headSchedule = document.getElementById('chat-schedule');
-  if (headSchedule) headSchedule.replaceWith(Object.assign(scheduleLink('chat-schedule'), { id: 'chat-schedule' }));
 
   function makeAction(a) {
     let el;
@@ -1744,7 +1743,7 @@ const CASES = [
   }
 
   let asking = false;   // ignore taps while an answer is still being written
-  async function ask(id) {
+  async function ask(id, label) {
     if (asking) return;
     asking = true;
     try {
@@ -1752,7 +1751,7 @@ const CASES = [
       lastShown.forEach((shownId) => { if (shownId !== id) ignored[shownId] = (ignored[shownId] || 0) + 1; });
       visited.add(id);
       clearChips();
-      userSay(t.chip);
+      userSay(label || t.chip);
       await botSay(t.say, t.actions);
       showChips(nextChips(id));   // after the eighth chip there is nothing left to show
     } finally {
@@ -1760,8 +1759,14 @@ const CASES = [
     }
   }
 
+  // The header button does not open the booking page directly. It asks Java the
+  // "looking for next" question, and the Schedule a call button in that answer opens the link.
+  const headSchedule = document.getElementById('chat-schedule');
+  if (headSchedule) headSchedule.addEventListener('click', () => ask('looking', 'Schedule a call'));
+
   /* --- Intro --- */
   async function intro() {
+    asking = true;   // header button and chips wait until the welcome is finished
     await pause(400);
     const hello = ASSISTANT_NAME
       ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's product portfolio assistant.`
@@ -1769,6 +1774,7 @@ const CASES = [
     await botSay([hello]);
     await botSay(["I'm a big fan of her work. Select a question below and I'll show you why."]);
     showChips(WELCOME_CHIPS);
+    asking = false;
   }
 
   setState('idle');

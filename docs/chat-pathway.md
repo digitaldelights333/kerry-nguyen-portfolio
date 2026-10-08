@@ -71,7 +71,7 @@ Prefer email? Reach Kerry at [address].
 
 ## Persistent: header button
 
-[ Schedule a call ] stays visible throughout.
+[ Schedule a call ] stays visible throughout. Tapping it does not open the booking page directly: Java first answers with chip 8 ("What is Kerry looking for next?"), with the visitor bubble reading "Schedule a call". The Schedule a call button inside that answer opens the booking link in a new tab. Tapping the header button again repeats the answer. It is ignored while Java is still welcoming or answering.
 
 ---
 
@@ -167,8 +167,8 @@ In walkthroughs 2 and 3, a recruiter taps "Looking for next" at step 5 or 6 whil
 
 ## Build notes
 
-- **Schedule a call** is a placeholder. `SCHEDULE_URL` in `index.html` is `'#'` and the button does nothing until a booking link is set.
-- The header button is right-aligned in the chat header. The same button appears inside chip 8 and in the closer.
+- **Schedule a call** booking link is a placeholder. `SCHEDULE_URL` in `index.html` is `'#'`, so the button inside chip 8's answer does nothing until a link is set (Google Calendar appointment schedule, opens in a new tab).
+- The header button is right-aligned in the chat header and asks the chip 8 question. The booking button appears inside chip 8's answer.
 - Chips are inline in the conversation, directly under the latest message.
 - **Skip counter** is built but switched off (`SKIP_AFTER = Infinity`). With it on, "Who" and "How" would drop out of slots 2 and 3 after being ignored, which contradicts the walkthroughs and the "origin story is never lost" point. All three walkthroughs replay exactly with it off.
 - Card updates (550K+ on Cadence, Spanish translation on the AI Tree Tool card) are the next step. The chat already says 550K+.
