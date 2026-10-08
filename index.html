@@ -265,7 +265,6 @@
     width: min(680px, 100%); max-height: min(720px, 88vh);
     padding: 28px 32px; display: flex; flex-direction: column;
   }
-  .case-sheet .rolo-plate { flex-shrink: 0; }
   .case-sheet .rolo-visual { height: 104px; margin: 24px 0 16px; }
   .case-sheet .rolo-title, .case-sheet .rolo-sub { flex-shrink: 0; }
   .case-sheet .rolo-full {
@@ -295,11 +294,6 @@
   .card-icon { color: var(--surface); z-index: 1; display: block; }
   .rolo-visual .card-icon { width: 72px; height: 72px; }
   .card-icon svg { width: 100%; height: 100%; display: block; }
-
-  .rolo-plate {
-    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 10px;
-  }
 
   .rolo-visual::after {
     content: ""; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,0.35);
@@ -625,7 +619,6 @@ const CASES = [
     blurb: "Pacing guides, calendars, and lesson plans in one planning workflow.",
     title: "Cadence",
     domain: "product",
-    domainLabel: "Product",
     sub: "Kiddom · 2026",
     palette: "pal-cadence",
     icon: ICONS.cadence,
@@ -645,7 +638,6 @@ const CASES = [
     blurb: "Side-by-side English/Spanish view built for language acquisition.",
     title: "Bilingual View & Print",
     domain: "product",
-    domainLabel: "Product",
     sub: "Kiddom · 2026",
     palette: "pal-bilingual",
     icon: ICONS.bilingual,
@@ -664,7 +656,6 @@ const CASES = [
     blurb: "Grade-band math keyboards for authentic notation.",
     title: "Math Keyboard",
     domain: "product",
-    domainLabel: "Product",
     sub: "Kiddom · 2026",
     palette: "pal-keyboard",
     icon: ICONS.keyboard,
@@ -682,7 +673,6 @@ const CASES = [
     blurb: "Teacher-controlled calculator access, question by question.",
     title: "Student Calculator",
     domain: "product",
-    domainLabel: "Product",
     sub: "Kiddom · 2026",
     palette: "pal-calculator",
     icon: ICONS.calculator,
@@ -700,7 +690,6 @@ const CASES = [
     blurb: "Measure angles inside the drawing tool, no paper required.",
     title: "Digital Protractor",
     domain: "product",
-    domainLabel: "Product",
     sub: "Kiddom · 2026",
     palette: "pal-protractor",
     icon: ICONS.protractor,
@@ -718,7 +707,6 @@ const CASES = [
     blurb: "Standards crosswalks to a draft state-adoption course, 45% faster.",
     title: "State Adoption Course Builder",
     domain: "curriculum",
-    domainLabel: "Curriculum",
     sub: "Kiddom · 2025",
     palette: "pal-course",
     icon: ICONS.crosswalk,
@@ -736,7 +724,6 @@ const CASES = [
     blurb: "LLM content-quality checks and English-to-Spanish translation.",
     title: "AI Tree Tool",
     domain: "product",
-    domainLabel: "Product · AI",
     sub: "Kiddom · 2025",
     palette: "pal-aitree",
     icon: ICONS.aitree,
@@ -756,7 +743,6 @@ const CASES = [
     blurb: "Streamlit tool generating NGSS-aligned science assessments.",
     title: "Science Assessment Generator",
     domain: "curriculum",
-    domainLabel: "Curriculum",
     sub: "Kiddom · 2024",
     palette: "pal-assessment",
     icon: ICONS.assessment,
@@ -774,7 +760,6 @@ const CASES = [
     blurb: "Custom state products for TX, FL, and TN, built on OpenSciEd and OpenStax.",
     title: "Science Curriculum Products",
     domain: "curriculum",
-    domainLabel: "Curriculum",
     sub: "Kiddom · TX, FL, TN · 2023–25",
     palette: "pal-ose",
     icon: ICONS.books,
@@ -794,7 +779,6 @@ const CASES = [
     blurb: "A two-minute async physics game, played inside iMessage.",
     title: "Neon Drift",
     domain: "side",
-    domainLabel: "Side Project",
     sub: "Personal Project · August 2026",
     palette: "pal-neondrift",
     icon: ICONS.puck,
