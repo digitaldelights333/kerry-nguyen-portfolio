@@ -181,6 +181,12 @@ Split now: **chip 2** (2 bubbles), **chip 5** (3), **chip 6** (2), **chip 8** (3
 
 Pacing: between bubbles there is a reading pause of about 0.5s plus 0.06s per word (2.5s at most). It uses real time even with Reduce motion on, so bubbles never appear all at once. When the text is typed out the pause is halved.
 
+## Look and feel
+
+- Bubbles have a small pointer toward the speaker: Java's bubbles point left toward the mug, the visitor's point right toward a generic user icon.
+- The visitor's question (the chip text, or "Schedule a call" from the header) appears as a right-aligned bubble with a generic user icon (a neutral head-and-shoulders circle), mirroring Java's avatar.
+- Chat links to case studies ("Cadence", "AI Tree Tool", "builder", "Bilingual View & Print") open the detailed view (the modal) on the new case studies grid. "View all case studies" scrolls to the grid.
+
 ## Build notes
 
 - **Booking link:** `SCHEDULE_URL` in `index.html` is the Google Calendar appointment schedule, https://calendar.app.google/T8VRGxhvNJ9Gtgd47. The button inside chip 8's answer opens it in a new tab.
