@@ -59,7 +59,7 @@ Based in the Central time zone, Kerry is interested in remote roles and availabl
 
 If that sounds like a fit, Kerry would love to hear about the role.
 
-[ Schedule a call ]
+[ Book a quick intro call ]
 
 Prefer email? Reach Kerry at [address].
 
@@ -71,7 +71,7 @@ Prefer email? Reach Kerry at [address].
 
 ## Persistent: header button
 
-[ Schedule a call ] stays visible throughout. Tapping it does not open the booking page directly: Java first answers with chip 8 ("What is Kerry looking for next?"), with the visitor bubble reading "Schedule a call". The Schedule a call button inside that answer opens the booking link in a new tab. Tapping the header button again repeats the answer. It is ignored while Java is still welcoming or answering.
+[ Schedule a call ] stays visible throughout. Tapping it does not open the booking page directly: Java first answers with chip 8 ("What is Kerry looking for next?"), with the visitor bubble reading "Schedule a call". The button inside that answer reads **Book a quick intro call**, is left-aligned under the text, and opens the booking link in a new tab. Tapping the header button again repeats the answer. It is ignored while Java is still welcoming or answering.
 
 ---
 
@@ -172,3 +172,10 @@ In walkthroughs 2 and 3, a recruiter taps "Looking for next" at step 5 or 6 whil
 - Chips are inline in the conversation, directly under the latest message.
 - **Skip counter** is built but switched off (`SKIP_AFTER = Infinity`). With it on, "Who" and "How" would drop out of slots 2 and 3 after being ignored, which contradicts the walkthroughs and the "origin story is never lost" point. All three walkthroughs replay exactly with it off.
 - Card updates (550K+ on Cadence, Spanish translation on the AI Tree Tool card) are the next step. The chat already says 550K+.
+
+## Booking page (Google Calendar appointment schedule)
+
+- Suggested title: **Intro call with Kerry Nguyen**.
+- Suggested description: "A conversation about product roles at the intersection of AI and education." Add the call length only once the duration is set.
+- Settings worth checking: name and email only on the booking form, a minimum notice (such as 24 hours), and Google Meet on if wanted.
+- Button copy: header says **Schedule a call**; the button inside the answer says **Book a quick intro call**. If a duration is added to the label, it must match the Google Calendar duration.

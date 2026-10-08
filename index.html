@@ -1585,11 +1585,11 @@ const CASES = [
   }
 
   // "Schedule a call" button used in the header and inside answers.
-  function scheduleLink(className) {
+  function scheduleLink(className, label) {
     const a = document.createElement('a');
     a.className = className;
     a.href = SCHEDULE_URL;
-    a.textContent = 'Schedule a call';
+    a.textContent = label;
     if (SCHEDULE_URL === '#') {
       a.title = 'Booking link coming soon';
       a.addEventListener('click', (e) => e.preventDefault());
@@ -1635,7 +1635,7 @@ const CASES = [
         await sleep(120);
       } else if (part && part.cta) {
         const wrap = document.createElement('div');
-        wrap.appendChild(scheduleLink('chat-cta'));
+        wrap.appendChild(scheduleLink('chat-cta', 'Book a quick intro call'));
         bubble.appendChild(wrap);
         scrollLog();
       }
