@@ -167,7 +167,7 @@ In walkthroughs 2 and 3, a recruiter taps "Looking for next" at step 5 or 6 whil
 
 ## Build notes
 
-- **Schedule a call** booking link is a placeholder. `SCHEDULE_URL` in `index.html` is `'#'`, so the button inside chip 8's answer does nothing until a link is set (Google Calendar appointment schedule, opens in a new tab).
+- **Booking link:** `SCHEDULE_URL` in `index.html` is the Google Calendar appointment schedule, https://calendar.app.google/T8VRGxhvNJ9Gtgd47. The button inside chip 8's answer opens it in a new tab.
 - The header button is right-aligned in the chat header and asks the chip 8 question. The booking button appears inside chip 8's answer.
 - Chips are inline in the conversation, directly under the latest message.
 - **Skip counter** is built but switched off (`SKIP_AFTER = Infinity`). With it on, "Who" and "How" would drop out of slots 2 and 3 after being ignored, which contradicts the walkthroughs and the "origin story is never lost" point. All three walkthroughs replay exactly with it off.
@@ -175,7 +175,16 @@ In walkthroughs 2 and 3, a recruiter taps "Looking for next" at step 5 or 6 whil
 
 ## Booking page (Google Calendar appointment schedule)
 
-- Suggested title: **Intro call with Kerry Nguyen**.
-- Suggested description: "A conversation about product roles at the intersection of AI and education." Add the call length only once the duration is set.
-- Settings worth checking: name and email only on the booking form, a minimum notice (such as 24 hours), and Google Meet on if wanted.
+Link: https://calendar.app.google/T8VRGxhvNJ9Gtgd47
+
+- Title: **Intro call with Kerry Nguyen**.
+- Length: **20 minutes**. Informational call to gauge interest and see if the role is a fit.
+- Note shown on the booking page and in confirmation emails:
+
+  > This is a 20-minute informational call to learn about the role and determine if we are a good fit. I'm looking for product roles with AI at the center, remote, or hybrid in the Chicago area. Please come ready to cover the team, the scope of the role, and the total compensation package.
+  >
+  > Looking forward to our quick chat!
+
+- Booking form: first name, last name and email, plus a required question about the company and role. Suggested wording: "Which company and role is this call about?"
+- Settings: a minimum notice (such as 24 hours) and a daily cap. Google Meet on if wanted.
 - Button copy: header says **Schedule a call**; the button inside the answer says **Book a quick intro call**. If a duration is added to the label, it must match the Google Calendar duration.
