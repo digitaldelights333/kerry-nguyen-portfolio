@@ -165,6 +165,15 @@ In walkthroughs 2 and 3, a recruiter taps "Looking for next" at step 5 or 6 whil
 
 ---
 
+## Bubble breaks
+
+Answers can be split into separate chat bubbles (each with its own typing dots), so long answers read like a person texting. Currently split:
+
+- **Chip 5, How does Kerry evaluate AI features?** 3 bubbles: (1) "Kerry treats evaluation as part of the build." (2) the AI Tree Tool redesign and the partners (3) the three rounds of expert review.
+- **Chip 8, What is Kerry looking for next?** 3 bubbles: (1) the roles she wants (2) location (3) the invite, the Book a quick intro call button and the email line.
+
+Not split (one bubble each): chips 1, 2, 3, 4 (two paragraphs), 6 and 7. Chips 2 and 6 are the next longest (74 and 69 words) if more splitting is wanted.
+
 ## Build notes
 
 - **Booking link:** `SCHEDULE_URL` in `index.html` is the Google Calendar appointment schedule, https://calendar.app.google/T8VRGxhvNJ9Gtgd47. The button inside chip 8's answer opens it in a new tab.

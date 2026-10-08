@@ -1615,18 +1615,23 @@ const CASES = [
     return el;
   }
 
-  // One assistant turn. `parts` is a list of paragraphs (strings) and { cta: true }
-  // markers for an inline "Schedule a call" button; `actions` are links under the text.
+  // One assistant turn. `parts` is a list of paragraphs (strings), { cta: true } markers
+  // for an inline booking button, and { brk: true } markers that start a new bubble
+  // (typing dots, then the next message). `actions` are links under the last bubble.
   async function botSay(parts, actions, opts = {}) {
     logEl.setAttribute('aria-busy', 'true');
-    if (!opts.keepState) setState('thinking');
-    const bubble = addMsg('bot');
-    const dots = typingDots();
-    bubble.appendChild(dots);
-    scrollLog();
-    await pause(opts.fast ? 450 : 800 + Math.random() * 400);
-    dots.remove();
-    if (!opts.keepState) setState('talking');
+    let bubble = null;
+    const openBubble = async (fast) => {
+      if (!opts.keepState) setState('thinking');
+      bubble = addMsg('bot');
+      const dots = typingDots();
+      bubble.appendChild(dots);
+      scrollLog();
+      await pause(fast ? 450 : 800 + Math.random() * 400);
+      dots.remove();
+      if (!opts.keepState) setState('talking');
+    };
+    await openBubble(opts.fast);
     for (const part of parts) {
       if (typeof part === 'string') {
         const p = document.createElement('p');
@@ -1638,6 +1643,8 @@ const CASES = [
         wrap.appendChild(scheduleLink('chat-cta', 'Book a quick intro call'));
         bubble.appendChild(wrap);
         scrollLog();
+      } else if (part && part.brk) {
+        await openBubble(true);
       }
     }
     const list = [].concat(actions || []);
@@ -1673,7 +1680,13 @@ const CASES = [
         'With a prototype to build from, the team developed Bilingual View & Print in under four weeks. This portfolio, including me, Java, was built with AI too.',
       ] },
     { id: 'eval', chip: 'How does Kerry evaluate AI features?',
-      say: ['Kerry treats evaluation as part of the build. When early translations in the AI Tree Tool varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines. Outputs then went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.'] },
+      say: [
+        'Kerry treats evaluation as part of the build.',
+        { brk: true },
+        'When early translations in the AI Tree Tool varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines.',
+        { brk: true },
+        'Outputs then went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.',
+      ] },
     { id: 'teams', chip: 'How does Kerry work with teams?',
       say: ["Kerry works like a teammate who builds. She brings prototypes to engineers, designers, and subject matter experts so everyone reacts to something real. She's technical enough to weigh tradeoffs with engineers, and she works across customer success, data science, marketing, and sales to turn user insights and launch metrics into the next product decision. She pitches to product leadership and keeps stakeholders current on the pipeline and post-launch results."] },
     { id: 'outside', chip: 'What does Kerry do outside of work?',
@@ -1681,7 +1694,9 @@ const CASES = [
     { id: 'looking', chip: 'What is Kerry looking for next?',
       say: [
         "Kerry is looking for product roles with AI at the center, where she can turn real user problems into products at scale. She's drawn to teams building AI-powered experiences for the people who use them every day, and she brings hands-on experience building with AI herself.",
+        { brk: true },
         "Based in the Central time zone, Kerry is interested in remote roles and available for hybrid roles in the Chicago area.",
+        { brk: true },
         'If that sounds like a fit, Kerry would love to hear about the role.',
         { cta: true },
         'Prefer email? Reach Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
