@@ -1,6 +1,6 @@
 # Chat pathway (locked in)
 
-Written by Kerry, saved here as written. **Not yet applied to `index.html`.** The chat on this branch still uses the earlier wording and a fixed row of chips at the bottom.
+Written by Kerry, saved here as written. **Applied to `index.html`** (inline chips, header button, eight-chip spine, slot rule, closer). Chip 5 was confirmed on 2026-10-08.
 This file replaces the chip wording and tree in `docs/chat-answers-review.md`, which is kept for history.
 
 New requirements in this version:
@@ -39,11 +39,9 @@ Kerry prototypes. A working prototype gets a team aligned faster than a written 
 
 With a prototype to build from, the team developed Bilingual View & Print in under four weeks. This portfolio, including me, Java, was built with AI too.
 
-## 5. How does Kerry evaluate AI features? ⚠️ needs your input
+## 5. How does Kerry evaluate AI features? ✅ (confirmed)
 
-Kerry treats evaluation as part of the build, not a final check. When she led the English-to-Spanish translation work for the AI Tree Tool, the first single-prompt version produced inconsistent quality across grade bands. She led a redesign around grade-band-specific prompting, then validated the output with a calibrated three-pass human evaluation framework before launch, so quality was measured and not assumed.
-
-Open question: did you personally design the three-pass framework? If so, "she designed" is more accurate than "she led."
+Kerry treats evaluation as part of the build. When early translations in the AI Tree Tool varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines. Outputs then went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.
 
 ## 6. How does Kerry work with teams? ✅
 
@@ -79,11 +77,11 @@ Option A (my pick): "That's the full tour! If Kerry sounds like a fit, she'd lov
 
 ## Still open
 
-1. Chip 5: "led" vs. "designed" for the evaluation framework.
+1. ~~Chip 5: "led" vs. "designed" for the evaluation framework.~~ Resolved: new confirmed wording above.
 2. Chip 8: trim and voice pass. It's the longest chip left, and it still says "looking for" in two sentences in a row (which was approved). It's also the last place to check the cheerleader tone.
 3. Closer: confirm A, and whether to add the email fallback line.
 4. Voice pass across all chips: an earlier offer to make them read as one narrator. Chips 1 and 4 have the most voice now, and 2, 3, 6, and 7 are plainer. Do you want that pass?
-5. Placeholder: your email address in chip 8.
+5. ~~Placeholder: your email address in chip 8.~~ Filled with nguyenkerry1@gmail.com, the address already on the site. Change it if you want a different one.
 
 ---
 
@@ -167,9 +165,10 @@ In walkthroughs 2 and 3, a recruiter taps "Looking for next" at step 5 or 6 whil
 
 ---
 
-## What the build will need (not yet provided)
+## Build notes
 
-- A booking link for the **Schedule a call** button.
-- Kerry's email address for chip 8's fallback line (shown as `[address]`).
-- Where the header button sits, now that the header shows only the avatar and "Java".
-- Confirmation of the inline layout: chips under the latest answer, inside the same bubble or just below it.
+- **Schedule a call** is a placeholder. `SCHEDULE_URL` in `index.html` is `'#'` and the button does nothing until a booking link is set.
+- The header button is right-aligned in the chat header. The same button appears inside chip 8 and in the closer.
+- Chips are inline in the conversation, directly under the latest message.
+- **Skip counter** is built but switched off (`SKIP_AFTER = Infinity`). With it on, "Who" and "How" would drop out of slots 2 and 3 after being ignored, which contradicts the walkthroughs and the "origin story is never lost" point. All three walkthroughs replay exactly with it off.
+- Card updates (550K+ on Cadence, Spanish translation on the AI Tree Tool card) are the next step. The chat already says 550K+.

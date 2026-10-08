@@ -80,6 +80,15 @@
     background: var(--surface-2);
     border-bottom: 1px solid var(--rule);
   }
+  .chat-schedule {
+    margin-left: auto; flex: none; align-self: center;
+    font-size: 14px; font-weight: 500; line-height: 1;
+    padding: 10px 16px; border-radius: 999px;
+    color: var(--accent); background: var(--surface);
+    border: 1px solid var(--accent); text-decoration: none;
+    transition: background .15s, color .15s;
+  }
+  .chat-schedule:hover { background: var(--accent); color: #fff; }
   .chat-id { min-width: 0; padding-top: 28px; }   /* lines the name up with the cup, not the steam above it */
   .chat-name {
     font-family: "Instrument Serif", Georgia, serif; font-size: 26px; line-height: 1.1;
@@ -87,7 +96,7 @@
   }
 
   .chat-log {
-    height: clamp(320px, 56vh, 500px);
+    height: clamp(380px, 64vh, 580px);
     overflow-y: auto; overscroll-behavior: contain;
     padding: 20px 22px;
     display: flex; flex-direction: column; gap: 12px;
@@ -127,11 +136,6 @@
   .typing i:nth-child(2) { animation-delay: .15s; }
   .typing i:nth-child(3) { animation-delay: .3s; }
 
-  .chat-chips {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    padding: 14px 22px 18px; min-height: 68px;
-    border-top: 1px solid var(--rule);
-  }
   .chip {
     font: inherit; font-size: 14px; line-height: 1.2;
     padding: 9px 15px; border-radius: 999px;
@@ -141,6 +145,25 @@
     animation: bubble-in .22s ease-out both;
   }
   .chip:hover { border-color: var(--accent); color: var(--accent); background: #fff; }
+  .chips-inline {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding-left: 54px;              /* lines up with the bubble: avatar 44px + gap 10px */
+  }
+  .chat-link {
+    font: inherit; padding: 0; border: 0; background: none; cursor: pointer;
+    color: var(--accent); text-decoration: underline; text-underline-offset: 2px;
+  }
+  .chat-link:hover { color: var(--accent-deep); }
+  a.chat-link { display: inline; }
+  .chat-cta {
+    display: inline-block; margin: 4px 0 10px;
+    font: inherit; font-size: 14.5px; font-weight: 500; line-height: 1;
+    padding: 11px 18px; border-radius: 999px;
+    color: #fff; background: var(--accent); border: 1px solid var(--accent);
+    text-decoration: none; cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .chat-cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; }
   .chip--quiet { color: var(--muted); border-style: dashed; }
 
   @keyframes bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -186,9 +209,10 @@
     .chat-id { padding-top: 24px; }
     .chat-name { font-size: 23px; }
     .chat-log { padding: 16px; }
-    .chat-chips { padding: 12px 16px 16px; }
     .msg { max-width: 96%; }
     .msg .av { width: 36px; }
+    .chips-inline { padding-left: 46px; }
+    .chat-schedule { font-size: 13px; padding: 9px 12px; }
   }
 
   /* ===== SECTION HEADING ===== */
@@ -607,9 +631,9 @@
         <div class="chat-id">
           <div class="chat-name" id="chat-name">Portfolio assistant</div>
         </div>
+        <a class="chat-schedule" id="chat-schedule" href="#">Schedule a call</a>
       </div>
       <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></div>
-      <div class="chat-chips" id="chat-chips" aria-label="Suggested questions"></div>
       <noscript>
         <p style="padding: 0 22px 18px; font-size: 15.5px;">Kerry Nguyen is a product manager, builder, and educator who builds 0→1 learning products at classroom, statewide, and nationwide scale. Scroll down to explore her work, or email <a href="mailto:nguyenkerry1@gmail.com">nguyenkerry1@gmail.com</a>.</p>
       </noscript>
@@ -1344,17 +1368,17 @@ const CASES = [
 })();
 /* =====================================================================
    HERO CHAT — scripted portfolio assistant (no AI / no API calls)
-   Edit ASSISTANT_NAME and TOPICS below; project answers come from CASES.
+   Edit ASSISTANT_NAME, SCHEDULE_URL and SPINE below. The chip pathway is in docs/chat-pathway.md.
 ===================================================================== */
 (function () {
   const ASSISTANT_NAME = 'Java';
   const EMAIL = 'nguyenkerry1@gmail.com';
+  const SCHEDULE_URL = '#';   // TODO: replace with the booking link. '#' is a placeholder and does nothing.
 
   const logEl = document.getElementById('chat-log');
-  const chipsEl = document.getElementById('chat-chips');
   const headAvatarEl = document.getElementById('chat-avatar');
   const nameEl = document.getElementById('chat-name');
-  if (!logEl || !chipsEl || !headAvatarEl) return;
+  if (!logEl || !headAvatarEl) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const sleep = (ms) => (reduceMotion ? Promise.resolve() : new Promise((r) => setTimeout(r, ms)));
@@ -1499,14 +1523,20 @@ const CASES = [
     return d;
   }
 
-  // Answers may use <b>...</b> for bold. Nothing else is parsed; all other text stays literal.
+  const showCase = (id) => { if (window.showCase) window.showCase(id); };
+
+  // Answer text may use <b>bold</b>, [[case:ID|label]] (opens a case study card)
+  // and [[href:URL|label]] (a link). Nothing else is parsed; all other text stays literal.
   function parseRich(text) {
     const segs = [];
     let bold = false;
-    text.split(/(<\/?b>)/).forEach((part) => {
-      if (part === '<b>') bold = true;
-      else if (part === '</b>') bold = false;
-      else if (part) segs.push({ text: part, bold });
+    text.split(/(<\/?b>|\[\[[^\]]+\]\])/).forEach((part) => {
+      if (!part) return;
+      if (part === '<b>') { bold = true; return; }
+      if (part === '</b>') { bold = false; return; }
+      const m = /^\[\[(case|href):([^|\]]+)\|([^\]]+)\]\]$/.exec(part);
+      if (m) segs.push({ text: m[3], bold, link: { kind: m[1], target: m[2] } });
+      else segs.push({ text: part, bold });
     });
     return segs;
   }
@@ -1517,8 +1547,26 @@ const CASES = [
       if (left <= 0) break;
       const piece = seg.text.slice(0, left);
       left -= piece.length;
-      if (seg.bold) { const b = document.createElement('b'); b.textContent = piece; el.appendChild(b); }
-      else el.appendChild(document.createTextNode(piece));
+      let node;
+      if (seg.link && seg.link.kind === 'case') {
+        node = document.createElement('button');
+        node.type = 'button';
+        node.className = 'chat-link';
+        node.addEventListener('click', () => showCase(seg.link.target));
+        node.textContent = piece;
+      } else if (seg.link) {
+        node = document.createElement('a');
+        node.className = 'chat-link';
+        node.href = seg.link.target;
+        if (/^https?:/.test(seg.link.target)) { node.target = '_blank'; node.rel = 'noopener'; }
+        node.textContent = piece;
+      } else if (seg.bold) {
+        node = document.createElement('b');
+        node.textContent = piece;
+      } else {
+        node = document.createTextNode(piece);
+      }
+      el.appendChild(node);
     }
   }
   async function typeText(el, text) {
@@ -1533,6 +1581,23 @@ const CASES = [
     }
     scrollLog();
   }
+
+  // "Schedule a call" button used in the header and inside answers.
+  function scheduleLink(className) {
+    const a = document.createElement('a');
+    a.className = className;
+    a.href = SCHEDULE_URL;
+    a.textContent = 'Schedule a call';
+    if (SCHEDULE_URL === '#') {
+      a.title = 'Booking link coming soon';
+      a.addEventListener('click', (e) => e.preventDefault());
+    } else if (/^https?:/.test(SCHEDULE_URL)) {
+      a.target = '_blank'; a.rel = 'noopener';
+    }
+    return a;
+  }
+  const headSchedule = document.getElementById('chat-schedule');
+  if (headSchedule) headSchedule.replaceWith(Object.assign(scheduleLink('chat-schedule'), { id: 'chat-schedule' }));
 
   function makeAction(a) {
     let el;
@@ -1550,8 +1615,9 @@ const CASES = [
     return el;
   }
 
-  // One assistant turn: thinking dots, then typed paragraphs, then optional action link.
-  async function botSay(paragraphs, action, opts = {}) {
+  // One assistant turn. `parts` is a list of paragraphs (strings) and { cta: true }
+  // markers for an inline "Schedule a call" button; `actions` are links under the text.
+  async function botSay(parts, actions, opts = {}) {
     logEl.setAttribute('aria-busy', 'true');
     if (!opts.keepState) setState('thinking');
     const bubble = addMsg('bot');
@@ -1561,17 +1627,24 @@ const CASES = [
     await pause(opts.fast ? 450 : 800 + Math.random() * 400);
     dots.remove();
     if (!opts.keepState) setState('talking');
-    for (const text of paragraphs) {
-      const p = document.createElement('p');
-      bubble.appendChild(p);
-      await typeText(p, text);
-      await sleep(120);
+    for (const part of parts) {
+      if (typeof part === 'string') {
+        const p = document.createElement('p');
+        bubble.appendChild(p);
+        await typeText(p, part);
+        await sleep(120);
+      } else if (part && part.cta) {
+        const wrap = document.createElement('div');
+        wrap.appendChild(scheduleLink('chat-cta'));
+        bubble.appendChild(wrap);
+        scrollLog();
+      }
     }
-    const actions = [].concat(action || []);
-    if (actions.length) {
+    const list = [].concat(actions || []);
+    if (list.length) {
       const row = document.createElement('div');
       row.className = 'chat-actions';
-      actions.forEach((a) => row.appendChild(makeAction(a)));
+      list.forEach((a) => row.appendChild(makeAction(a)));
       bubble.appendChild(row);
       scrollLog();
     }
@@ -1585,219 +1658,110 @@ const CASES = [
     scrollLog();
   }
 
-  /* --- Content --- */
-  const stripHtml = (html) => new DOMParser().parseFromString(html || '', 'text/html').body.textContent.trim();
-  function brief(text, max = 300) {
-    const sentences = text.split(/(?<=[.!?])\s+/);
-    let out = '';
-    for (const s of sentences) {
-      if (out && (out + ' ' + s).length > max) break;
-      out = out ? out + ' ' + s : s;
-    }
-    return out;
-  }
-  const showCase = (id) => () => { if (window.showCase) window.showCase(id); };
-  const n = CASES.length;
-
-  const OTHER_BUILDS = 'a digital asset manager, a job search automation tool, a personalized treadmill logger based on height, and a 6-week reset tracker that takes in water, sleep, exercise, and food';
-
-  const TOPICS = [
-    {
-      id: 'what', chip: 'Who is Kerry?',
+  /* --- The eight chips (the "spine"), in story order. See docs/chat-pathway.md --- */
+  const SPINE = [
+    { id: 'who', chip: 'Who is Kerry?',
+      say: ["Kerry is an AI product manager and systems thinker who turns real user problems into products at scale. She builds foundations that compound, where one solution becomes the base for the next, from internal tools for a single team to core experiences on a platform with over 550K users."] },
+    { id: 'how', chip: 'How did Kerry get into product?',
+      say: ['Kerry started as a high school science teacher, then moved into EdTech as an instructional designer, where she developed curriculum and taught herself to automate manual workflows for her team. One recurring task that used to take over an hour now takes five minutes, a productivity gain of 1,000%+. Her habit of turning one-off fixes into repeatable systems evolved into a career in product management, first for internal tools, then for core product experiences.'] },
+    { id: 'shipped', chip: 'What has Kerry shipped?',
+      say: ['Kerry has shipped both customer-facing products and internal tools at Kiddom. [[case:cadence|Cadence]] is a planning and automated scheduling experience on a platform with 550K+ users. Her internal tools include the [[case:aitree|AI Tree Tool]], which expanded a library of 400+ curriculum products from English into Spanish, and a [[case:course-builder|builder]] that made state-specific products 45% faster to create.'],
+      actions: [{ label: 'View all case studies', href: '#case-studies' }] },
+    { id: 'ai', chip: 'How does Kerry build with AI?',
       say: [
-        'Kerry is a product manager with nine years of experience across K-12 STEM classrooms, curriculum development, and AI product management.',
-        'She builds 0-to-1 products at increasing scale, from the classroom to nationwide products reaching over 550K users.',
-      ],
-    },
-    {
-      id: 'background', chip: 'How did Kerry get into product?',
+        'Kerry prototypes. A working prototype gets a team aligned faster than a written PRD alone, so she builds early and often, using AI to go from idea to something people can click.',
+        'With a prototype to build from, the team developed Bilingual View & Print in under four weeks. This portfolio, including me, Java, was built with AI too.',
+      ] },
+    { id: 'eval', chip: 'How does Kerry evaluate AI features?',
+      say: ['Kerry treats evaluation as part of the build. When early translations in the AI Tree Tool varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines. Outputs then went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.'] },
+    { id: 'teams', chip: 'How does Kerry work with teams?',
+      say: ["Kerry works like a teammate who builds. She brings prototypes to engineers, designers, and subject matter experts so everyone reacts to something real. She's technical enough to weigh tradeoffs with engineers, and she works across customer success, data science, marketing, and sales to turn user insights and launch metrics into the next product decision. She pitches to product leadership and keeps stakeholders current on the pipeline and post-launch results."] },
+    { id: 'outside', chip: 'What does Kerry do outside of work?',
+      say: ['Outside of work, Kerry forages for mushrooms, grows fruit trees she brings indoors every winter, and loves a good puzzle. She coached a FIRST Robotics team for six years and, true to form, builds small tools for her own daily routines.'] },
+    { id: 'looking', chip: 'What is Kerry looking for next?',
       say: [
-        'Kerry started as a high school science teacher and FIRST Robotics coach, then moved into EdTech as a science instructional designer.',
-        'She began building with AI, which led to product management for internal tools and core product experiences.',
-        'She sees her path as an evolution, with each role building on the last.',
-      ],
-    },
-    {
-      id: 'how', chip: "What is Kerry's PM process?",
-      say: [
-        "Kerry's process is a 4-phase loop. Starting with <b>Discover</b>, she finds the signal worth investigating.",
-        'In <b>Define</b>, she decides how far to go. Sometimes the right move is to improve one part of an existing workflow. Other times the right move is to re-imagine how the whole workflow happens, designing something new from first principles.',
-        'Then she <b>Develops</b> by prototyping, refining, and committing, and <b>Delivers</b> by launching, measuring outcomes, and iterating back to Discover.',
-      ],
-      action: [
-        { label: 'See the full method', href: '#how-i-work' },
-        { label: 'Related case study: AI Tree Tool', onClick: showCase('aitree') },
-      ],
-    },
-    { id: 'projects', chip: 'Show me projects' },
-    {
-      id: 'ai', chip: 'How does Kerry build with AI?',
-      say: [
-        'Kerry builds with AI both at work and on her own.',
-        'At work, she builds prototypes and agents that orchestrate product workflows.',
-        'On her own, she has built many personalized apps and automated workflows. This portfolio was built with the support of AI too.',
-      ],
-      action: [
-        { label: 'See: Product work', onClick: () => openArea('product') },
-        { label: 'See: Personal projects', onClick: () => openArea('side') },
-      ],
-    },
-    {
-      id: 'technical', chip: 'How does Kerry work with engineers?',
-      say: [
-        'Kerry is a product manager with solid technical knowledge. She can sit in a meeting with engineers, ask the right questions to understand the tradeoffs, and suggest other paths.',
-        'For Bilingual View & Print, she worked with Engineering to choose a cross-referenced-locale architecture over heavier inline node-threading, which cut engineering complexity while still supporting variable classroom language needs.',
-      ],
-      action: { label: 'See: Bilingual View & Print', onClick: showCase('bilingual') },
-    },
-    {
-      id: 'role', chip: 'What roles is Kerry interested in?',
-      say: [
-        'Kerry is looking for Product Manager, Senior or Lead Product Manager, or AI Product Manager roles, with a focus on education and AI.',
-        'She does her best work where a workflow is fragmented, the user problem is real, and an early prototype can grow into a product people depend on.',
-      ],
-    },
-    {
-      id: 'contact', chip: 'How can I reach Kerry?',
-      say: ['Email is best: ' + EMAIL + '.', 'She is also on LinkedIn at linkedin.com/in/nguyenkerry.'],
-      action: { label: 'Send an email', href: 'mailto:' + EMAIL },
-    },
+        "Kerry is looking for product roles with AI at the center, where she can turn real user problems into products at scale. She's drawn to teams building AI-powered experiences for the people who use them every day, and she brings hands-on experience building with AI herself.",
+        "She's based in the Central time zone and is looking for remote roles, with hybrid in the Chicago area as an option.",
+        'If that sounds like a fit, Kerry would love to hear about the role.',
+        { cta: true },
+        'Prefer email? Reach Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
+      ] },
   ];
+  const BY_ID = Object.fromEntries(SPINE.map((t) => [t.id, t]));
+  const WELCOME_CHIPS = ['who', 'shipped', 'ai'];
 
-  /* --- Chips --- */
-  function showChips(items) {
-    chipsEl.textContent = '';
-    items.forEach((it, i) => {
+  /* --- Slot rule: three inline chips after every tap ---
+     Slot 1: the next unvisited chip after the one just tapped (wrapping around).
+     Slots 2-3: the earliest unvisited chips on the spine.
+     Visited chips never return. When all eight are visited, Java shows the closer.
+     Skip counter: with SKIP_AFTER set, a chip shown that many times and ignored
+     drops to the back of the queue. Off by default, because the walkthroughs in
+     docs/chat-pathway.md keep "Who" and "How" in slots 2-3 until they are tapped. */
+  const SKIP_AFTER = Infinity;
+  const visited = new Set();
+  const ignored = {};
+  let lastShown = [];
+
+  function nextChips(tappedId) {
+    const unvisited = SPINE.filter((t) => !visited.has(t.id)).map((t) => t.id);
+    if (!unvisited.length) return [];
+    const t = SPINE.findIndex((x) => x.id === tappedId);
+    let first = null;
+    for (let k = 1; k <= SPINE.length; k++) {
+      const id = SPINE[(t + k) % SPINE.length].id;
+      if (!visited.has(id)) { first = id; break; }
+    }
+    const fresh = unvisited.filter((id) => (ignored[id] || 0) < SKIP_AFTER);
+    const stale = unvisited.filter((id) => (ignored[id] || 0) >= SKIP_AFTER);
+    const rest = [...fresh, ...stale].filter((id) => id !== first).slice(0, 2);
+    return [first, ...rest];
+  }
+
+  /* --- Inline chips: they sit in the conversation, under the latest message --- */
+  function clearChips() {
+    logEl.querySelectorAll('.chips-inline').forEach((n) => n.remove());
+  }
+  function showChips(ids) {
+    clearChips();
+    if (!ids.length) return;
+    lastShown = ids;
+    const row = document.createElement('div');
+    row.className = 'chips-inline';
+    row.setAttribute('role', 'group');
+    row.setAttribute('aria-label', 'Suggested questions');
+    ids.forEach((id, i) => {
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = 'chip' + (it.quiet ? ' chip--quiet' : '');
-      b.textContent = it.label;
+      b.className = 'chip';
+      b.textContent = BY_ID[id].chip;
       b.style.animationDelay = (reduceMotion ? 0 : i * 45) + 'ms';
-      b.addEventListener('click', () => it.run());
-      chipsEl.appendChild(b);
+      b.addEventListener('click', () => ask(id));
+      row.appendChild(b);
     });
+    logEl.appendChild(row);
+    scrollLog();
   }
 
-  let asking = false;   // ignore taps on older links while an answer is still being written
-  async function ask(label, answer) {
+  let asking = false;   // ignore taps while an answer is still being written
+  async function ask(id) {
     if (asking) return;
     asking = true;
     try {
-      chipsEl.textContent = '';
-      userSay(label);
-      await answer();
+      const t = BY_ID[id];
+      lastShown.forEach((shownId) => { if (shownId !== id) ignored[shownId] = (ignored[shownId] || 0) + 1; });
+      visited.add(id);
+      clearChips();
+      userSay(t.chip);
+      await botSay(t.say, t.actions);
+      const next = nextChips(id);
+      if (next.length) {
+        showChips(next);
+      } else {
+        await botSay(["That's the full tour! If Kerry sounds like a fit, she'd love to hear about the role.", { cta: true }]);
+      }
     } finally {
       asking = false;
     }
-  }
-
-  /* --- Conversation tree: every answer offers 2 related chips + "Something else" --- */
-  const T = Object.fromEntries(TOPICS.map((t) => [t.id, t]));
-  const ROOT = ['what', 'projects', 'role'];
-  const NEXT = {
-    what: ['how', 'background'],
-    how: ['ai', 'technical'],
-    background: ['technical', 'projects'],
-    technical: ['ai', 'role'],
-    ai: ['projects', 'role'],
-    role: ['contact', 'what'],
-    contact: ['projects', 'what'],
-  };
-
-  const GROUPS = [
-    { id: 'product', chip: 'Product work', more: 'More product work', cases: CASES.filter((c) => c.domain === 'product'),
-      intro: 'Here are the product projects in the collection. Pick one to hear the story.' },
-    { id: 'curriculum', chip: 'Curriculum work', more: 'More curriculum work', cases: CASES.filter((c) => c.domain === 'curriculum'),
-      intro: 'Here are the curriculum projects. Pick one to hear the story.' },
-    { id: 'side', chip: 'Personal projects', cases: CASES.filter((c) => c.domain === 'side'),
-      intro: 'Outside of the main collection, Kerry also builds on her own.' },
-  ];
-  const PAGE = 2;
-
-  const topicChip = (id) => ({ label: T[id].chip, run: () => askTopic(id) });
-  const rootChips = () => ROOT.map(topicChip);
-  const somethingElse = () => ({
-    label: 'Something else', quiet: true,
-    run: () => ask('Something else', async () => {
-      await botSay(['Sure. What else would you like to know?'], null, { fast: true });
-      showChips(rootChips());
-    }),
-  });
-
-  function askTopic(id) {
-    const t = T[id];
-    return ask(t.chip, async () => {
-      if (id === 'projects') return projectHome(`Kerry has ${n} sample works across product, curriculum, and one personal project. Where would you like to start?`);
-      await botSay(t.say, t.action);
-      showChips([...NEXT[id].map(topicChip), somethingElse()]);
-    });
-  }
-
-  /* --- Projects: three areas, paged two at a time --- */
-  // Jumps into a project area from a link inside an answer (acts like tapping that chip).
-  function openArea(id) {
-    const g = GROUPS.find((x) => x.id === id);
-    return ask(g.chip, () => openGroup(g, 0));
-  }
-
-  const groupChip = (g) => ({ label: g.chip, run: () => ask(g.chip, () => openGroup(g, 0)) });
-
-  async function projectHome(line) {
-    await botSay([line]);
-    showChips(GROUPS.map(groupChip));
-  }
-
-  const otherBuildsChip = () => ({
-    label: 'Other things Kerry has built',
-    run: () => ask('Other things Kerry has built', async () => {
-      await botSay(['Outside the collection, Kerry has also built ' + OTHER_BUILDS + '.']);
-      showChips([
-        ...CASES.filter((c) => c.domain === 'side').map(caseChip),
-        { label: 'All projects', run: () => ask('All projects', () => projectHome('Sure. Which area would you like to explore?')) },
-        somethingElse(),
-      ]);
-    }),
-  });
-
-  const caseChip = (c) => ({ label: c.title, run: () => askCase(c) });
-
-  async function openGroup(g, page) {
-    await botSay([page === 0 ? g.intro : 'Here are a few more.']);
-    showChips(groupChips(g, page));
-  }
-
-  function groupChips(g, page) {
-    if (g.id === 'side') return [...g.cases.map(caseChip), otherBuildsChip(), somethingElse()];
-    const items = g.cases.slice(page * PAGE, page * PAGE + PAGE).map(caseChip);
-    if (g.cases.length > (page + 1) * PAGE) {
-      return [...items, { label: g.more, run: () => ask(g.more, () => openGroup(g, page + 1)) }];
-    }
-    // Last page: top up with the other areas, then "Something else".
-    const others = GROUPS.filter((x) => x.id !== g.id).map(groupChip);
-    return [...items, ...others.slice(0, PAGE - items.length), somethingElse()];
-  }
-
-  function askCase(c) {
-    return ask(c.title, async () => {
-      const impactLabel = c.impactLabel === 'What I Learned' ? 'What Kerry learned' : 'Impact';
-      const impact = (c.impactStat ? c.impactStat + ' ' : '') + stripHtml(c.impactBody);
-      await botSay(
-        [
-          `${c.title} (${c.sub}).`,
-          'The problem: ' + brief(stripHtml(c.problem)),
-          impactLabel + ': ' + brief(impact),
-        ],
-        { label: 'View the full case study', onClick: showCase(c.id) }
-      );
-      const g = GROUPS.find((x) => x.id === c.domain);
-      const i = g.cases.indexOf(c);
-      const sibling = g.cases.length > 1 ? caseChip(g.cases[(i + 1) % g.cases.length]) : otherBuildsChip();
-      showChips([
-        sibling,
-        { label: 'All projects', run: () => ask('All projects', () => projectHome('Sure. Which area would you like to explore?')) },
-        somethingElse(),
-      ]);
-    });
   }
 
   /* --- Intro --- */
@@ -1807,8 +1771,8 @@ const CASES = [
       ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's product portfolio assistant.`
       : "Hi there! I'm Kerry's product portfolio assistant.";
     await botSay([hello]);
-    await botSay(["I know Kerry's work inside and out, so ask away. Select a question below to learn more."]);
-    showChips(rootChips());
+    await botSay(["I'm a big fan of her work. Select a question below and I'll show you why."]);
+    showChips(WELCOME_CHIPS);
   }
 
   setState('idle');
