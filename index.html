@@ -1615,6 +1615,14 @@ const CASES = [
     return el;
   }
 
+  // Time to read a bubble before the next one starts: about 700ms plus 80ms a word, at most 3s.
+  // Uses real time even with Reduce motion on, so bubbles never pile up at once. When the text
+  // is typed out, the reader has already had time while it appeared, so the pause is halved.
+  const readingPause = (text) => {
+    const full = Math.min(3000, 700 + 80 * text.trim().split(/\s+/).length);
+    return reduceMotion ? full : full * 0.5;
+  };
+
   // One assistant turn. `parts` is a list of paragraphs (strings), { cta: true } markers
   // for an inline booking button, and { brk: true } markers that start a new bubble
   // (typing dots, then the next message). `actions` are links under the last bubble.
@@ -1644,6 +1652,7 @@ const CASES = [
         bubble.appendChild(wrap);
         scrollLog();
       } else if (part && part.brk) {
+        await pause(readingPause(bubble.textContent));   // let the reader finish this bubble first
         await openBubble(true);
       }
     }

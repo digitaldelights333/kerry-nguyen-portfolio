@@ -172,6 +172,8 @@ Answers can be split into separate chat bubbles (each with its own typing dots),
 - **Chip 5, How does Kerry evaluate AI features?** 3 bubbles: (1) "Kerry treats evaluation as part of the build." (2) the AI Tree Tool redesign and the partners (3) the three rounds of expert review.
 - **Chip 8, What is Kerry looking for next?** 3 bubbles: (1) the roles she wants (2) location (3) the invite, the Book a quick intro call button and the email line.
 
+Pacing: between bubbles there is a reading pause of about 0.7s plus 0.08s per word (3s at most). It uses real time even with Reduce motion on, so bubbles never appear all at once. When the text is typed out the pause is halved.
+
 Not split (one bubble each): chips 1, 2, 3, 4 (two paragraphs), 6 and 7. Chips 2 and 6 are the next longest (74 and 69 words) if more splitting is wanted.
 
 ## Build notes
