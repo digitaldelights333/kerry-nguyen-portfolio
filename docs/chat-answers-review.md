@@ -1,3 +1,5 @@
+> **Superseded.** The chip wording and chip tree in this file were replaced on 2026-10-08 by `docs/chat-pathway.md`. This file is kept for history.
+
 # Chat answers (Java, the portfolio assistant)
 
 This file lists every question and answer in the chat window, so they can be reviewed and edited in one place.
