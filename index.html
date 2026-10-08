@@ -197,7 +197,6 @@
   section.cases-outer { padding: 0; }
 
   .filter-band {
-    position: sticky; top: 88px; z-index: 20;
     padding: 12px 0 16px;
     background: var(--paper);
     border-bottom: 1px solid var(--rule);
@@ -223,97 +222,113 @@
   .pill .count { opacity: 0.65; font-size: 11.5px; margin-left: 6px; }
   .pill.is-active .count { opacity: 0.75; }
 
-  /* --- ROLODEX (idle state) --- */
-  .rolodex-scroll { position: relative; }
-  /* Height calculated by JS based on card count */
+  /* --- GRID (5 columns x 2 rows on desktop) --- */
+  .cases-grid-wrap { max-width: 1240px; margin: 0 auto; padding: 32px 40px 0; }
+  @media (max-width: 720px) { .cases-grid-wrap { padding: 24px 24px 0; } }
 
-  .rolodex-stage {
-    position: sticky;
-    top: 160px;
-    width: 100%;
-    height: calc(100vh - 160px);
-    min-height: 560px;
-    overflow: hidden;
+  .cases-grid {
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px;
   }
-  .rolodex { position: relative; width: 100%; height: 100%; }
+  @media (max-width: 1000px) { .cases-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 640px)  { .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
 
-  .rolodex-counter {
-    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-    font-family: "DM Sans"; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--muted);
-    background: color-mix(in srgb, var(--paper) 92%, transparent);
-    padding: 6px 14px; border-radius: 999px; border: 1px solid var(--rule);
+  .case-card {
+    aspect-ratio: 1 / 1;
+    background: var(--surface); border: 1px solid var(--rule-2);
+    border-radius: 4px; box-shadow: var(--shadow-card);
+    padding: 16px; text-align: left; font: inherit; color: inherit;
+    display: flex; flex-direction: column; cursor: pointer; min-height: 0; overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.25s ease, border-color 0.2s ease;
   }
-  .rolodex-counter strong { color: var(--ink); font-weight: 500; }
+  .case-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow-active); }
+  .case-card.is-dim { opacity: 0.22; pointer-events: none; }
 
-  .rolo-card {
-    position: absolute;
-    width: min(440px, 76vw);
-    height: clamp(430px, calc(100vh - 300px), 520px);
-    background: var(--surface);
-    border: 1px solid var(--rule-2);
-    box-shadow: var(--shadow-card);
-    padding: 28px 32px;
-    transform-origin: center center;
-    /* No transform transition: slots are fixed, so nothing slides or shuffles. */
-    transition: box-shadow 0.5s ease;
-    display: flex; flex-direction: column;
-    cursor: pointer;
-    will-change: transform;
+  .case-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .case-tile {
+    width: 46px; height: 46px; border-radius: 3px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
   }
-  /* Cards behind the front one read as a fan, not a single card */
-  .rolo-card:not(.is-front):not(.is-open) .rolo-eye { display: none; }
-  .rolo-card:not(.is-front):not(.is-open):hover {
-    box-shadow: 0 18px 44px -18px rgba(60,40,20,0.35);
+  .case-tile .card-icon { width: 30px; height: 30px; }
+  .case-plate {
+    font-family: "DM Sans"; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); text-align: right; line-height: 1.3;
   }
-  .rolo-card.is-open {
-    z-index: 100 !important;
-    cursor: default;
-    box-shadow: 0 20px 60px -20px rgba(60,40,20,0.35);
-    width: min(680px, 92vw);
-    height: min(640px, 82vh);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+  .case-title {
+    font-family: "DM Serif Display", Georgia, serif; font-size: 18px; line-height: 1.1;
+    letter-spacing: -0.01em; margin: 0 0 6px; color: var(--ink);
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  /* The open card is a fixed box, so the detail fields take the leftover
-     space and scroll inside it instead of spilling past the card edge. */
-  .rolo-card.is-open .rolo-full {
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    padding-right: 10px;
+  .case-blurb {
+    font-family: "DM Sans"; font-size: 12px; line-height: 1.4; color: var(--ink-2); margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .rolo-card.is-open .rolo-plate,
-  .rolo-card.is-open .rolo-title,
-  .rolo-card.is-open .rolo-sub { flex-shrink: 0; }
-  .rolo-card.is-open .rolo-full::-webkit-scrollbar { width: 6px; }
-  .rolo-card.is-open .rolo-full::-webkit-scrollbar-thumb {
-    background: var(--rule-2); border-radius: 999px;
+  .case-sub {
+    margin-top: auto; padding-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: "DM Sans"; font-size: 10.5px; color: var(--muted);
+  }
+  @media (max-width: 640px) {
+    .case-card { padding: 14px; }
+    .case-tile { width: 40px; height: 40px; }
+    .case-tile .card-icon { width: 26px; height: 26px; }
+    .case-title { font-size: 16px; }
+    .case-blurb { display: none; }
   }
 
-  .rolo-card.is-tucked { opacity: 0.15; pointer-events: none; }
+  /* --- DETAIL MODAL --- */
+  .case-modal {
+    position: fixed; inset: 0; z-index: 200; display: none;
+    align-items: center; justify-content: center; padding: 24px;
+    background: rgba(26,24,20,0.45);
+  }
+  .case-modal.is-open { display: flex; }
+  .case-sheet {
+    position: relative; background: var(--surface); border: 1px solid var(--rule-2);
+    box-shadow: 0 20px 60px -20px rgba(60,40,20,0.45);
+    width: min(680px, 100%); max-height: min(720px, 88vh);
+    padding: 28px 32px; display: flex; flex-direction: column;
+  }
+  .case-sheet .rolo-plate { flex-shrink: 0; }
+  .case-sheet .rolo-visual { height: 104px; margin-bottom: 16px; }
+  .case-sheet .rolo-title, .case-sheet .rolo-sub { flex-shrink: 0; }
+  .case-sheet .rolo-full {
+    display: block; flex: 1 1 auto; min-height: 0; overflow-y: auto;
+    overscroll-behavior: contain; padding-right: 10px;
+  }
+  .case-sheet .rolo-full::-webkit-scrollbar { width: 6px; }
+  .case-sheet .rolo-full::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: 999px; }
+  .rolo-close {
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--rule-2); background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: var(--muted); z-index: 2;
+  }
+  .rolo-close:hover { color: var(--ink); border-color: var(--ink); }
+  @media (max-width: 720px) { .case-sheet { padding: 22px 20px; } }
+
+  .rolo-visual {
+    flex-shrink: 0; border-radius: 3px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .rolo-visual::after {
+    content: ""; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,0.35);
+    pointer-events: none;
+  }
+  .card-icon { color: var(--surface); z-index: 1; display: block; }
+  .rolo-visual .card-icon { width: 72px; height: 72px; }
+  .card-icon svg { width: 100%; height: 100%; display: block; }
 
   .rolo-plate {
     font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--accent); margin-bottom: 10px;
   }
 
-  .rolo-visual {
-    height: 140px; flex-shrink: 0; margin-bottom: 20px; border-radius: 3px;
-    position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .rolo-card.is-open .rolo-visual { height: 104px; margin-bottom: 16px; }
   .rolo-visual::after {
     content: ""; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,0.35);
     pointer-events: none;
   }
   .card-icon { color: var(--surface); z-index: 1; display: block; }
   .rolo-visual .card-icon { width: 88px; height: 88px; }
-  .flat-visual .card-icon { width: 140px; height: 140px; }
   .card-icon svg { width: 100%; height: 100%; display: block; }
 
   .rolo-title {
@@ -325,47 +340,11 @@
     margin-bottom: 16px;
   }
 
-  .rolo-snippet {
-    font-family: "DM Sans"; font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
-    margin: 0;
-    display: -webkit-box; -webkit-line-clamp: 4; line-clamp: 4;
-    -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .rolo-card.is-open .rolo-snippet {
-    display: block; overflow-y: auto; -webkit-line-clamp: unset; line-clamp: unset;
-    flex: 1;
-  }
-
-  .rolo-cta { display: none; }
-
-  .rolo-eye {
-    position: absolute; bottom: 14px; right: 16px;
-    width: 22px; height: 22px; color: var(--muted);
-    display: flex; align-items: center; justify-content: center;
-    pointer-events: none; opacity: 0.75;
-    transition: opacity 0.25s ease, color 0.25s ease;
-  }
-  .rolo-eye svg { width: 100%; height: 100%; display: block; }
-  .rolo-card:hover .rolo-eye { opacity: 1; color: var(--accent); }
-  .rolo-card.is-open .rolo-eye { display: none; }
-
-  .rolo-close {
-    position: absolute; top: 12px; right: 12px;
-    width: 32px; height: 32px; border-radius: 50%;
-    border: 1px solid var(--rule-2); background: var(--surface);
-    display: none; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 16px; color: var(--muted);
-  }
-  .rolo-card.is-open .rolo-close { display: flex; }
-  .rolo-close:hover { color: var(--ink); border-color: var(--ink); }
-
   /* Full P/S/I only shown when open */
   .rolo-full {
     display: none;
     font-family: "DM Sans"; font-size: 14px; line-height: 1.6; color: var(--ink-2);
   }
-  .rolo-card.is-open .rolo-full { display: block; }
-  .rolo-card.is-open .rolo-snippet { display: none; }
 
   .rolo-full .field {
     display: grid; grid-template-columns: 90px 1fr; gap: 16px; margin-bottom: 14px;
@@ -404,81 +383,6 @@
     width: 11px; height: 11px; display: inline-block;
     color: currentColor; flex-shrink: 0;
   }
-  .flat-actions a { display: inline-flex; align-items: center; gap: 6px; }
-
-  /* --- FLAT (filtered) state --- */
-  .flat-list { display: none; }
-  .flat-list.is-active { display: block; padding-top: 40px; }
-
-  .flat-card {
-    background: var(--surface); border: 1px solid var(--rule-2);
-    border-radius: 4px; padding: 40px;
-    display: grid; grid-template-columns: 280px 1fr; gap: 40px;
-    margin-bottom: 24px;
-  }
-  @media (max-width: 720px) {
-    .flat-card { grid-template-columns: 1fr; padding: 28px; gap: 24px; }
-  }
-
-  .flat-visual {
-    height: 240px; border-radius: 3px; position: relative; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .flat-visual::after {
-    content: ""; position: absolute; inset: 12px; border: 1px solid rgba(255,255,255,0.35);
-    pointer-events: none;
-  }
-  .flat-plate {
-    margin-top: 12px;
-    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .flat-title {
-    font-family: "DM Serif Display", Georgia, serif; font-size: 40px; line-height: 1;
-    letter-spacing: -0.01em; margin: 0 0 4px; color: var(--ink);
-  }
-  .flat-sub {
-    font-family: "DM Sans"; font-size: 13px; color: var(--muted);
-    margin-bottom: 24px;
-  }
-
-  .flat-fields {
-    display: flex; flex-direction: column; gap: 16px;
-    padding-top: 18px; border-top: 1px solid var(--ink);
-  }
-  .flat-fields .field {
-    display: grid; grid-template-columns: 90px 1fr; gap: 20px;
-    font-family: "DM Sans"; font-size: 14.5px; line-height: 1.6; color: var(--ink-2);
-  }
-  .flat-fields .field-label {
-    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent); padding-top: 2px;
-  }
-  .flat-fields strong.stat {
-    display: inline-block; font-family: "Instrument Serif", Georgia, serif;
-    font-size: 40px; color: var(--accent); line-height: 1; margin-right: 8px; vertical-align: -6px;
-  }
-
-  .flat-actions {
-    margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule);
-    display: flex; gap: 24px; flex-wrap: wrap;
-    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--muted);
-  }
-  .flat-actions a { color: var(--accent); }
-  .flat-actions button {
-    background: transparent; border: none; padding: 0; cursor: pointer; color: var(--muted);
-    font: inherit; letter-spacing: inherit; text-transform: inherit;
-  }
-  .flat-actions button:hover { color: var(--ink); }
-
-  .flat-tech {
-    display: none; margin-top: 20px; padding: 20px 22px; background: var(--surface-2);
-    border-left: 3px solid var(--accent);
-    font-family: "DM Sans"; font-size: 14px; line-height: 1.6; color: var(--ink-2);
-  }
-  .flat-tech.is-open { display: block; }
 
   /* ===== FOOTER ===== */
   footer.foot { padding: 48px 0 72px; margin-top: 48px; border-top: 1px solid var(--rule); }
@@ -528,10 +432,10 @@
           <li>I look for opportunities to turn complex, fragmented workflows into simple, useful products.</li>
           <li>I build 0→1 products at classroom, statewide, and nationwide scale.</li>
         </ul>
-        <p style="color: var(--muted); font-family: 'Instrument Serif', Georgia, serif; font-size: 17px;">Explore the sample collection of my work below.</p>
+        <p style="color: var(--muted); font-family: 'Instrument Serif', Georgia, serif; font-size: 17px;">Explore the case studies below.</p>
       </div>
       <div class="bio-meta">
-        <span>500K+ users nationally</span><span>·</span><span>60K+ students statewide</span><span>·</span><span>10 sample works</span>
+        <span>500K+ users nationally</span><span>·</span><span>60K+ students statewide</span><span>·</span><span>10 case studies</span>
       </div>
     </div>
   </div>
@@ -579,7 +483,7 @@
   <div class="section-head-band">
     <div class="wrap">
       <div class="section-head">
-        <h2>Collection</h2>
+        <h2>Case Studies</h2>
         <div class="rule"></div>
       </div>
     </div>
@@ -597,21 +501,14 @@
     </div>
   </div>
 
-  <!-- Rolodex (idle state — visible when no filter is active) -->
-  <div class="rolodex-scroll" id="rolodex-scroll">
-    <div class="rolodex-stage" id="rolodex-stage">
-      <div class="rolodex" id="rolodex">
-        <!-- Cards injected by JS -->
-        <div class="rolodex-counter"><strong id="rolo-index">01</strong> / 10</div>
-      </div>
+  <div class="cases-grid-wrap">
+    <div class="cases-grid" id="cases-grid">
+      <!-- Cards injected by JS -->
     </div>
   </div>
 
-  <!-- Flat list (filtered state) -->
-  <div class="wrap">
-    <div class="flat-list" id="flat-list">
-      <!-- Cards injected by JS -->
-    </div>
+  <div class="case-modal" id="case-modal" aria-hidden="true">
+    <div class="case-sheet" id="case-sheet" role="dialog" aria-modal="true"></div>
   </div>
 </section>
 
@@ -759,6 +656,7 @@ const ICONS = {
 const CASES = [
   {
     id: "cadence",
+    blurb: "Pacing guides, calendars, and lesson plans in one planning workflow.",
     title: "Cadence",
     domain: "product",
     domainLabel: "Product",
@@ -778,6 +676,7 @@ const CASES = [
   },
   {
     id: "bilingual",
+    blurb: "Side-by-side English/Spanish view built for language acquisition.",
     title: "Bilingual View & Print",
     domain: "product",
     domainLabel: "Product",
@@ -796,6 +695,7 @@ const CASES = [
   },
   {
     id: "aitree",
+    blurb: "LLM-powered quality checks across 400+ course trees.",
     title: "AI Tree Tool",
     domain: "product",
     domainLabel: "Product · AI",
@@ -815,6 +715,7 @@ const CASES = [
   },
   {
     id: "keyboard",
+    blurb: "Grade-band math keyboards for authentic notation.",
     title: "Math Keyboard",
     domain: "product",
     domainLabel: "Product",
@@ -832,6 +733,7 @@ const CASES = [
   },
   {
     id: "protractor",
+    blurb: "Measure angles inside the drawing tool, no paper required.",
     title: "Digital Protractor",
     domain: "product",
     domainLabel: "Product",
@@ -849,6 +751,7 @@ const CASES = [
   },
   {
     id: "calculator",
+    blurb: "Teacher-controlled calculator access, question by question.",
     title: "Student Calculator",
     domain: "product",
     domainLabel: "Product",
@@ -866,6 +769,7 @@ const CASES = [
   },
   {
     id: "course-builder",
+    blurb: "Standards crosswalks to a draft state-adoption course, 45% faster.",
     title: "State Adoption Course Builder",
     domain: "curriculum",
     domainLabel: "Curriculum",
@@ -883,7 +787,9 @@ const CASES = [
   },
   {
     id: "ose",
+    blurb: "OpenSciEd and OpenStax adoptions for Texas, Florida, and Tennessee.",
     title: "OpenSciEd & OpenStax State Adoptions",
+    cardTitle: "OpenSciEd & OpenStax Adoptions",
     domain: "curriculum",
     domainLabel: "Curriculum",
     sub: "Kiddom · TX, FL, TN · 2023–25",
@@ -902,6 +808,7 @@ const CASES = [
   },
   {
     id: "assessment",
+    blurb: "Streamlit tool generating NGSS-aligned science assessments.",
     title: "Science Assessment Generator",
     domain: "curriculum",
     domainLabel: "Curriculum",
@@ -919,6 +826,7 @@ const CASES = [
   },
   {
     id: "neondrift",
+    blurb: "A two-minute async physics game, played inside iMessage.",
     title: "Neon Drift",
     domain: "side",
     domainLabel: "Side Project",
@@ -981,276 +889,107 @@ const CASES = [
 })();
 
 /* =====================================================================
-   ROLODEX + FLAT — render, scroll-through, filter, expand
+   CASE STUDIES — square card grid, filter, detail modal
 ===================================================================== */
 (function () {
-  const rolodexEl = document.getElementById('rolodex');
-  const rolodexScrollEl = document.getElementById('rolodex-scroll');
-  const rolodexStageEl = document.getElementById('rolodex-stage');
-  const flatListEl = document.getElementById('flat-list');
+  const gridEl = document.getElementById('cases-grid');
   const filterRow = document.getElementById('filter-row');
-  const roloIndexEl = document.getElementById('rolo-index');
-  if (!rolodexEl || !flatListEl) return;
+  const modalEl = document.getElementById('case-modal');
+  const sheetEl = document.getElementById('case-sheet');
+  if (!gridEl) return;
 
-  let currentFilter = null;   // null = idle rolodex; 'all' | 'product' | 'curriculum' | 'side' = flat
-  let activeIndex = 0;        // 0..(n-1), which card is front-and-center
-  let openId = null;          // clicked-open card id
+  let currentFilter = null;   // null = show all; 'product' | 'curriculum' | 'side' dims the rest
+  let lastFocus = null;
 
-  /* --- Render rolodex cards --- */
-  function renderRolodex() {
-    const existing = rolodexEl.querySelectorAll('.rolo-card');
-    existing.forEach(el => el.remove());
-    CASES.forEach((c, i) => {
-      const el = document.createElement('div');
-      el.className = 'rolo-card';
+  const EXT = `<svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+  const PLAY = `<svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>`;
+
+  function renderGrid() {
+    gridEl.innerHTML = '';
+    CASES.forEach((c) => {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'case-card';
       el.dataset.id = c.id;
-      el.dataset.index = i;
+      el.dataset.domain = c.domain;
       el.innerHTML = `
-        <button class="rolo-close" aria-label="Close">×</button>
-        <span class="rolo-eye" aria-hidden="true" title="Click to view details">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-        </span>
-        <div class="rolo-plate">${c.domainLabel}</div>
-        <div class="rolo-visual ${c.palette}"><span class="card-icon">${c.icon}</span></div>
-        <h3 class="rolo-title">${c.title}</h3>
-        <div class="rolo-sub">${c.sub}</div>
-        <p class="rolo-snippet">${c.problem}</p>
-        <div class="rolo-full">
-          ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><p class="field-body">${c.origin}</p></div>` : ''}
-          <div class="field"><span class="field-label">Problem</span><p class="field-body">${c.problem}</p></div>
-          ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
-          <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
-          <div class="field"><span class="field-label">${c.impactLabel || 'Impact'}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
-          ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>` : ''}
-          ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><p class="field-body">${c.evolution}</p></div>` : ''}
-          ${c.tech ? `<button class="expand-toggle" data-tech-toggle data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button><div class="tech-details">${c.tech}</div>` : ''}
-          ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a></div>` : ''}
-          ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener"><svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Read support docs</a></div>` : ''}
+        <div class="case-top">
+          <div class="case-tile ${c.palette}"><span class="card-icon">${c.icon}</span></div>
+          <div class="case-plate">${c.domainLabel}</div>
         </div>
+        <h3 class="case-title">${c.cardTitle || c.title}</h3>
+        <p class="case-blurb">${c.blurb || ''}</p>
+        <div class="case-sub">${c.sub}</div>
       `;
-      // Insert BEFORE the counter (which is a sibling child of rolodex)
-      const counter = rolodexEl.querySelector('.rolodex-counter');
-      rolodexEl.insertBefore(el, counter);
-      el.addEventListener('click', () => {
-        // A card in the wings deals itself to the front; the front card opens.
-        if (!openId && Number(el.dataset.index) !== activeIndex) {
-          goToIndex(Number(el.dataset.index));
-          return;
-        }
-        toggleCard(c.id);
-      });
-      el.querySelector('.rolo-close').addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleCard(null);
-      });
-      const techBtn = el.querySelector('[data-tech-toggle]');
-      if (techBtn) {
-        techBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const td = techBtn.nextElementSibling;
-          td.classList.toggle('is-open');
-          const label = techBtn.dataset.techLabel || 'Technical details';
-          techBtn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
-        });
-      }
+      el.addEventListener('click', () => openCase(c.id));
+      gridEl.appendChild(el);
     });
   }
 
-  /* --- Layout: position each rolodex card as a fan around activeIndex --- */
-  // Fan geometry, recomputed on resize so the spread fits the stage.
-  // The fan is one-sided: only the two cards still ahead of the front one show.
-  const DEPTH = 2;
-  let fan = { depth: DEPTH, xGap: 75, rotStep: 3.6, yStep: 14, topPx: 300 };
-
-  function measureFan() {
-    const stageW = rolodexStageEl.clientWidth || window.innerWidth;
-    const card = rolodexEl.querySelector('.rolo-card');
-    const cardW = card ? card.offsetWidth : 440;
-    const cardH = card ? card.offsetHeight : 520;
-    const narrow = stageW < 820;
-
-    const depth = DEPTH;
-    const rotStep = narrow ? 3.5 : 3.6;
-    const yStep = narrow ? 10 : 14;
-
-    // Widest the fan may spread before a wing runs off the stage. On phones the
-    // outer wings are allowed to bleed past the edge, so the deck still reads
-    // as a deck when there is no room to spread.
-    const maxRot = (depth * rotStep) * Math.PI / 180;
-    const halfW = (cardW / 2) * Math.cos(maxRot) + (cardH / 2) * Math.sin(maxRot);
-    const bleed = narrow ? cardW * 0.45 : 0;
-    const room = Math.max(0, (stageW / 2) - halfW - 8 + bleed);
-    const xGap = Math.min(narrow ? 17 : 75, room / depth);
-
-    // Push the pivot down far enough that lifted, rotated wings stay inside the stage.
-    const halfH = (cardW / 2) * Math.sin(maxRot) + (cardH / 2) * Math.cos(maxRot);
-    const topPx = Math.max(cardH / 2 + 12, halfH + depth * yStep + 10);
-
-    fan = { depth, xGap, rotStep, yStep, topPx };
-  }
-
-  function layoutRolodex() {
-    const cards = rolodexEl.querySelectorAll('.rolo-card');
-    cards.forEach((el, i) => {
-      if (openId) {
-        // In open mode, only the open card is centered vertically, others tuck
-        if (el.dataset.id === openId) {
-          el.classList.add('is-open');
-          el.classList.remove('is-tucked', 'is-front');
-          el.style.transform = 'translate(-50%, -50%) rotate(0deg)';
-          el.style.left = '50%';
-          el.style.top = '50%';
-          el.style.opacity = 1;
-          el.style.pointerEvents = 'auto';
-          el.style.zIndex = 100;
-        } else {
-          el.classList.remove('is-open', 'is-front');
-          el.classList.add('is-tucked');
-          // Drop the inline opacity from the fan so .is-tucked can dim the card.
-          el.style.opacity = '';
-          el.style.pointerEvents = 'none';
-        }
-      } else {
-        el.classList.remove('is-open', 'is-tucked');
-        // One-sided fan: the front card, then the next two, all to its right.
-        const offset = i - activeIndex;
-        const step = Math.min(Math.max(offset, 0), fan.depth);
-        const visible = offset >= 0 && offset <= fan.depth;
-        const x = step * fan.xGap;
-        const y = -step * fan.yStep;
-        const rot = step * fan.rotStep;
-        const scale = 1 - step * 0.045;
-        const opacity = visible ? (1 - step * 0.14) : 0;
-        const z = 50 - Math.abs(offset);
-        el.classList.toggle('is-front', offset === 0);
-        el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${rot}deg) scale(${scale})`;
-        el.style.left = '50%';
-        el.style.top = fan.topPx + 'px';
-        el.style.zIndex = z;
-        el.style.opacity = opacity;
-        el.style.pointerEvents = visible ? 'auto' : 'none';
-        el.setAttribute('aria-hidden', visible ? 'false' : 'true');
-      }
-    });
-    if (roloIndexEl) roloIndexEl.textContent = String(activeIndex + 1).padStart(2, '0');
-    rolodexEl.classList.toggle('is-consumed', activeIndex > 0);
-  }
-
-  /* --- Scroll-linked progress: activeIndex derived from scroll within rolodex-scroll --- */
-  function setScrollHeight() {
-    // each card gets ~32vh of scroll
-    const cardScrollUnit = window.innerHeight * 0.32;
-    const totalHeight = cardScrollUnit * (CASES.length + 1);
-    rolodexScrollEl.style.height = totalHeight + 'px';
-  }
-
-  function onScroll() {
-    if (currentFilter) return; // flat mode — ignore
-    const rect = rolodexScrollEl.getBoundingClientRect();
-    const scrollTop = -rect.top;
-    const scrollable = rect.height - window.innerHeight;
-    if (scrollable <= 0) return;
-    const progress = Math.max(0, Math.min(1, scrollTop / scrollable));
-    const nextIndex = Math.min(CASES.length - 1, Math.floor(progress * CASES.length));
-    if (nextIndex !== activeIndex) {
-      activeIndex = nextIndex;
-      layoutRolodex();
+  function openCase(id) {
+    const c = CASES.find(x => x.id === id);
+    if (!c) return;
+    lastFocus = document.activeElement;
+    sheetEl.innerHTML = `
+      <button class="rolo-close" aria-label="Close">×</button>
+      <div class="rolo-plate">${c.domainLabel}</div>
+      <div class="rolo-visual ${c.palette}"><span class="card-icon">${c.icon}</span></div>
+      <h3 class="rolo-title">${c.title}</h3>
+      <div class="rolo-sub">${c.sub}</div>
+      <div class="rolo-full">
+        ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><p class="field-body">${c.origin}</p></div>` : ''}
+        <div class="field"><span class="field-label">Problem</span><p class="field-body">${c.problem}</p></div>
+        ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
+        <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
+        <div class="field"><span class="field-label">${c.impactLabel || 'Impact'}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
+        ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>` : ''}
+        ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><p class="field-body">${c.evolution}</p></div>` : ''}
+        ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button><div class="tech-details">${c.tech}</div>` : ''}
+        ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener">${PLAY}Watch product video</a></div>` : ''}
+        ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">${EXT}Read support docs</a></div>` : ''}
+      </div>
+    `;
+    sheetEl.querySelector('.rolo-close').addEventListener('click', closeCase);
+    const techBtn = sheetEl.querySelector('.expand-toggle');
+    if (techBtn) {
+      techBtn.addEventListener('click', () => {
+        const td = techBtn.nextElementSibling;
+        td.classList.toggle('is-open');
+        const label = techBtn.dataset.techLabel;
+        techBtn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
+      });
     }
+    modalEl.classList.add('is-open');
+    modalEl.setAttribute('aria-hidden', 'false');
+    sheetEl.querySelector('.rolo-close').focus();
   }
 
-  /* --- Deal a wing card to the front by scrolling to its slot --- */
-  function goToIndex(i) {
-    const scrollable = rolodexScrollEl.offsetHeight - window.innerHeight;
-    if (scrollable <= 0) return;
-    const progress = (i + 0.5) / CASES.length;
-    const top = rolodexScrollEl.offsetTop + progress * scrollable;
-    window.scrollTo({ top, behavior: 'smooth' });
+  function closeCase() {
+    modalEl.classList.remove('is-open');
+    modalEl.setAttribute('aria-hidden', 'true');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
-  /* --- Open/close card --- */
-  function toggleCard(id) {
-    openId = (openId === id) ? null : id;
-    layoutRolodex();
-  }
+  modalEl.addEventListener('click', (e) => { if (e.target === modalEl) closeCase(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalEl.classList.contains('is-open')) closeCase(); });
 
-  /* --- Filter --- */
+  /* --- Filter: dims non-matching cards so the grid never reflows --- */
   function applyFilter(filter) {
-    if (currentFilter === filter) {
-      // Deselecting active filter → back to rolodex
-      currentFilter = null;
-      filterRow.querySelectorAll('.pill').forEach(p => p.classList.remove('is-active'));
-      rolodexScrollEl.style.display = '';
-      flatListEl.classList.remove('is-active');
-    } else {
-      currentFilter = filter;
-      filterRow.querySelectorAll('.pill').forEach(p => p.classList.toggle('is-active', p.dataset.filter === filter));
-      rolodexScrollEl.style.display = 'none';
-      renderFlat(filter);
-      flatListEl.classList.add('is-active');
-      openId = null;
-      // No scrollIntoView — keep the page where the user is
-    }
-  }
-
-  function renderFlat(filter) {
-    flatListEl.innerHTML = '';
-    const list = (filter === 'all') ? CASES : CASES.filter(c => c.domain === filter);
-    list.forEach((c, i) => {
-      const el = document.createElement('article');
-      el.className = 'flat-card';
-      el.innerHTML = `
-        <div>
-          <div class="flat-visual ${c.palette}"><span class="card-icon">${c.icon}</span></div>
-          <div class="flat-plate">${c.domainLabel}</div>
-        </div>
-        <div>
-          <h3 class="flat-title">${c.title}</h3>
-          <div class="flat-sub">${c.sub}</div>
-          <div class="flat-fields">
-            ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><div>${c.origin}</div></div>` : ''}
-            <div class="field"><span class="field-label">Problem</span><div>${c.problem}</div></div>
-            ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><div>${c.insight}</div></div>` : ''}
-            <div class="field"><span class="field-label">Solution</span><div>${c.solution}</div></div>
-            <div class="field"><span class="field-label">${c.impactLabel || 'Impact'}</span><div>${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</div></div>
-            ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><div>${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</div></div>` : ''}
-            ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><div>${c.evolution}</div></div>` : ''}
-          </div>
-          <div class="flat-actions">
-            ${c.video ? `<a href="${c.video}" target="_blank" rel="noopener"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Watch product video</a>` : ''}
-            ${c.doc ? `<a href="${c.doc}" target="_blank" rel="noopener"><svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Read support docs</a>` : ''}
-            ${c.tech ? `<button data-flat-tech data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button>` : ''}
-          </div>
-          ${c.tech ? `<div class="flat-tech">${c.tech}</div>` : ''}
-        </div>
-      `;
-      flatListEl.appendChild(el);
-      const btn = el.querySelector('[data-flat-tech]');
-      if (btn) {
-        btn.addEventListener('click', () => {
-          const td = el.querySelector('.flat-tech');
-          td.classList.toggle('is-open');
-          const label = btn.dataset.techLabel || 'Technical details';
-          btn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
-        });
-      }
+    currentFilter = (currentFilter === filter || filter === 'all') ? null : filter;
+    filterRow.querySelectorAll('.pill').forEach(p => {
+      p.classList.toggle('is-active', p.dataset.filter === (currentFilter || 'all'));
+    });
+    gridEl.querySelectorAll('.case-card').forEach(el => {
+      el.classList.toggle('is-dim', !!currentFilter && el.dataset.domain !== currentFilter);
     });
   }
 
-  /* --- Wire it up --- */
   filterRow.querySelectorAll('.pill').forEach(p => {
     p.addEventListener('click', () => applyFilter(p.dataset.filter));
   });
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { setScrollHeight(); measureFan(); layoutRolodex(); });
-
-  renderRolodex();
-  setScrollHeight();
-  measureFan();
-  layoutRolodex();
+  renderGrid();
+  applyFilter('all');
 })();
 </script>
 
