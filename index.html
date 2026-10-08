@@ -119,6 +119,11 @@
     background: var(--accent); color: #fff; border-bottom-right-radius: 5px;
   }
   .bubble p { margin: 0 0 8px; }
+  .bubble-count {
+    display: block; margin-top: 6px; text-align: right;
+    font-size: 11.5px; line-height: 1; color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
   .bubble b { font-weight: 600; color: var(--ink); }
   .bubble p:last-child { margin-bottom: 0; }
   .chat-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 10px; }
@@ -1615,11 +1620,11 @@ const CASES = [
     return el;
   }
 
-  // Time to read a bubble before the next one starts: about 700ms plus 80ms a word, at most 3s.
+  // Time to read a bubble before the next one starts: about 500ms plus 60ms a word, at most 2.5s.
   // Uses real time even with Reduce motion on, so bubbles never pile up at once. When the text
   // is typed out, the reader has already had time while it appeared, so the pause is halved.
   const readingPause = (text) => {
-    const full = Math.min(3000, 700 + 80 * text.trim().split(/\s+/).length);
+    const full = Math.min(2500, 500 + 60 * text.replace(/\d+\/\d+$/, '').trim().split(/\s+/).length);
     return reduceMotion ? full : full * 0.5;
   };
 
@@ -1639,6 +1644,16 @@ const CASES = [
       dots.remove();
       if (!opts.keepState) setState('talking');
     };
+    const total = 1 + parts.filter((p) => p && p.brk).length;   // bubbles in this answer
+    let index = 1;
+    const addCount = () => {
+      if (total < 2) return;
+      const c = document.createElement('span');
+      c.className = 'bubble-count';
+      c.textContent = index + '/' + total;
+      c.setAttribute('aria-label', 'Message ' + index + ' of ' + total);
+      bubble.appendChild(c);
+    };
     await openBubble(opts.fast);
     for (const part of parts) {
       if (typeof part === 'string') {
@@ -1652,7 +1667,9 @@ const CASES = [
         bubble.appendChild(wrap);
         scrollLog();
       } else if (part && part.brk) {
+        addCount();
         await pause(readingPause(bubble.textContent));   // let the reader finish this bubble first
+        index += 1;
         await openBubble(true);
       }
     }
@@ -1664,6 +1681,7 @@ const CASES = [
       bubble.appendChild(row);
       scrollLog();
     }
+    addCount();
     if (!opts.keepState) setState('idle');
     logEl.removeAttribute('aria-busy');
   }
@@ -1677,27 +1695,35 @@ const CASES = [
   /* --- The eight chips (the "spine"), in story order. See docs/chat-pathway.md --- */
   const SPINE = [
     { id: 'who', chip: 'Who is Kerry?',
-      say: ["Kerry is an AI product manager and systems thinker who turns real user problems into products at scale. She builds foundations that compound, where one solution becomes the base for the next, from internal tools for a single team to core experiences on a platform with over 550K users."] },
+      say: ["Kerry is an AI product manager and systems thinker who turns real user problems into products at scale. She sees the pattern across problems, finds the building blocks they share, then builds them to be reused, from internal tools for a single team to core experiences on a platform with 550K+ users."] },
     { id: 'how', chip: 'How did Kerry get into product?',
-      say: ['Kerry started as a high school science teacher, then moved into EdTech as an instructional designer, where she developed curriculum and taught herself to automate manual workflows for her team. One recurring task that used to take over an hour now takes five minutes, a productivity gain of 1,000%+. Her habit of turning one-off fixes into repeatable systems evolved into a career in product management, first for internal tools, then for core product experiences.'] },
+      say: [
+        'Kerry started as a high school science teacher, then moved into EdTech as an instructional designer, where she developed curriculum and taught herself to automate manual workflows for her team. One recurring task that used to take over an hour now takes five minutes, a productivity gain of 1,000%+.',
+        { brk: true },
+        'Her habit of turning one-off fixes into repeatable systems evolved into a career in product management, first for internal tools, then for core product experiences.',
+      ] },
     { id: 'shipped', chip: 'What has Kerry shipped?',
       say: ['Kerry has shipped both customer-facing products and internal tools at Kiddom. [[case:cadence|Cadence]] is a planning and automated scheduling experience on a platform with 550K+ users. Her internal tools include the [[case:aitree|AI Tree Tool]], which expanded a library of 400+ curriculum products from English into Spanish, and a [[case:course-builder|builder]] that made state-specific products 45% faster to create.'],
       actions: [{ label: 'View all case studies', href: '#case-studies' }] },
     { id: 'ai', chip: 'How does Kerry build with AI?',
       say: [
         'Kerry prototypes. A working prototype gets a team aligned faster than a written PRD alone, so she builds early and often, using AI to go from idea to something people can click.',
-        'With a prototype to build from, the team developed Bilingual View & Print in under four weeks. This portfolio, including me, Java, was built with AI too.',
+        'Starting from her prototype, her team developed [[case:bilingual|Bilingual View & Print]] in under four weeks. This portfolio, including me, Java, was built with AI too.',
       ] },
     { id: 'eval', chip: 'How does Kerry evaluate AI features?',
       say: [
         'Kerry treats evaluation as part of the build.',
         { brk: true },
-        'When early translations in the AI Tree Tool varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines.',
+        'When early translations in the [[case:aitree|AI Tree Tool]] varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines.',
         { brk: true },
-        'Outputs then went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.',
+        'Outputs went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.',
       ] },
     { id: 'teams', chip: 'How does Kerry work with teams?',
-      say: ["Kerry works like a teammate who builds. She brings prototypes to engineers, designers, and subject matter experts so everyone reacts to something real. She's technical enough to weigh tradeoffs with engineers, and she works across customer success, data science, marketing, and sales to turn user insights and launch metrics into the next product decision. She pitches to product leadership and keeps stakeholders current on the pipeline and post-launch results."] },
+      say: [
+        'Kerry works like a teammate who builds. She brings prototypes to engineers, designers, and subject matter experts so everyone reacts to something real.',
+        { brk: true },
+        "She's technical enough to weigh tradeoffs with engineers, and she works across customer success, data science, marketing, and sales to turn user insights and launch metrics into the next product decision. She pitches to product leadership and keeps stakeholders current on the pipeline and post-launch results.",
+      ] },
     { id: 'outside', chip: 'What does Kerry do outside of work?',
       say: ['Outside of work, Kerry forages for mushrooms, grows fruit trees she brings indoors every winter, and loves a good puzzle. She coached a FIRST Robotics team for six years and, true to form, builds small tools for her own daily routines.'] },
     { id: 'looking', chip: 'What is Kerry looking for next?',

@@ -21,11 +21,13 @@ Opening chips: Who is Kerry? / What has Kerry shipped? / How does Kerry build wi
 
 ## 1. Who is Kerry? ✅
 
-Kerry is an AI product manager and systems thinker who turns real user problems into products at scale. She builds foundations that compound, where one solution becomes the base for the next, from internal tools for a single team to core experiences on a platform with over 550K users.
+Kerry is an AI product manager and systems thinker who turns real user problems into products at scale. She sees the pattern across problems, finds the building blocks they share, then builds them to be reused, from internal tools for a single team to core experiences on a platform with 550K+ users.
 
 ## 2. How did Kerry get into product? ✅
 
-Kerry started as a high school science teacher, then moved into EdTech as an instructional designer, where she developed curriculum and taught herself to automate manual workflows for her team. One recurring task that used to take over an hour now takes five minutes, a productivity gain of 1,000%+. Her habit of turning one-off fixes into repeatable systems evolved into a career in product management, first for internal tools, then for core product experiences.
+**Bubble 1 (1/2):** Kerry started as a high school science teacher, then moved into EdTech as an instructional designer, where she developed curriculum and taught herself to automate manual workflows for her team. One recurring task that used to take over an hour now takes five minutes, a productivity gain of 1,000%+.
+
+**Bubble 2 (2/2):** Her habit of turning one-off fixes into repeatable systems evolved into a career in product management, first for internal tools, then for core product experiences.
 
 ## 3. What has Kerry shipped? ✅
 
@@ -37,15 +39,21 @@ Kerry has shipped both customer-facing products and internal tools at Kiddom. Ca
 
 Kerry prototypes. A working prototype gets a team aligned faster than a written PRD alone, so she builds early and often, using AI to go from idea to something people can click.
 
-With a prototype to build from, the team developed Bilingual View & Print in under four weeks. This portfolio, including me, Java, was built with AI too.
+Starting from her prototype, her team developed Bilingual View & Print (linked to its case study) in under four weeks. This portfolio, including me, Java, was built with AI too.
 
 ## 5. How does Kerry evaluate AI features? ✅ (confirmed)
 
-Kerry treats evaluation as part of the build. When early translations in the AI Tree Tool varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines. Outputs then went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.
+**Bubble 1 (1/3):** Kerry treats evaluation as part of the build.
+
+**Bubble 2 (2/3):** When early translations in the AI Tree Tool (linked to its case study) varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines.
+
+**Bubble 3 (3/3):** Outputs went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.
 
 ## 6. How does Kerry work with teams? ✅
 
-Kerry works like a teammate who builds. She brings prototypes to engineers, designers, and subject matter experts so everyone reacts to something real. She's technical enough to weigh tradeoffs with engineers, and she works across customer success, data science, marketing, and sales to turn user insights and launch metrics into the next product decision. She pitches to product leadership and keeps stakeholders current on the pipeline and post-launch results.
+**Bubble 1 (1/2):** Kerry works like a teammate who builds. She brings prototypes to engineers, designers, and subject matter experts so everyone reacts to something real.
+
+**Bubble 2 (2/2):** She's technical enough to weigh tradeoffs with engineers, and she works across customer success, data science, marketing, and sales to turn user insights and launch metrics into the next product decision. She pitches to product leadership and keeps stakeholders current on the pipeline and post-launch results.
 
 ## 7. What does Kerry do outside of work? ✅
 
@@ -165,16 +173,13 @@ In walkthroughs 2 and 3, a recruiter taps "Looking for next" at step 5 or 6 whil
 
 ---
 
-## Bubble breaks
+## Bubble breaks and counters
 
-Answers can be split into separate chat bubbles (each with its own typing dots), so long answers read like a person texting. Currently split:
+Answers can be split into separate chat bubbles, each with its own typing dots, so long answers read like a person texting. Every bubble in a multi-bubble answer shows a small muted counter in its lower right corner: 1/2, 2/2, or 1/3, 2/3, 3/3. Single-bubble answers show none.
 
-- **Chip 5, How does Kerry evaluate AI features?** 3 bubbles: (1) "Kerry treats evaluation as part of the build." (2) the AI Tree Tool redesign and the partners (3) the three rounds of expert review.
-- **Chip 8, What is Kerry looking for next?** 3 bubbles: (1) the roles she wants (2) location (3) the invite, the Book a quick intro call button and the email line.
+Split now: **chip 2** (2 bubbles), **chip 5** (3), **chip 6** (2), **chip 8** (3: roles, location, then the invite with the booking button and email line).
 
-Pacing: between bubbles there is a reading pause of about 0.7s plus 0.08s per word (3s at most). It uses real time even with Reduce motion on, so bubbles never appear all at once. When the text is typed out the pause is halved.
-
-Not split (one bubble each): chips 1, 2, 3, 4 (two paragraphs), 6 and 7. Chips 2 and 6 are the next longest (74 and 69 words) if more splitting is wanted.
+Pacing: between bubbles there is a reading pause of about 0.5s plus 0.06s per word (2.5s at most). It uses real time even with Reduce motion on, so bubbles never appear all at once. When the text is typed out the pause is halved.
 
 ## Build notes
 
