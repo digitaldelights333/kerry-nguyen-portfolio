@@ -359,13 +359,10 @@
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-size: 10.5px; color: var(--muted);
   }
-  /* Coming soon: dimmed, not clickable, with a corner ribbon */
+  /* In review: full colour, not clickable, corner ribbon and a slashed eye */
   .case-card.is-soon { cursor: default; }
   .case-card.is-soon:hover { transform: none; border-color: var(--rule-2); box-shadow: var(--shadow-card); }
-  .case-card.is-soon .case-tile, .case-card.is-soon .case-title, .case-card.is-soon .case-blurb, .case-card.is-soon .case-sub {
-    filter: grayscale(1); opacity: 0.55;
-  }
-  .case-card.is-soon .case-eye { visibility: hidden; }
+  .case-card.is-soon:hover .case-eye { opacity: 0.75; color: var(--muted); }
   .case-soon {
     position: absolute; top: 14px; right: -34px; width: 124px; padding: 4px 0; transform: rotate(45deg);
     text-align: center; font-size: 11px; line-height: 1.2; letter-spacing: 0.02em;
@@ -1097,8 +1094,10 @@ const CASES = [
       `;
       if (c.soon) {
         el.setAttribute('aria-disabled', 'true');
-        el.title = 'Details coming soon';
-        el.insertAdjacentHTML('beforeend', '<span class="case-soon">Coming soon</span>');
+        el.title = 'Details are in review';
+        el.insertAdjacentHTML('beforeend', '<span class="case-soon">In review</span>');
+        el.querySelector('.case-eye svg').insertAdjacentHTML('beforeend', '<line x1="3" y1="3" x2="21" y2="21"/>');
+        el.querySelector('.case-eye').title = 'Details in review';
       } else {
         el.addEventListener('click', () => openCase(c.id));
       }
