@@ -67,7 +67,7 @@ She works best in remote roles with Central time zone overlap, and is open to hy
 
 [ Book a quick intro call ]
 
-Prefer email? Reach Kerry at [address].
+Prefer email? Contact Kerry at [address].
 
 ---
 
