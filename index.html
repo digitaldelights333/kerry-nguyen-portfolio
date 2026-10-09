@@ -360,6 +360,17 @@
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-size: 10.5px; color: var(--muted);
   }
+  .case-tip {
+    position: fixed; z-index: 150; max-width: 260px; padding: 10px 12px;
+    background: var(--surface); border: 1px solid var(--rule-2); border-radius: 6px; box-shadow: var(--shadow-active);
+    font-size: 13px; line-height: 1.45; color: var(--ink-2);
+    opacity: 0; pointer-events: none; transition: opacity 0.12s ease;
+  }
+  .case-tip.is-on { opacity: 1; }
+  .case-tip p { margin: 0; }
+  .case-tip .case-tip-note { font-size: 12px; color: var(--muted); }
+  .case-tip p + .case-tip-note { margin-top: 6px; }
+  @media (prefers-reduced-motion: reduce) { .case-tip { transition: none; } }
   /* In review: full colour, not clickable, corner ribbon and a slashed eye */
   .case-card.is-soon { cursor: default; }
   .case-card.is-soon:hover { transform: none; border-color: var(--rule-2); box-shadow: var(--shadow-card); }
@@ -1012,7 +1023,7 @@ const CASES = [
   {
     id: "content-tracker",
     soon: true,
-    blurb: "A local tool that tracks media assets and decides when each is ready to post again.",
+    blurb: "A digital asset manager and social scheduler that decides when to repost.",
     title: "Content Tracker",
     sub: "Personal Project · 2026",
     palette: "pal-content",
@@ -1024,8 +1035,8 @@ const CASES = [
   {
     id: "health-tools",
     soon: true,
-    blurb: "Two connected trackers for true walking calories and a six-week body recomposition plan.",
-    title: "Health Tracking Tools",
+    blurb: "A custom step counter based on height, built-in fitness coach, and meal estimates.",
+    title: "Health Tracking Apps",
     sub: "Personal Project · 2026",
     palette: "pal-health",
     icon: ICONS.pulse,
@@ -1036,7 +1047,7 @@ const CASES = [
   {
     id: "job-search",
     soon: true,
-    blurb: "A daily pipeline that finds, scores, and queues the roles worth my time.",
+    blurb: "A daily pipeline that finds roles, scores them against custom criteria.",
     title: "Job Search Automation",
     sub: "Personal Project · 2026",
     palette: "pal-jobsearch",
@@ -1067,6 +1078,45 @@ const CASES = [
     ).join('');
   }
 
+  // Hover and focus tooltip: shows the full description when the card cuts it off.
+  const tipEl = document.createElement('div');
+  tipEl.className = 'case-tip';
+  tipEl.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(tipEl);
+  let tipTimer = null;
+  function hideTip() {
+    clearTimeout(tipTimer);
+    tipEl.classList.remove('is-on');
+  }
+  function showTip(card, c) {
+    const blurb = card.querySelector('.case-blurb');
+    const cut = blurb && getComputedStyle(blurb).display !== 'none' && blurb.scrollHeight > blurb.clientHeight + 1;
+    if (!cut && !c.soon) return;
+    tipEl.innerHTML = '';
+    if (cut) {
+      const p = document.createElement('p');
+      p.textContent = c.blurb;
+      tipEl.appendChild(p);
+    }
+    if (c.soon) {
+      const note = document.createElement('p');
+      note.className = 'case-tip-note';
+      note.textContent = 'Details are in review';
+      tipEl.appendChild(note);
+    }
+    const r = card.getBoundingClientRect();
+    tipEl.style.visibility = 'hidden';
+    tipEl.classList.add('is-on');
+    const w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+    let top = r.top - h - 8;
+    if (top < 8) top = r.bottom + 8;
+    const left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), window.innerWidth - w - 8);
+    tipEl.style.left = left + 'px';
+    tipEl.style.top = top + 'px';
+    tipEl.style.visibility = '';
+  }
+  window.addEventListener('scroll', hideTip, { passive: true });
+
   function renderGrid() {
     gridEl.innerHTML = '';
     CASES.forEach((c) => {
@@ -1089,14 +1139,17 @@ const CASES = [
       `;
       if (c.soon) {
         el.setAttribute('aria-disabled', 'true');
-        el.title = 'Details are in review';
         el.insertAdjacentHTML('beforeend', '<span class="case-soon">In review</span>');
         el.querySelector('.case-eye svg').insertAdjacentHTML('beforeend', '<line x1="3" y1="3" x2="21" y2="21"/>');
-        el.querySelector('.case-eye').title = 'Details in review';
+        el.querySelector('.case-eye').removeAttribute('title');
         el.addEventListener('click', () => track('case_unavailable_clicked', { case_id: c.id, case_title: c.title }));
       } else {
         el.addEventListener('click', () => openCase(c.id, 'grid'));
       }
+      el.addEventListener('mouseenter', () => { clearTimeout(tipTimer); tipTimer = setTimeout(() => showTip(el, c), 200); });
+      el.addEventListener('mouseleave', hideTip);
+      el.addEventListener('focus', () => showTip(el, c));
+      el.addEventListener('blur', hideTip);
       gridEl.appendChild(el);
     });
     fitBlurbs();
@@ -1132,6 +1185,7 @@ const CASES = [
       case_id: c.id, case_title: c.title, source: source || 'chat_link',
       from_case_id: fromCaseId || null                           // set when opened from another card's connection link
     });
+    hideTip();
     lastFocus = document.activeElement;
     sheetEl.innerHTML = `
       <button class="rolo-close" aria-label="Close">×</button>
