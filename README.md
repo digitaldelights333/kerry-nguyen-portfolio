@@ -22,12 +22,12 @@ Localhost is ignored. Events are sent through `track(name, props)`.
 
 | Event | Properties |
 |---|---|
-| `chip_clicked` | `chip_id`, `chip_text`, `via` (`chip` / `header_schedule`), `position`, `questions_asked_before` |
-| `case_opened` | `case_id`, `case_title`, `source` (`grid` / `chat_link` / `case_connection`) |
+| `chip_clicked` | `chip_id`, `chip_title`, `position` (1-3 in the chip row; empty when asked from the header button), `chips_shown` (chip_ids on screen; row taps only), `questions_asked_before` |
+| `case_opened` | `case_id`, `case_title`, `source` (`grid` / `chat_link` / `case_connection`), `from_case_id` |
 | `case_unavailable_clicked` | `case_id`, `case_title` (an "In review" card that has no details yet) |
-| `case_details_expanded` | `case_id` (the "Key decision" toggle) |
+| `case_details_expanded` | `case_id`, `case_title`, `expander_label` (the "Key decision" toggle) |
 | `case_link_clicked` | `case_id`, `link_type` (`video` / `docs`) |
-| `schedule_clicked` | `location` (`header` / `chat_answer`) |
+| `schedule_clicked` | `button_id` (`call_header` = header button, which opens Java's answer; `call_chat` = inline "Book a quick intro call" button, which opens the booking page) |
 
 Query them in PostHog under Product analytics (Trends, Funnels) or the SQL editor.
 
