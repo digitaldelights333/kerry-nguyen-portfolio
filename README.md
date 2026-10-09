@@ -27,7 +27,7 @@ Localhost is ignored. Events are sent through `track(name, props)`.
 | `case_unavailable_clicked` | `case_id`, `case_title` (an "In review" card that has no details yet) |
 | `case_details_expanded` | `case_id`, `case_title`, `expander_label` (the "Key decision" toggle) |
 | `case_link_clicked` | `case_id`, `link_type` (`video` / `docs`) |
-| `schedule_clicked` | `location` (`header` / `chat_answer`) |
+| `schedule_clicked` | `button_id` (`call header` = header button, which opens Java's answer; `call chat` = inline "Book a quick intro call" button, which opens the booking page) |
 
 Query them in PostHog under Product analytics (Trends, Funnels) or the SQL editor.
 

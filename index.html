@@ -1437,7 +1437,7 @@ const CASES = [
     a.className = className;
     a.href = SCHEDULE_URL;
     a.textContent = label;
-    a.addEventListener('click', () => track('schedule_clicked', { location: className === 'chat-cta' ? 'chat_answer' : 'header' }));
+    a.addEventListener('click', () => track('schedule_clicked', { button_id: 'call chat' }));
     if (SCHEDULE_URL === '#') {
       a.title = 'Booking link coming soon';
       a.addEventListener('click', (e) => e.preventDefault());
@@ -1668,7 +1668,10 @@ const CASES = [
   // The header button does not open the booking page directly. It asks Java the
   // "looking for next" question, and the Schedule a call button in that answer opens the link.
   const headSchedule = document.getElementById('chat-schedule');
-  if (headSchedule) headSchedule.addEventListener('click', () => ask('looking', 'Schedule a call'));
+  if (headSchedule) headSchedule.addEventListener('click', () => {
+    track('schedule_clicked', { button_id: 'call header' });
+    ask('looking', 'Schedule a call');
+  });
 
   /* --- Intro --- */
   async function intro() {
