@@ -322,23 +322,24 @@
   }
   .case-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow-active); }
 
-  .case-top { margin-bottom: 12px; }
+  .case-top { margin-bottom: 12px; flex-shrink: 0; }
   .case-tile {
     width: 46px; height: 46px; border-radius: 3px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
   }
   .case-tile .card-icon { width: 30px; height: 30px; }
   .case-title {
-    font-family: "DM Serif Display", Georgia, serif; font-size: 18px; line-height: 1.1;
+    font-family: "DM Serif Display", Georgia, serif; font-size: 18px; line-height: 1.25;
     letter-spacing: -0.01em; margin: 0 0 6px; color: var(--ink);
     display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    flex-shrink: 0; padding-bottom: 0.12em;   /* room for descenders (g, p, y) under the clamp */
   }
   .case-blurb {
     font-family: "DM Sans"; font-size: 12px; line-height: 1.4; color: var(--ink-2); margin: 0;
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   .case-foot {
-    margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px;
+    flex-shrink: 0; margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px;
   }
   .case-sub {
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -812,19 +813,19 @@ const CASES = [
   },
   {
     id: "aitree",
-    blurb: "Grade-band English-to-Spanish translation, plus LLM content-quality checks.",
+    blurb: "Age-specific English-to-Spanish translation, plus LLM content-quality checks.",
     title: "AI Tree Tool",
     sub: "Kiddom · 2025",
     palette: "pal-aitree",
     icon: ICONS.aitree,
     star: true,
     connections: [{ id: "bilingual", text: "The translation capability later became the technical foundation for Bilingual View & Print." }],
-    task: "Own the translation capability end to end: fast enough to scale, accurate enough for teachers to trust, and tuned to each grade band.",
+    task: "Own the translation capability end to end: fast enough to scale, accurate enough for teachers to trust, and tuned to each age group.",
     problem: "State adoption of new curriculum requires publishers to also provide Spanish-language support.",
-    solution: "Built an LLM-powered English-to-Spanish translation system that produces grade-band-specific outputs.",
-    impactStat: "~25%",
-    impactBody: "of the 400+ course trees are now in Spanish, supporting students in NY, CA, TX, VA, FL, GA, MD, and national customers.",
-    tech: "Initial single-prompt translation produced inconsistent quality across grade bands. Redesigned the translation system around grade-band-specific prompting and validated output with a calibrated three-pass human evaluation framework before launch.<br><br>Because the system was built to take specialized prompts, I extended it beyond translation to content-quality checks: grammar, book-title capitalization and poem formatting, and broken-link detection and correction.",
+    solution: "Built an LLM-powered English-to-Spanish translation system that produces age-specific outputs.",
+    impactStat: "118",
+    impactBody: "course trees translated into Spanish, QA'd, and launched as of July 2026, helping schools in seven states meet Spanish-language curriculum requirements.",
+    tech: "Initial single-prompt translation produced inconsistent quality across age groups. Redesigned the translation system around age-specific prompting and validated output with a calibrated three-pass human evaluation framework before launch.<br><br>Because the system was built to take specialized prompts, I extended it beyond translation to content-quality checks: grammar, book-title capitalization and poem formatting, and broken-link detection and correction. Deployed across the full 400+ course-tree library, the checks reduced content errors from 1,000+ to under 100.",
     video: null,
     doc: null
   },
@@ -925,7 +926,25 @@ const CASES = [
       el.addEventListener('click', () => openCase(c.id));
       gridEl.appendChild(el);
     });
+    fitBlurbs();
   }
+
+  // The card is a fixed square, so show only as many whole blurb lines as fit under the title.
+  function fitBlurbs() {
+    gridEl.querySelectorAll('.case-card').forEach((card) => {
+      const blurb = card.querySelector('.case-blurb');
+      if (!blurb || getComputedStyle(blurb).display === 'none') return;
+      blurb.style.webkitLineClamp = 3;
+      const cs = getComputedStyle(card);
+      const room = card.getBoundingClientRect().bottom - parseFloat(cs.paddingBottom)
+        - card.querySelector('.case-foot').offsetHeight - blurb.getBoundingClientRect().top;
+      const lines = Math.max(1, Math.min(3, Math.floor(room / parseFloat(getComputedStyle(blurb).lineHeight))));
+      blurb.style.webkitLineClamp = lines;
+      blurb.style.lineClamp = lines;
+    });
+  }
+  window.addEventListener('resize', fitBlurbs);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBlurbs);
 
   const SYS = `<svg class="sys-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.4 6.8 10.6 15.7M16.6 6.8 13.4 15.7M7.5 6h9"/></svg>`;
   const ARROW = `<svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
