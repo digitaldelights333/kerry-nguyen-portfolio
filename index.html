@@ -988,22 +988,6 @@ const CASES = [
     doc: null
   },
   {
-    id: "job-search",
-    blurb: "A daily pipeline that finds, scores, and queues the roles worth my time.",
-    title: "Job Search Automation",
-    sub: "Personal Project · 2026",
-    palette: "pal-jobsearch",
-    icon: ICONS.funnel,
-    personal: true,
-    problem: "A remote EdTech product search means checking dozens of career pages and job boards across different applicant tracking systems, and most postings aren't a fit.",
-    solution: "Built a daily pipeline that pulls postings from six applicant tracking systems, job aggregators, and LinkedIn alert emails. It applies hard filters for product title, remote, and salary floor, then has Claude score each posting against my resume, with fit to the education domain weighted most heavily. Roles above a threshold become cards on my Trello board for me to research, and postings with no readable description go to a manual-review list.",
-    impactLabel: "What I learned",
-    impactBody: "Every applicant tracking system fails differently. Workday boards disagree on pagination, so I dedupe by job path and don't trust the reported total, and iCIMS serves its job list only inside an iframe, so a plain request returns an empty shell. I also decide education fit in code before the model sees a posting, so the weighting is explicit and editable instead of buried in a prompt.",
-    tech: "Domain fit is a score, not a gate. Education-adjacent roles still surface but rank below core EdTech, so strong adjacent matches aren't lost.",
-    video: null,
-    doc: null
-  },
-  {
     id: "content-tracker",
     blurb: "A local tool that tracks media assets and decides when each is ready to post again.",
     title: "Content Tracker",
@@ -1032,6 +1016,22 @@ const CASES = [
     impactLabel: "What I learned",
     impactBody: "The ACSM walking equation loses accuracy at slow paces, and the running equation takes over at higher speeds, so I flagged those cases instead of hiding them. Storing each walk with the body weight it was calculated at keeps history stable as weight changes. Asking Claude for structured JSON with a range and its assumptions made meal estimates easy to display and edit.",
     tech: "Every number shows its uncertainty. The ledger flags paces below 1.9 mph, where the equation loses accuracy. Meal estimates show a range and the assumptions behind it. The weight chart adds a 7-day average beside each weigh-in, so daily noise doesn't read as failure.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "job-search",
+    blurb: "A daily pipeline that finds, scores, and queues the roles worth my time.",
+    title: "Job Search Automation",
+    sub: "Personal Project · 2026",
+    palette: "pal-jobsearch",
+    icon: ICONS.funnel,
+    personal: true,
+    problem: "A remote EdTech product search means checking dozens of career pages and job boards across different applicant tracking systems, and most postings aren't a fit.",
+    solution: "Built a daily pipeline that pulls postings from six applicant tracking systems, job aggregators, and LinkedIn alert emails. It applies hard filters for product title, remote, and salary floor, then has Claude score each posting against my resume, with fit to the education domain weighted most heavily. Roles above a threshold become cards on my Trello board for me to research, and postings with no readable description go to a manual-review list.",
+    impactLabel: "What I learned",
+    impactBody: "Every applicant tracking system fails differently. Workday boards disagree on pagination, so I dedupe by job path and don't trust the reported total, and iCIMS serves its job list only inside an iframe, so a plain request returns an empty shell. I also decide education fit in code before the model sees a posting, so the weighting is explicit and editable instead of buried in a prompt.",
+    tech: "Domain fit is a score, not a gate. Education-adjacent roles still surface but rank below core EdTech, so strong adjacent matches aren't lost.",
     video: null,
     doc: null
   }
