@@ -1092,7 +1092,7 @@ const CASES = [
         el.insertAdjacentHTML('beforeend', '<span class="case-soon">In review</span>');
         el.querySelector('.case-eye svg').insertAdjacentHTML('beforeend', '<line x1="3" y1="3" x2="21" y2="21"/>');
         el.querySelector('.case-eye').title = 'Details in review';
-        el.addEventListener('click', () => track('case_unavailable_clicked', { case_id: c.id, case_title: c.title }));
+        el.addEventListener('click', () => track('case_unavailable_clicked', { case_id: c.id, case_title: c.title, card_number: CASES.indexOf(c) + 1 }));
       } else {
         el.addEventListener('click', () => openCase(c.id, 'grid'));
       }
@@ -1124,10 +1124,14 @@ const CASES = [
   const platformField = (c) => `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>`;
   const hasFooter = (c) => c.tech || c.video || c.doc || c.connections || (c.star && (c.insight || c.platformStat || c.platformBody));
 
-  function openCase(id, source) {
+  function openCase(id, source, fromCaseId) {
     const c = CASES.find(x => x.id === id);
     if (!c || c.soon) return;
-    track('case_opened', { case_id: c.id, case_title: c.title, source: source || 'chat_link' });
+    track('case_opened', {
+      case_id: c.id, case_title: c.title, source: source || 'chat_link',
+      card_number: CASES.indexOf(c) + 1,                         // 1-based position in the grid
+      from_case_id: fromCaseId || null                           // set when opened from another card's connection link
+    });
     lastFocus = document.activeElement;
     sheetEl.innerHTML = `
       <button class="rolo-close" aria-label="Close">×</button>
@@ -1155,7 +1159,7 @@ const CASES = [
       </div>
     `;
     sheetEl.querySelector('.rolo-close').addEventListener('click', closeCase);
-    sheetEl.querySelectorAll('.sys-link').forEach((b) => b.addEventListener('click', () => openCase(b.dataset.case, 'case_connection')));
+    sheetEl.querySelectorAll('.sys-link').forEach((b) => b.addEventListener('click', () => openCase(b.dataset.case, 'case_connection', c.id)));
     sheetEl.querySelectorAll('a.video-link').forEach((a) => {
       a.addEventListener('click', () => track('case_link_clicked', { case_id: c.id, link_type: a.href === c.video ? 'video' : 'docs' }));
     });
@@ -1168,7 +1172,7 @@ const CASES = [
         const open = td.classList.contains('is-open');
         techBtn.textContent = open ? '– Hide ' + label.toLowerCase() : '+ ' + label;
         techBtn.setAttribute('aria-expanded', open);
-        if (open) track('case_details_expanded', { case_id: c.id });
+        if (open) track('case_details_expanded', { case_id: c.id, case_title: c.title, expander_label: label });
         if (open) {
           const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           td.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
@@ -1645,6 +1649,8 @@ const CASES = [
       const t = BY_ID[id];
       track('chip_clicked', {
         chip_id: id, chip_text: t.chip,
+        chip_number: SPINE.indexOf(t) + 1,                       // 1-8, story order
+        chips_shown: lastShown.map((sid) => SPINE.indexOf(BY_ID[sid]) + 1),   // the options on screen at this tap
         via: (meta && meta.via) || 'header_schedule',
         position: (meta && meta.position) || null,
         questions_asked_before: visited.size
