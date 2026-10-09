@@ -1179,14 +1179,14 @@ const CASES = [
   async function botSay(parts, actions, opts = {}) {
     logEl.setAttribute('aria-busy', 'true');
     let bubble = null;
-    const openBubble = async (fast) => {
+    const openBubble = async (dotsMs) => {
       if (!opts.keepState) setState('thinking');
       bubble = addMsg('bot');
       if (total > 1) bubble.classList.add('has-count');   // reserve room for the 1/3 counter from the start
       const dots = typingDots();
       bubble.appendChild(dots);
       scrollLog();
-      await pause(fast ? 450 : 800 + Math.random() * 400);
+      await pause(dotsMs);
       dots.remove();
       if (!opts.keepState) setState('talking');
     };
@@ -1200,7 +1200,7 @@ const CASES = [
       c.setAttribute('aria-label', 'Message ' + index + ' of ' + total);
       bubble.appendChild(c);
     };
-    await openBubble(opts.fast);
+    await openBubble(opts.fast ? 450 : 800 + Math.random() * 400);
     for (const part of parts) {
       if (typeof part === 'string') {
         const p = document.createElement('p');
@@ -1214,9 +1214,11 @@ const CASES = [
         scrollLog();
       } else if (part && part.brk) {
         addCount();
-        await pause(readingPause(bubble.textContent));   // let the reader finish this bubble first
+        // The next bubble appears right away as typing dots, and its text follows after the
+        // reading delay, so the reader has time with the previous bubble while the dots show.
+        const wait = readingPause(bubble.textContent);
         index += 1;
-        await openBubble(true);
+        await openBubble(wait);
       }
     }
     const list = [].concat(actions || []);

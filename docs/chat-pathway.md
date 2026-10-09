@@ -179,7 +179,7 @@ Answers can be split into separate chat bubbles, each with its own typing dots, 
 
 Split now: **chip 2** (2 bubbles), **chip 5** (3), **chip 6** (2), **chip 8** (3: roles, location, then the invite with the booking button and email line).
 
-Pacing: between bubbles there is a reading pause of about 0.5s plus 0.06s per word (2.5s at most). It uses real time even with Reduce motion on, so bubbles never appear all at once. When the text is typed out the pause is halved.
+Pacing: when a bubble finishes, the next bubble appears almost immediately as typing dots, and its text follows after a reading delay of about 0.7s plus 0.08s per word of the previous bubble (3s at most; halved when text is typed out). The delay uses real time even with Reduce motion on, so bubbles never appear all at once.
 
 ## Look and feel
 
