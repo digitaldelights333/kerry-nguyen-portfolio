@@ -119,22 +119,22 @@
   .msg--me .bubble {
     background: var(--accent); color: #fff;
   }
-  /* Speech-bubble pointer: the bubble's bottom corner on the speaker's side becomes the tail.
-     The tail is a small drawn shape (fill plus outline) that hides the bubble's side border
-     where they meet, so the corner flows into a point. Colors match --paper, --rule, --accent. */
-  .msg--bot .bubble { border-bottom-left-radius: 0; }
-  .msg--me .bubble { border-bottom-right-radius: 0; }
+  /* Speech-bubble pointer, iMessage style: every corner stays rounded and a small tail
+     hangs below the bottom edge on the speaker's side. The tail is a small drawn shape
+     (fill plus outline) that overlaps the bubble's bottom border so the two read as one.
+     Colors match --paper, --rule and --accent. */
   .bubble::before {
-    content: ""; position: absolute; height: 12px; bottom: -1px;
-    background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none;
+    content: ""; position: absolute; top: calc(100% - 1px);
+    width: 30px; height: 13px; pointer-events: none;
+    background-repeat: no-repeat; background-size: 100% 100%;
   }
   .msg--bot .bubble::before {
-    width: 11px; left: -10px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 12'%3E%3Cpath d='M9.5 0C9.5 5.5 6 10 0.5 11.5V12H11V0Z' fill='%23EFEBE6'/%3E%3Cpath d='M9.5 0C9.5 5.5 6 10 0.5 11.5H11' fill='none' stroke='%23D5CFC7' stroke-width='1'/%3E%3C/svg%3E");
+    left: -1px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 13'%3E%3Cpath d='M12 0H26V1L22 3.5C17 8 10 10.5 3 10C7 8.5 10 5 12 1Z' fill='%23EFEBE6'/%3E%3Cpath d='M12 1C10 5 7 8.5 3 10C10 10.5 17 8 22 3.5L26 1' fill='none' stroke='%23D5CFC7' stroke-width='1' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
   .msg--me .bubble::before {
-    width: 10px; right: -9px; bottom: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 12'%3E%3Cpath d='M1 0C1 5.5 4.5 10 10 12H1Z' fill='%23B85450'/%3E%3C/svg%3E");
+    right: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 13'%3E%3Cpath transform='translate(30 0) scale(-1 1)' d='M12 0H26V1L22 3.5C17 8 10 10.5 3 10C7 8.5 10 5 12 1Z' fill='%23B85450'/%3E%3C/svg%3E");
   }
   /* Generic user icon beside the visitor's questions, matching Java's avatar slot. */
   .user-av { flex: none; width: 36px; height: 36px; color: var(--muted); }
