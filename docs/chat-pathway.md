@@ -183,7 +183,7 @@ Pacing: between bubbles there is a reading pause of about 0.5s plus 0.06s per wo
 
 ## Look and feel
 
-- Bubbles have a small pointer toward the speaker: Java's bubbles point left toward the mug, the visitor's point right toward a generic user icon.
+- The bottom corner of each bubble on the speaker's side is the pointer: it becomes a small swoosh instead of a rounded corner, so there is no separate arrow. Java's bubbles point left toward the mug, the visitor's point right toward a generic user icon. The tail is a small drawn shape using the bubble colors (#EFEBE6 fill and #D5CFC7 outline for Java, #B85450 for the visitor), so it needs updating if those colors change.
 - The visitor's question (the chip text, or "Schedule a call" from the header) appears as a right-aligned bubble with a generic user icon (a neutral head-and-shoulders circle), mirroring Java's avatar.
 - Chat links to case studies ("Cadence", "AI Tree Tool", "builder", "Bilingual View & Print") open the detailed view (the modal) on the new case studies grid. "View all case studies" scrolls to the grid.
 

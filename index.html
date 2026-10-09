@@ -119,18 +119,22 @@
   .msg--me .bubble {
     background: var(--accent); color: #fff;
   }
-  /* Speech-bubble pointers: a rotated square that shares the bubble's fill and border. */
+  /* Speech-bubble pointer: the bubble's bottom corner on the speaker's side becomes the tail.
+     The tail is a small drawn shape (fill plus outline) that hides the bubble's side border
+     where they meet, so the corner flows into a point. Colors match --paper, --rule, --accent. */
+  .msg--bot .bubble { border-bottom-left-radius: 0; }
+  .msg--me .bubble { border-bottom-right-radius: 0; }
   .bubble::before {
-    content: ""; position: absolute; bottom: 13px;
-    width: 11px; height: 11px; transform: rotate(45deg);
+    content: ""; position: absolute; height: 12px; bottom: -1px;
+    background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none;
   }
   .msg--bot .bubble::before {
-    left: -6px; background: var(--paper);
-    border-left: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
-    border-bottom-left-radius: 3px;
+    width: 11px; left: -10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 12'%3E%3Cpath d='M9.5 0C9.5 5.5 6 10 0.5 11.5V12H11V0Z' fill='%23EFEBE6'/%3E%3Cpath d='M9.5 0C9.5 5.5 6 10 0.5 11.5H11' fill='none' stroke='%23D5CFC7' stroke-width='1'/%3E%3C/svg%3E");
   }
   .msg--me .bubble::before {
-    right: -5px; background: var(--accent); border-bottom-right-radius: 3px;
+    width: 10px; right: -9px; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 12'%3E%3Cpath d='M1 0C1 5.5 4.5 10 10 12H1Z' fill='%23B85450'/%3E%3C/svg%3E");
   }
   /* Generic user icon beside the visitor's questions, matching Java's avatar slot. */
   .user-av { flex: none; width: 36px; height: 36px; color: var(--muted); }
