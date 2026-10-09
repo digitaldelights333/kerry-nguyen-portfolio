@@ -309,7 +309,7 @@
   .cases-grid {
     display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px;
   }
-  @media (max-width: 1000px) { .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 1000px) { .cases-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 640px)  { .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
 
   .case-card {
@@ -322,7 +322,11 @@
   }
   .case-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow-active); }
 
-  .case-top { margin-bottom: 12px; flex-shrink: 0; }
+  .case-top { margin-bottom: 12px; flex-shrink: 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .case-tag {
+    font-family: "DM Sans"; font-size: 11px; line-height: 1; padding: 5px 9px; border-radius: 999px;
+    color: var(--muted); background: var(--surface); border: 1px solid var(--rule-2); white-space: nowrap;
+  }
   .case-tile {
     width: 46px; height: 46px; border-radius: 3px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
@@ -357,6 +361,7 @@
     .case-tile .card-icon { width: 26px; height: 26px; }
     .case-title { font-size: 16px; }
     .case-blurb { display: none; }
+    .case-card:last-child:nth-child(odd) { grid-column: 1 / -1; aspect-ratio: auto; }
   }
 
   /* --- DETAIL MODAL --- */
@@ -503,6 +508,11 @@
   .pal-course { background: linear-gradient(135deg, #B85450 0%, #6A2E2C 100%); }
   .pal-ose { background: linear-gradient(135deg, #7D3212 0%, #33312D 100%); }
   .pal-assessment { background: linear-gradient(135deg, #E8D5AE 0%, #7A6B5B 100%); }
+  .pal-lesson { background: linear-gradient(135deg, #E8D5AE 0%, #B85450 100%); }
+  .pal-parts { background: linear-gradient(135deg, #C9BEA9 0%, #33312D 100%); }
+  .pal-jobsearch { background: linear-gradient(135deg, #5F5546 0%, #33312D 100%); }
+  .pal-content { background: linear-gradient(135deg, #33312D 0%, #B85450 100%); }
+  .pal-health { background: linear-gradient(135deg, #7D3212 0%, #C9BEA9 100%); }
   .pal-neondrift { background: radial-gradient(circle at 30% 40%, #FF6EC7 0%, transparent 40%), radial-gradient(circle at 70% 60%, #62D2A2 0%, transparent 40%), radial-gradient(circle at 50% 20%, #F5D67B 0%, transparent 40%), #1A1814; }
 
 </style>
@@ -692,6 +702,35 @@ const ICONS = {
     <line x1="36" y1="62" x2="62" y2="62"/>
     <line x1="26" y1="76" x2="72" y2="76"/>
   </svg>`,
+  funnel: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 16 22 L 84 22 L 58 52 L 58 80 L 42 70 L 42 52 Z"/>
+    <line x1="30" y1="34" x2="70" y2="34"/>
+  </svg>`,
+  adapt: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="20" y="14" width="46" height="66" rx="2"/>
+    <line x1="28" y1="28" x2="58" y2="28"/>
+    <line x1="28" y1="40" x2="58" y2="40"/>
+    <line x1="28" y1="52" x2="46" y2="52"/>
+    <path d="M 72 52 L 75 61 L 84 64 L 75 67 L 72 76 L 69 67 L 60 64 L 69 61 Z" fill="currentColor" stroke="none" opacity="0.85"/>
+  </svg>`,
+  gear: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="50" r="24"/>
+    <circle cx="50" cy="50" r="9"/>
+    <line x1="50" y1="14" x2="50" y2="24"/><line x1="50" y1="76" x2="50" y2="86"/>
+    <line x1="14" y1="50" x2="24" y2="50"/><line x1="76" y1="50" x2="86" y2="50"/>
+    <line x1="24" y1="24" x2="31" y2="31"/><line x1="69" y1="69" x2="76" y2="76"/>
+    <line x1="76" y1="24" x2="69" y2="31"/><line x1="31" y1="69" x2="24" y2="76"/>
+  </svg>`,
+  pulse: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="12,56 30,56 38,34 50,76 60,44 68,56 88,56"/>
+    <circle cx="88" cy="56" r="3" fill="currentColor" stroke="none"/>
+  </svg>`,
+  frames: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="16" y="24" width="46" height="36" rx="2"/>
+    <rect x="34" y="40" width="46" height="36" rx="2" fill="currentColor" fill-opacity="0.18"/>
+    <path d="M 66 22 A 14 14 0 0 1 84 32"/>
+    <polyline points="84,22 84,32 74,32"/>
+  </svg>`,
   puck: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M 50 15 L 20 85 L 80 85 Z"/>
     <line x1="30" y1="61" x2="70" y2="61"/>
@@ -871,14 +910,88 @@ const CASES = [
     sub: "Personal Project · August 2026",
     palette: "pal-neondrift",
     icon: ICONS.puck,
-    star: true,
-    task: "Design a quick asynchronous game that lives inside the iMessage conversation instead of a separate app.",
+    personal: true,
     problem: "Quick asynchronous games introduce friction before the first move, forcing players to install and open a separate app and constantly switch back to the conversation where they're actually talking.",
     solution: "Built Neon Drift as an iMessage extension rather than a standalone app, keeping the game inside the conversation where the invitation, turn-taking, and social interaction already happen. Designed an 8-turn ruleset playable in ~2 minutes, with a persistent game bubble and personalized game state living inside the extension UI.",
     impactLabel: "What I Learned",
     impactStat: null,
     impactBody: "Used the project to deepen my hands-on skills in refactoring, physics modeling, and UI/UX design. Refactored the physics model around real Coulomb friction and meaningful physical parameters rather than arbitrary game-tuning values, making the game feel more like the physical system it represents. I also refined my interaction design instincts around keeping asynchronous game state inside the extension rather than turning every turn into a new message.",
     tech: "Chose a persistent game bubble rather than sending a new iMessage after every turn. The conversation remains the social layer; the extension owns the changing game state.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "lesson-adapt",
+    blurb: "A teacher-facing prototype that adapts a lesson they already teach.",
+    title: "AI Lesson Adaptation Prototype",
+    sub: "Personal Project · Interview prototype · 2026",
+    palette: "pal-lesson",
+    icon: ICONS.adapt,
+    personal: true,
+    problem: "Teachers trained in an instructional framework still spend about two hours adapting each lesson by hand to apply it.",
+    solution: "Built an interactive pilot walkthrough with a launch plan. It follows one teacher through five stories: upload a lesson and generate an adaptation, leave while it generates, edit or regenerate any part before sharing, reuse a colleague's adaptation from a shared library, and rate it after teaching. Each story has acceptance criteria.",
+    impactBody: "",
+    tech: "Ratings are thumbs only, with no comment box. A thumbs-down asks which part was missing and feeds the generation engine. Nothing reaches the shared library until the teacher saves it.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "parts-store",
+    blurb: "A parts catalog that starts from the machine, not the part number.",
+    title: "Parts Store Prototype",
+    sub: "Personal Project · Interview prototype · 2026",
+    palette: "pal-parts",
+    icon: ICONS.gear,
+    personal: true,
+    problem: "Parts buyers often know their machine, not the part number.",
+    solution: "Built a three-level prototype: all categories, then a category, then a single part page. An add-equipment flow sets the machine as context, so part and bundle pages show fit badges. It also has a frequently-bought-together sidebar, a language menu, an account menu, and a cart.",
+    impactBody: "",
+    tech: "The machine stays selected across pages, so compatibility is answered once instead of on every part.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "job-search",
+    blurb: "A daily pipeline that finds, scores, and queues the roles worth my time.",
+    title: "Job Search Automation",
+    sub: "Personal Project · 2026",
+    palette: "pal-jobsearch",
+    icon: ICONS.funnel,
+    personal: true,
+    problem: "A remote EdTech product search means checking dozens of career pages and job boards across different applicant tracking systems, and most postings aren't a fit.",
+    solution: "Built a daily pipeline that pulls postings from six applicant tracking systems, job aggregators, and LinkedIn alert emails. It applies hard filters for product title, remote, and salary floor, then has Claude score each posting against my resume, with fit to the education domain weighted most heavily. Roles above a threshold become cards on my Trello board for me to research, and postings with no readable description go to a manual-review list.",
+    impactBody: "",
+    tech: "Domain fit is a score, not a gate. Education-adjacent roles still surface but rank below core EdTech, so strong adjacent matches aren't lost.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "content-tracker",
+    blurb: "A local tool that tracks media assets and decides when each is ready to post again.",
+    title: "Content Tracker",
+    sub: "Personal Project · 2026",
+    palette: "pal-content",
+    icon: ICONS.frames,
+    personal: true,
+    problem: "Reusing content across several accounts without repeating it too soon meant keeping track by memory or spreadsheet.",
+    solution: "Built a private tool with a Python backend and React front end that runs only on my own machine. It scans a content folder where each subfolder is a project, reads each file's length, and makes thumbnails. For every account it labels each asset as never used, scheduled, resting, or ready to recycle, using a 105-day rule. It proposes a month of posts at a time against each account's weekly cadence, alternating between assets ready to recycle and fresh ones. A nightly scan and digest report which accounts are behind.",
+    impactBody: "",
+    tech: "Each file's ID is a hash of its contents, so renaming or moving a file never breaks its posting history. Proposed posts are added on top of what exists, so a new run never moves anything I'm reviewing, have scheduled, or have posted.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "health-tools",
+    blurb: "Two connected trackers: true walking calories, and a daily log for a fat-loss plan.",
+    title: "Health Tracking Tools",
+    sub: "Personal Project · 2026",
+    palette: "pal-health",
+    icon: ICONS.pulse,
+    personal: true,
+    problem: "Fitness apps overstate what a walk burns, and food logging is slow enough that I'd quit.",
+    solution: "Built two connected trackers. Treadmill Ledger uses the ACSM equations to compute each walk's net calories after subtracting resting metabolism, with pace, effort level, and estimated steps. The 6-Week Reset Tracker is a daily log for a fat-loss plan. I describe a meal in plain English and Claude estimates calories and protein, and the tracker also logs weight, sleep, steps, and water. It pulls steps in from the ledger and charts weight against a planned pace.",
+    impactBody: "",
+    tech: "Every number shows its uncertainty. The ledger flags paces below 1.9 mph, where the equation loses accuracy. Meal estimates show a range and the assumptions behind it. The weight chart adds a 7-day average beside each weigh-in, so daily noise doesn't read as failure.",
     video: null,
     doc: null
   }
@@ -914,6 +1027,7 @@ const CASES = [
       el.innerHTML = `
         <div class="case-top">
           <div class="case-tile ${c.palette}"><span class="card-icon">${c.icon}</span></div>
+          ${c.personal ? '<span class="case-tag">Personal</span>' : ''}
         </div>
         <h3 class="case-title">${c.cardTitle || c.title}</h3>
         <p class="case-blurb">${c.blurb || ''}</p>
@@ -965,8 +1079,8 @@ const CASES = [
         <div class="field"><span class="field-label">${c.star ? 'Situation' : 'Problem'}</span><p class="field-body">${c.problem}</p></div>
         ${!c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
         ${c.star && c.task ? `<div class="field"><span class="field-label">Task</span><p class="field-body">${c.task}</p></div>` : ''}
-        <div class="field"><span class="field-label">${c.star ? 'Action' : 'Solution'}</span><p class="field-body">${c.solution}</p></div>
-        <div class="field"><span class="field-label">${c.impactLabel || (c.star ? 'Result' : 'Impact')}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
+        <div class="field"><span class="field-label">${c.star ? 'Action' : (c.personal ? 'What I built' : 'Solution')}</span><p class="field-body">${c.solution}</p></div>
+        ${c.impactBody ? `<div class="field"><span class="field-label">${c.impactLabel || (c.star ? 'Result' : 'Impact')}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>` : ''}
         ${!c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
         ${hasFooter(c) ? `<div class="case-footer">
           ${c.connections ? connectionsBlock(c) : ''}
