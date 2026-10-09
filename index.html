@@ -131,6 +131,10 @@
   .msg--bot { align-self: flex-start; }
   .msg--me { align-self: flex-end; }
   .msg .av { flex: none; width: 44px; }
+  /* Avatars hang below the bubble's bottom edge so the tail points at their middle. */
+  .msg--bot .mini-av { margin-bottom: -16px; }
+  .msg--me .user-av { margin-bottom: -13px; }
+  .msg { margin-bottom: 4px; }
   .bubble {
     position: relative;
     padding: 10px 15px; border-radius: 18px;
@@ -143,22 +147,22 @@
   .msg--me .bubble {
     background: var(--accent); color: #fff;
   }
-  /* Speech-bubble pointer: the bubble's bottom corner on the speaker's side becomes the tail.
-     The tail is a small drawn shape (fill plus outline) that hides the bubble's side border
-     where they meet, so the corner flows into a point. Colors match --paper, --rule, --accent. */
-  .msg--bot .bubble { border-bottom-left-radius: 0; }
-  .msg--me .bubble { border-bottom-right-radius: 0; }
+  /* Speech-bubble pointer, iMessage style: every corner stays rounded and a small tail
+     hangs below the bottom edge on the speaker's side. The tail is a small drawn shape
+     (fill plus outline) that overlaps the bubble's bottom border so the two read as one.
+     Colors match --paper, --rule and --accent. */
   .bubble::before {
-    content: ""; position: absolute; height: 12px; bottom: -1px;
-    background-repeat: no-repeat; background-size: 100% 100%; pointer-events: none;
+    content: ""; position: absolute; top: calc(100% - 12px);
+    width: 24px; height: 22px; pointer-events: none;
+    background-repeat: no-repeat; background-size: 100% 100%;
   }
   .msg--bot .bubble::before {
-    width: 11px; left: -10px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 12'%3E%3Cpath d='M9.5 0C9.5 5.5 6 10 0.5 11.5V12H11V0Z' fill='%23EFEBE6'/%3E%3Cpath d='M9.5 0C9.5 5.5 6 10 0.5 11.5H11' fill='none' stroke='%23D5CFC7' stroke-width='1'/%3E%3C/svg%3E");
+    left: -5px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='M6 2C6.500 10 4 16 0.800 21C3 21.800 10 20 15 16.500C19 14 21 12.800 24 12.500V4Z' fill='%23EFEBE6'/%3E%3Cpath d='M6 2C6.500 10 4 16 0.800 21C3 21.800 10 20 15 16.500C19 14 21 12.800 24 12.500' fill='none' stroke='%23D5CFC7' stroke-width='1' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
   .msg--me .bubble::before {
-    width: 10px; right: -9px; bottom: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 12'%3E%3Cpath d='M1 0C1 5.5 4.5 10 10 12H1Z' fill='%23B85450'/%3E%3C/svg%3E");
+    right: -4px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath transform='translate(24 0) scale(-1 1)' d='M6 2C6.500 10 4 16 0.800 21C3 21.800 10 20 15 16.500C19 14 21 12.300 24 12V4Z' fill='%23B85450'/%3E%3C/svg%3E");
   }
   /* Generic user icon beside the visitor's questions, matching Java's avatar slot. */
   .user-av { flex: none; width: 36px; height: 36px; color: var(--muted); }
@@ -213,13 +217,14 @@
   .chat-link:hover { color: var(--accent-deep); }
   a.chat-link { display: inline; }
   .chat-cta {
-    display: inline-block; margin: 4px 0 10px;
+    display: inline-flex; align-items: center; gap: 8px; margin: 4px 0 10px;
     font: inherit; font-size: 14.5px; font-weight: 500; line-height: 1;
     padding: 11px 18px; border-radius: 999px;
     color: #fff; background: var(--accent); border: 1px solid var(--accent);
     text-decoration: none; cursor: pointer;
     transition: background .15s, border-color .15s;
   }
+  .chat-cta .ext-icon { flex: none; }
   .chat-cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; }
   .chip--quiet { color: var(--muted); border-style: dashed; }
 
@@ -1178,6 +1183,9 @@ const CASES = [
       a.addEventListener('click', (e) => e.preventDefault());
     } else if (/^https?:/.test(SCHEDULE_URL)) {
       a.target = '_blank'; a.rel = 'noopener';
+      if (className === 'chat-cta') {
+        a.insertAdjacentHTML('beforeend', '<svg class="ext-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M9.5 2.5h4v4M13.5 2.5 7.5 8.5M12 9.500v3a1 1 0 0 1-1 1H3.500a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sr-only"> (opens in a new tab)</span>');
+      }
     }
     return a;
   }
@@ -1212,14 +1220,14 @@ const CASES = [
   async function botSay(parts, actions, opts = {}) {
     logEl.setAttribute('aria-busy', 'true');
     let bubble = null;
-    const openBubble = async (fast) => {
+    const openBubble = async (dotsMs) => {
       if (!opts.keepState) setState('thinking');
       bubble = addMsg('bot');
       if (total > 1) bubble.classList.add('has-count');   // reserve room for the 1/3 counter from the start
       const dots = typingDots();
       bubble.appendChild(dots);
       scrollLog();
-      await pause(fast ? 450 : 800 + Math.random() * 400);
+      await pause(dotsMs);
       dots.remove();
       if (!opts.keepState) setState('talking');
     };
@@ -1233,7 +1241,7 @@ const CASES = [
       c.setAttribute('aria-label', 'Message ' + index + ' of ' + total);
       bubble.appendChild(c);
     };
-    await openBubble(opts.fast);
+    await openBubble(opts.fast ? 450 : 800 + Math.random() * 400);
     for (const part of parts) {
       if (typeof part === 'string') {
         const p = document.createElement('p');
@@ -1247,9 +1255,11 @@ const CASES = [
         scrollLog();
       } else if (part && part.brk) {
         addCount();
-        await pause(readingPause(bubble.textContent));   // let the reader finish this bubble first
+        // The next bubble appears right away as typing dots, and its text follows after the
+        // reading delay, so the reader has time with the previous bubble while the dots show.
+        const wait = readingPause(bubble.textContent);
         index += 1;
-        await openBubble(true);
+        await openBubble(wait);
       }
     }
     const list = [].concat(actions || []);
@@ -1307,11 +1317,10 @@ const CASES = [
       say: ['Outside of work, Kerry forages for mushrooms, grows fruit trees she brings indoors every winter, and loves a good puzzle. She coached a FIRST Robotics team for six years and, true to form, builds small tools for her own daily routines.'] },
     { id: 'looking', chip: 'What is Kerry looking for next?',
       say: [
-        "Kerry is looking for product roles with AI at the center, where she can turn real user problems into products at scale. She's drawn to teams building AI-powered experiences for the people who use them every day, and she brings hands-on experience building with AI herself.",
+        "Kerry is looking for product roles with AI at the center of a clearly defined product area, on small teams where experts collaborate openly and execute with ownership.",
         { brk: true },
-        "Based in the Central time zone, Kerry is interested in remote roles and available for hybrid roles in the Chicago area.",
+        "She works best in remote roles with Central time zone overlap, and is open to hybrid roles in the Chicago area. If that sounds like a fit, Kerry would love to learn more about the role.",
         { brk: true },
-        'If that sounds like a fit, Kerry would love to hear about the role.',
         { cta: true },
         'Prefer email? Reach Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
       ] },

@@ -61,11 +61,9 @@ Outside of work, Kerry forages for mushrooms, grows fruit trees she brings indoo
 
 ## 8. What is Kerry looking for next? ✅ (confirmed)
 
-Kerry is looking for product roles with AI at the center, where she can turn real user problems into products at scale. She's drawn to teams building AI-powered experiences for the people who use them every day, and she brings hands-on experience building with AI herself.
+Kerry is looking for product roles with AI at the center of a clearly defined product area, on small teams where experts collaborate openly and execute with ownership.
 
-Based in the Central time zone, Kerry is interested in remote roles and available for hybrid roles in the Chicago area.
-
-If that sounds like a fit, Kerry would love to hear about the role.
+She works best in remote roles with Central time zone overlap, and is open to hybrid roles in the Chicago area. If that sounds like a fit, Kerry would love to learn more about the role.
 
 [ Book a quick intro call ]
 
@@ -179,11 +177,11 @@ Answers can be split into separate chat bubbles, each with its own typing dots, 
 
 Split now: **chip 2** (2 bubbles), **chip 5** (3), **chip 6** (2), **chip 8** (3: roles, location, then the invite with the booking button and email line).
 
-Pacing: between bubbles there is a reading pause of about 0.5s plus 0.06s per word (2.5s at most). It uses real time even with Reduce motion on, so bubbles never appear all at once. When the text is typed out the pause is halved.
+Pacing: when a bubble finishes, the next bubble appears almost immediately as typing dots, and its text follows after a reading delay of about 0.7s plus 0.08s per word of the previous bubble (3s at most; halved when text is typed out). The delay uses real time even with Reduce motion on, so bubbles never appear all at once.
 
 ## Look and feel
 
-- The bottom corner of each bubble on the speaker's side is the pointer: it becomes a small swoosh instead of a rounded corner, so there is no separate arrow. Java's bubbles point left toward the mug, the visitor's point right toward a generic user icon. The tail is a small drawn shape using the bubble colors (#EFEBE6 fill and #D5CFC7 outline for Java, #B85450 for the visitor), so it needs updating if those colors change.
+- Bubbles use an iMessage-style pointer (short, about 9px, curved like the Messages tail): a small tail hangs below the bottom corner on the speaker's side while all four bubble corners stay rounded. Java's tails point down-left toward the mug, the visitor's down-right toward a generic user icon. The tail is a small drawn shape using the bubble colors (#EFEBE6 fill and #D5CFC7 outline for Java, #B85450 for the visitor), so it needs updating if those colors change.
 - The visitor's question (the chip text, or "Schedule a call" from the header) appears as a right-aligned bubble with a generic user icon (a neutral head-and-shoulders circle), mirroring Java's avatar.
 - Chat links to case studies ("Cadence", "AI Tree Tool", "builder", "Bilingual View & Print") open the detailed view (the modal) on the new case studies grid. "View all case studies" scrolls to the grid.
 
