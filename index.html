@@ -1092,7 +1092,7 @@ const CASES = [
         el.insertAdjacentHTML('beforeend', '<span class="case-soon">In review</span>');
         el.querySelector('.case-eye svg').insertAdjacentHTML('beforeend', '<line x1="3" y1="3" x2="21" y2="21"/>');
         el.querySelector('.case-eye').title = 'Details in review';
-        el.addEventListener('click', () => track('case_unavailable_clicked', { case_id: c.id, case_title: c.title, card_number: CASES.indexOf(c) + 1 }));
+        el.addEventListener('click', () => track('case_unavailable_clicked', { case_id: c.id, case_title: c.title, case_number: CASES.indexOf(c) + 1 }));
       } else {
         el.addEventListener('click', () => openCase(c.id, 'grid'));
       }
@@ -1129,7 +1129,7 @@ const CASES = [
     if (!c || c.soon) return;
     track('case_opened', {
       case_id: c.id, case_title: c.title, source: source || 'chat_link',
-      card_number: CASES.indexOf(c) + 1,                         // 1-based position in the grid
+      case_number: CASES.indexOf(c) + 1,                         // 1-based position in the grid
       from_case_id: fromCaseId || null                           // set when opened from another card's connection link
     });
     lastFocus = document.activeElement;
