@@ -440,8 +440,7 @@
     margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule-2);
   }
   .rolo-full .sys-block {
-    display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px;
-    padding: 14px 16px; background: var(--surface-2); border-radius: 8px;
+    display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px;
   }
   .rolo-full .sys-head {
     display: flex; align-items: center; gap: 8px; color: var(--accent);
@@ -930,7 +929,7 @@ const CASES = [
 
   const SYS = `<svg class="sys-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.4 6.8 10.6 15.7M16.6 6.8 13.4 15.7M7.5 6h9"/></svg>`;
   const ARROW = `<svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
-  const connectionsBlock = (c) => `<div class="sys-block"><div class="sys-head">${SYS}<span>Systems thinking</span></div>${c.connections.map((k) => { const t = CASES.find((x) => x.id === k.id); return `<div class="sys-row"><p class="sys-text">${k.text}</p><button type="button" class="sys-link" data-case="${k.id}">${t.title}${ARROW}</button></div>`; }).join('')}</div>`;
+  const connectionsBlock = (c) => `<div class="sys-block"><div class="sys-head">${SYS}<span>Thinking in systems</span></div>${c.connections.map((k) => { const t = CASES.find((x) => x.id === k.id); return `<div class="sys-row"><p class="sys-text">${k.text}</p><button type="button" class="sys-link" data-case="${k.id}">${t.title}${ARROW}</button></div>`; }).join('')}</div>`;
   const platformField = (c) => `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>`;
   const hasFooter = (c) => c.tech || c.video || c.doc || c.connections || (c.star && (c.insight || c.platformStat || c.platformBody));
 
