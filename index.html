@@ -703,33 +703,60 @@ const ICONS = {
     <line x1="26" y1="76" x2="72" y2="76"/>
   </svg>`,
   funnel: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M 16 22 L 84 22 L 58 52 L 58 80 L 42 70 L 42 52 Z"/>
-    <line x1="30" y1="34" x2="70" y2="34"/>
+    <circle cx="26" cy="12" r="2.5"/>
+    <circle cx="42" cy="9" r="2.5"/>
+    <circle cx="58" cy="12" r="2.5"/>
+    <circle cx="74" cy="9" r="2.5" fill="currentColor" stroke="none" opacity="0.5"/>
+    <path d="M 14 22 L 86 22 L 58 52 L 58 66 L 42 58 L 42 52 Z"/>
+    <line x1="28" y1="32" x2="72" y2="32"/>
+    <rect x="34" y="74" width="32" height="16" rx="2" fill="currentColor" fill-opacity="0.18"/>
+    <polyline points="43,82 48,86 57,78"/>
   </svg>`,
   adapt: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="20" y="14" width="46" height="66" rx="2"/>
-    <line x1="28" y1="28" x2="58" y2="28"/>
-    <line x1="28" y1="40" x2="58" y2="40"/>
-    <line x1="28" y1="52" x2="46" y2="52"/>
-    <path d="M 72 52 L 75 61 L 84 64 L 75 67 L 72 76 L 69 67 L 60 64 L 69 61 Z" fill="currentColor" stroke="none" opacity="0.85"/>
+    <rect x="8" y="20" width="32" height="60" rx="2"/>
+    <line x1="14" y1="32" x2="34" y2="32"/>
+    <line x1="14" y1="40" x2="34" y2="40"/>
+    <line x1="14" y1="48" x2="28" y2="48"/>
+    <line x1="14" y1="56" x2="34" y2="56"/>
+    <line x1="44" y1="50" x2="56" y2="50"/>
+    <polyline points="51,45 56,50 51,55"/>
+    <rect x="60" y="20" width="32" height="60" rx="2"/>
+    <line x1="66" y1="32" x2="86" y2="32"/>
+    <rect x="66" y="38" width="20" height="9" fill="currentColor" stroke="none" opacity="0.5"/>
+    <line x1="66" y1="56" x2="86" y2="56"/>
+    <polyline points="68,68 72,72 80,64"/>
   </svg>`,
   gear: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="50" cy="50" r="24"/>
-    <circle cx="50" cy="50" r="9"/>
-    <line x1="50" y1="14" x2="50" y2="24"/><line x1="50" y1="76" x2="50" y2="86"/>
-    <line x1="14" y1="50" x2="24" y2="50"/><line x1="76" y1="50" x2="86" y2="50"/>
-    <line x1="24" y1="24" x2="31" y2="31"/><line x1="69" y1="69" x2="76" y2="76"/>
-    <line x1="76" y1="24" x2="69" y2="31"/><line x1="31" y1="69" x2="24" y2="76"/>
+    <circle cx="50" cy="50" r="36"/>
+    <circle cx="50" cy="50" r="13"/>
+    <circle cx="50" cy="26" r="4.5"/>
+    <circle cx="67" cy="33" r="4.5"/>
+    <circle cx="74" cy="50" r="4.5"/>
+    <circle cx="67" cy="67" r="4.5" fill="currentColor" stroke="none" opacity="0.5"/>
+    <circle cx="50" cy="74" r="4.5"/>
+    <circle cx="33" cy="67" r="4.5"/>
+    <circle cx="26" cy="50" r="4.5"/>
+    <circle cx="33" cy="33" r="4.5"/>
   </svg>`,
   pulse: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="12,56 30,56 38,34 50,76 60,44 68,56 88,56"/>
-    <circle cx="88" cy="56" r="3" fill="currentColor" stroke="none"/>
+    <polyline points="16,16 16,84 88,84"/>
+    <polygon points="22,58 36,50 48,54 62,38 78,30 78,48 62,56 48,72 36,68 22,76" fill="currentColor" stroke="none" opacity="0.2"/>
+    <polyline points="22,67 36,59 48,63 62,47 78,39"/>
+    <circle cx="22" cy="67" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="36" cy="59" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="48" cy="63" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="62" cy="47" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="78" cy="39" r="4" fill="currentColor" stroke="none"/>
   </svg>`,
   frames: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="16" y="24" width="46" height="36" rx="2"/>
-    <rect x="34" y="40" width="46" height="36" rx="2" fill="currentColor" fill-opacity="0.18"/>
-    <path d="M 66 22 A 14 14 0 0 1 84 32"/>
-    <polyline points="84,22 84,32 74,32"/>
+    <rect x="14" y="14" width="22" height="18" rx="2"/>
+    <rect x="39" y="14" width="22" height="18" rx="2"/>
+    <rect x="64" y="14" width="22" height="18" rx="2" stroke-dasharray="3 3"/>
+    <rect x="14" y="37" width="22" height="18" rx="2" stroke-dasharray="3 3"/>
+    <rect x="39" y="37" width="22" height="18" rx="2" fill="currentColor" stroke="none" opacity="0.5"/>
+    <rect x="64" y="37" width="22" height="18" rx="2"/>
+    <path d="M 24 68 Q 50 92 76 68"/>
+    <polyline points="68,66 76,68 74,76"/>
   </svg>`,
   puck: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M 50 15 L 20 85 L 80 85 Z"/>
@@ -930,7 +957,8 @@ const CASES = [
     personal: true,
     problem: "Teachers trained in an instructional framework still spend about two hours adapting each lesson by hand to apply it.",
     solution: "Built an interactive pilot walkthrough with a launch plan. It follows one teacher through five stories: upload a lesson and generate an adaptation, leave while it generates, edit or regenerate any part before sharing, reuse a colleague's adaptation from a shared library, and rate it after teaching. Each story has acceptance criteria.",
-    impactBody: "",
+    impactLabel: "What I learned",
+    impactBody: "Writing acceptance criteria as Given, When, Then for each story forced me to decide what the system does at every step, including when the teacher leaves mid-generation. Marking where the prototype departs from production, such as a screen that waits for a click instead of advancing on its own, kept it honest about what it demonstrates.",
     tech: "Ratings are thumbs only, with no comment box. A thumbs-down asks which part was missing and feeds the generation engine. Nothing reaches the shared library until the teacher saves it.",
     video: null,
     doc: null
@@ -945,8 +973,9 @@ const CASES = [
     personal: true,
     problem: "Parts buyers often know their machine, not the part number.",
     solution: "Built a three-level prototype: all categories, then a category, then a single part page. An add-equipment flow sets the machine as context, so part and bundle pages show fit badges. It also has a frequently-bought-together sidebar, a language menu, an account menu, and a cart.",
-    impactBody: "",
-    tech: "The machine stays selected across pages, so compatibility is answered once instead of on every part.",
+    impactLabel: "What I learned",
+    impactBody: "Fit is the interaction that makes a parts catalog useful, and a static three-level prototype was enough to test where it belongs: set once in the header, then confirmed on every part and bundle. I learned to treat part numbers, categories, and fit as one data model before designing any page.",
+    tech: "The selected machine sits in the header, so each part page can answer whether it fits without asking again.",
     video: null,
     doc: null
   },
@@ -960,7 +989,8 @@ const CASES = [
     personal: true,
     problem: "A remote EdTech product search means checking dozens of career pages and job boards across different applicant tracking systems, and most postings aren't a fit.",
     solution: "Built a daily pipeline that pulls postings from six applicant tracking systems, job aggregators, and LinkedIn alert emails. It applies hard filters for product title, remote, and salary floor, then has Claude score each posting against my resume, with fit to the education domain weighted most heavily. Roles above a threshold become cards on my Trello board for me to research, and postings with no readable description go to a manual-review list.",
-    impactBody: "",
+    impactLabel: "What I learned",
+    impactBody: "Every applicant tracking system fails differently. Workday boards disagree on pagination, so I dedupe by job path and don't trust the reported total, and iCIMS serves its job list only inside an iframe, so a plain request returns an empty shell. I also decide education fit in code before the model sees a posting, so the weighting is explicit and editable instead of buried in a prompt.",
     tech: "Domain fit is a score, not a gate. Education-adjacent roles still surface but rank below core EdTech, so strong adjacent matches aren't lost.",
     video: null,
     doc: null
@@ -975,7 +1005,8 @@ const CASES = [
     personal: true,
     problem: "Reusing content across several accounts without repeating it too soon meant keeping track by memory or spreadsheet.",
     solution: "Built a private tool with a Python backend and React front end that runs only on my own machine. It scans a content folder where each subfolder is a project, reads each file's length, and makes thumbnails. For every account it labels each asset as never used, scheduled, resting, or ready to recycle, using a 105-day rule. It proposes a month of posts at a time against each account's weekly cadence, alternating between assets ready to recycle and fresh ones. A nightly scan and digest report which accounts are behind.",
-    impactBody: "",
+    impactLabel: "What I learned",
+    impactBody: "Identifying files by a content hash, the first 16 characters of a SHA-256, made renames and moves free, but it meant every scan had to be incremental to stay fast on a large library. Running the nightly scan on a schedule and generating posts additively taught me to design each automated step so it can run again safely.",
     tech: "Each file's ID is a hash of its contents, so renaming or moving a file never breaks its posting history. Proposed posts are added on top of what exists, so a new run never moves anything I'm reviewing, have scheduled, or have posted.",
     video: null,
     doc: null
@@ -990,7 +1021,8 @@ const CASES = [
     personal: true,
     problem: "Fitness apps overstate what a walk burns, and food logging is slow enough that I'd quit.",
     solution: "Built two connected trackers. Treadmill Ledger uses the ACSM equations to compute each walk's net calories after subtracting resting metabolism, with pace, effort level, and estimated steps. The 6-Week Reset Tracker is a daily log for a fat-loss plan. I describe a meal in plain English and Claude estimates calories and protein, and the tracker also logs weight, sleep, steps, and water. It pulls steps in from the ledger and charts weight against a planned pace.",
-    impactBody: "",
+    impactLabel: "What I learned",
+    impactBody: "The ACSM walking equation loses accuracy at slow paces, and the running equation takes over at higher speeds, so I flagged those cases instead of hiding them. Storing each walk with the body weight it was calculated at keeps history stable as weight changes. Asking Claude for structured JSON with a range and its assumptions made meal estimates easy to display and edit.",
     tech: "Every number shows its uncertainty. The ledger flags paces below 1.9 mph, where the equation loses accuracy. Meal estimates show a range and the assumptions behind it. The weight chart adds a 7-day average beside each weigh-in, so daily noise doesn't read as failure.",
     video: null,
     doc: null
