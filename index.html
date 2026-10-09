@@ -7,7 +7,7 @@
 <meta name="description" content="A science educator turned product builder. 0→1 learning products at classroom, statewide, and nationwide scale.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #EFEBE6;
@@ -50,19 +50,45 @@
   }
 
   /* ===== HERO ===== */
-  header.hero { padding: 40px 0 64px; }
+  header.hero { padding: 0 0 64px; }
 
-  .hero-meta {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding-bottom: 20px; margin-bottom: 32px;
-    border-bottom: 1px solid var(--rule);
-    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--muted);
+  /* ----- Banner ----- */
+  .banner {
+    margin: 0 0 32px;
+    border-bottom: 1px solid var(--rule-2);
+    background: linear-gradient(120deg, #F3DFC0 0%, #E9B79A 55%, #B85450 130%);
   }
-
-  .sr-only {
-    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
-    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  .banner-in {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 36px; align-items: center; padding-top: 56px; padding-bottom: 56px;
+  }
+  .banner-tag {
+    display: block; margin: 0 0 16px;
+    font-size: 11.5px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent-deep);
+  }
+  .banner-name {
+    font-family: "DM Serif Display", Georgia, serif; font-weight: 400;
+    font-size: clamp(2.8rem, 6.4vw, 4.8rem); line-height: 0.95; letter-spacing: -0.02em;
+    margin: 0 0 14px; color: var(--ink);
+  }
+  .banner-role {
+    font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 1.3rem; line-height: 1.4;
+    color: var(--ink-2); margin: 0; max-width: 44ch; text-wrap: pretty;
+  }
+  .banner-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .banner-tile {
+    aspect-ratio: 1; border-radius: 4px; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 14px -8px rgba(60,30,10,0.55);
+  }
+  .banner-tile::after {
+    content: ""; position: absolute; inset: 5px;
+    border: 1px solid rgba(255,255,255,0.32); pointer-events: none;
+  }
+  .banner-tile .card-icon { width: 58%; height: 58%; }
+  @media (max-width: 820px) {
+    .banner-in { grid-template-columns: 1fr; gap: 26px; padding-top: 36px; padding-bottom: 32px; }
   }
 
   /* ----- Chat card ----- */
@@ -93,7 +119,7 @@
   .chat-schedule:hover { background: var(--accent); color: #fff; }
   .chat-id { min-width: 0; padding-top: 28px; }   /* lines the name up with the cup, not the steam above it */
   .chat-name {
-    font-family: "Instrument Serif", Georgia, serif; font-size: 26px; line-height: 1.1;
+    font-family: "DM Serif Display", Georgia, serif; font-size: 26px; line-height: 1.1;
     color: var(--ink);
   }
 
@@ -221,12 +247,23 @@
   .chat-avatar[data-state="talking"] .av-all { animation: av-talk .5s ease-in-out infinite; }
   .chat-avatar[data-state="thinking"] .av-all { transform: rotate(-5deg); transition: transform .25s; }
   .chat-avatar.is-waving .av-arm-r { animation: av-wave 1.4s ease-in-out 3; }
+  .chat-avatar.is-tilting[data-state="idle"] .av-all { animation: av-tilt 1.6s ease-in-out 1; }
   .av-arm-r { transform-origin: 85% 85%; }
 
   @keyframes av-wave-soft {
     0%, 100% { transform: rotate(0); }
     30% { transform: rotate(-12deg); }
     70% { transform: rotate(14deg); }
+  }
+  @keyframes av-tilt {
+    0%, 100% { transform: rotate(0); }
+    30% { transform: rotate(-6deg); }
+    65% { transform: rotate(4deg); }
+  }
+  @keyframes av-tilt-soft {
+    0%, 100% { transform: rotate(0); }
+    40% { transform: rotate(-3deg); }
+    70% { transform: rotate(2deg); }
   }
   @keyframes av-talk { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-3%) scale(1.03, .97); } }
   @keyframes av-wave {
@@ -240,6 +277,7 @@
     .chat *, .chat *::before { animation: none !important; transition: none !important; }
     /* The greeting wave stays, in a gentler form: smaller swing, no lift. */
     .chat-avatar.is-waving .av-arm-r { animation: av-wave-soft 1.4s ease-in-out 3 !important; }
+    .chat-avatar.is-tilting[data-state="idle"] .av-all { animation: av-tilt-soft 1.6s ease-in-out 1 !important; }
   }
   @media (max-width: 720px) {
     .chat-head { padding: 12px 16px; gap: 12px; }
@@ -266,11 +304,11 @@
     display: flex; align-items: baseline; gap: 24px; margin-bottom: 0;
   }
   .section-head .section-num {
-    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--accent); white-space: nowrap;
   }
   .section-head h2 {
-    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-family: "DM Serif Display", Georgia, serif; font-weight: 400;
     font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; margin: 0; color: var(--ink);
   }
   .section-head .rule { flex: 1; height: 1px; background: var(--rule); align-self: center; }
@@ -293,32 +331,43 @@
     background: var(--surface); border: 1px solid var(--rule-2);
     border-radius: 4px; box-shadow: var(--shadow-card);
     padding: 16px; text-align: left; font: inherit; color: inherit;
-    display: flex; flex-direction: column; cursor: pointer; min-height: 0; overflow: hidden;
+    display: flex; flex-direction: column; cursor: pointer; min-height: 0; overflow: hidden; position: relative;
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.25s ease, border-color 0.2s ease;
   }
   .case-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow-active); }
 
-  .case-top { margin-bottom: 12px; }
+  .case-top { margin-bottom: 12px; flex-shrink: 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
   .case-tile {
     width: 46px; height: 46px; border-radius: 3px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
   }
   .case-tile .card-icon { width: 30px; height: 30px; }
   .case-title {
-    font-family: "DM Serif Display", Georgia, serif; font-size: 18px; line-height: 1.1;
+    font-family: "DM Serif Display", Georgia, serif; font-size: 18px; line-height: 1.25;
     letter-spacing: -0.01em; margin: 0 0 6px; color: var(--ink);
     display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    flex-shrink: 0; padding-bottom: 0.12em;   /* room for descenders (g, p, y) under the clamp */
   }
   .case-blurb {
-    font-family: "DM Sans"; font-size: 12px; line-height: 1.4; color: var(--ink-2); margin: 0;
+    font-size: 12px; line-height: 1.4; color: var(--ink-2); margin: 0;
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   .case-foot {
-    margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px;
+    flex-shrink: 0; margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px;
   }
   .case-sub {
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    font-family: "DM Sans"; font-size: 10.5px; color: var(--muted);
+    font-size: 10.5px; color: var(--muted);
+  }
+  /* In review: full colour, not clickable, corner ribbon and a slashed eye */
+  .case-card.is-soon { cursor: default; }
+  .case-card.is-soon:hover { transform: none; border-color: var(--rule-2); box-shadow: var(--shadow-card); }
+  .case-card.is-soon:hover .case-eye { opacity: 0.75; color: var(--muted); }
+  .case-soon {
+    position: absolute; top: 14px; right: -34px; width: 124px; padding: 4px 0; transform: rotate(45deg);
+    text-align: center; font-size: 11px; line-height: 1.2; letter-spacing: 0.02em;
+    color: var(--ink-2); background: var(--surface-2); border-top: 1px solid var(--rule-2); border-bottom: 1px solid var(--rule-2);
+    pointer-events: none;
   }
   .case-eye {
     width: 22px; height: 22px; flex-shrink: 0; color: var(--muted); opacity: 0.75;
@@ -332,6 +381,7 @@
     .case-tile .card-icon { width: 26px; height: 26px; }
     .case-title { font-size: 16px; }
     .case-blurb { display: none; }
+    .case-card:last-child:nth-child(odd) { grid-column: 1 / -1; aspect-ratio: auto; }
   }
 
   /* --- DETAIL MODAL --- */
@@ -390,51 +440,71 @@
     letter-spacing: -0.01em; margin: 0 0 4px; color: var(--ink);
   }
   .rolo-sub {
-    font-family: "DM Sans"; font-size: 12.5px; color: var(--muted);
+    font-size: 12.5px; color: var(--muted);
     margin-bottom: 16px;
   }
 
   /* Full P/S/I only shown when open */
   .rolo-full {
     display: none;
-    font-family: "DM Sans"; font-size: 14px; line-height: 1.6; color: var(--ink-2);
+    font-size: 14px; line-height: 1.6; color: var(--ink-2);
   }
 
   .rolo-full .field {
     display: grid; grid-template-columns: 90px 1fr; gap: 16px; margin-bottom: 14px;
   }
   .rolo-full .field-label {
-    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--accent); padding-top: 2px;
   }
   .rolo-full .field-body { margin: 0; }
   .rolo-full .field-body strong.stat {
-    display: inline-block; font-family: "Instrument Serif", Georgia, serif;
+    display: inline-block; font-family: "DM Serif Display", Georgia, serif;
     font-size: 28px; color: var(--accent); line-height: 1; margin-right: 6px; vertical-align: -3px;
   }
-  .rolo-full .expand-toggle {
-    margin-top: 18px; padding: 10px 14px; background: transparent; border: 1px dashed var(--rule-2);
-    color: var(--muted); font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em;
-    text-transform: uppercase; cursor: pointer; border-radius: 3px;
+  .rolo-full .case-footer {
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule-2);
   }
-  .rolo-full .expand-toggle:hover { color: var(--ink); border-color: var(--ink); }
+  .rolo-full .sys-block {
+    display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px;
+  }
+  .rolo-full .sys-head {
+    display: flex; align-items: center; gap: 8px; color: var(--accent);
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .rolo-full .sys-icon { width: 18px; height: 18px; flex: none; }
+  .rolo-full .sys-row { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .rolo-full .sys-text { margin: 0; }
+  .rolo-full .sys-link {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font: inherit; font-size: 14px; line-height: 1.2; padding: 9px 15px; border-radius: 999px;
+    color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-2); cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .rolo-full .sys-link:hover { border-color: var(--accent); color: var(--accent); background: #fff; }
+  .rolo-full .case-actions {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;
+  }
+  /* Chips match the chat UI chip (.chip): sentence case, quiet ink, accent on hover */
+  .rolo-full .expand-toggle,
+  .rolo-full .video-link {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font: inherit; font-size: 14px; line-height: 1.2; letter-spacing: 0; text-transform: none;
+    padding: 9px 15px; border-radius: 999px;
+    color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-2);
+    cursor: pointer; text-decoration: none;
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .rolo-full .expand-toggle:hover,
+  .rolo-full .video-link:hover { border-color: var(--accent); color: var(--accent); background: #fff; }
   .rolo-full .tech-details {
     display: none; margin-top: 14px; padding: 14px 16px; background: var(--surface-2);
     border-left: 3px solid var(--accent); font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
   }
   .rolo-full .tech-details.is-open { display: block; }
 
-  .rolo-full .video-link {
-    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
-    font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--accent);
-  }
-  .play-icon {
-    width: 10px; height: 10px; display: inline-block;
-    color: currentColor; flex-shrink: 0;
-  }
   .doc-icon {
-    width: 11px; height: 11px; display: inline-block;
+    width: 14px; height: 14px; display: block;
     color: currentColor; flex-shrink: 0;
   }
 
@@ -442,7 +512,7 @@
   footer.foot { padding: 48px 0 72px; margin-top: 48px; border-top: 1px solid var(--rule); }
   .foot-inner {
     display: flex; justify-content: center; align-items: baseline;
-    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--muted);
   }
   .foot-inner a { color: var(--muted); text-decoration: none; }
@@ -458,7 +528,12 @@
   .pal-course { background: linear-gradient(135deg, #B85450 0%, #6A2E2C 100%); }
   .pal-ose { background: linear-gradient(135deg, #7D3212 0%, #33312D 100%); }
   .pal-assessment { background: linear-gradient(135deg, #E8D5AE 0%, #7A6B5B 100%); }
-  .pal-neondrift { background: radial-gradient(circle at 30% 40%, #FF6EC7 0%, transparent 40%), radial-gradient(circle at 70% 60%, #62D2A2 0%, transparent 40%), radial-gradient(circle at 50% 20%, #F5D67B 0%, transparent 40%), #1A1814; }
+  .pal-lesson { background: linear-gradient(135deg, #E8D5AE 0%, #B85450 100%); }
+  .pal-parts { background: linear-gradient(135deg, #C9BEA9 0%, #33312D 100%); }
+  .pal-jobsearch { background: linear-gradient(135deg, #5F5546 0%, #33312D 100%); }
+  .pal-content { background: linear-gradient(135deg, #33312D 0%, #B85450 100%); }
+  .pal-health { background: linear-gradient(135deg, #7D3212 0%, #C9BEA9 100%); }
+  .pal-neondrift { background: linear-gradient(135deg, #6A2E2C 0%, #E8D5AE 100%); }
 
 </style>
 <!-- GoatCounter analytics (privacy-friendly, no cookies) -->
@@ -488,14 +563,18 @@
 
 <!-- ============ HERO + BIO ============ -->
 <header class="hero">
-  <div class="wrap">
-    <div class="hero-meta">
-      <span>Portfolio</span>
-      <span></span>
-      <span>nguyenkerry1@gmail.com</span>
+  <section class="banner" aria-label="Kerry Nguyen">
+    <div class="wrap banner-in">
+      <div>
+        <span class="banner-tag">Product Portfolio</span>
+        <h1 class="banner-name">Kerry Nguyen</h1>
+        <p class="banner-role">Product manager, builder, and educator. Ask Java, my portfolio assistant, about my work, or browse the case studies below.</p>
+      </div>
+      <div class="banner-tiles" id="banner-tiles" aria-hidden="true"></div>
     </div>
+  </section>
 
-    <h1 class="sr-only">Kerry Nguyen: product manager, builder, educator</h1>
+  <div class="wrap">
     <section class="chat" id="home" aria-label="Chat with Kerry's portfolio assistant">
       <div class="chat-head">
         <div class="chat-avatar" id="chat-avatar" data-state="idle" aria-hidden="true"></div>
@@ -571,8 +650,8 @@ const ICONS = {
     <line x1="60" y1="38" x2="84" y2="38"/>
     <line x1="60" y1="46" x2="78" y2="46"/>
     <line x1="60" y1="54" x2="84" y2="54"/>
-    <text x="28" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="12" stroke="none" fill="currentColor">EN</text>
-    <text x="72" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="12" stroke="none" fill="currentColor">ES</text>
+    <text x="28" y="74" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" stroke="none" fill="currentColor">EN</text>
+    <text x="72" y="74" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" stroke="none" fill="currentColor">ES</text>
   </svg>`,
   aitree: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="50" cy="20" r="6" fill="currentColor" stroke="none"/>
@@ -664,6 +743,58 @@ const ICONS = {
     <line x1="36" y1="62" x2="62" y2="62"/>
     <line x1="26" y1="76" x2="72" y2="76"/>
   </svg>`,
+  funnel: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="26" cy="12" r="2.5"/>
+    <circle cx="42" cy="9" r="2.5"/>
+    <circle cx="58" cy="12" r="2.5"/>
+    <circle cx="74" cy="9" r="2.5" fill="currentColor" stroke="none" opacity="0.5"/>
+    <path d="M 14 22 L 86 22 L 58 52 L 58 66 L 42 58 L 42 52 Z"/>
+    <line x1="28" y1="32" x2="72" y2="32"/>
+    <rect x="34" y="74" width="32" height="16" rx="2" fill="currentColor" fill-opacity="0.18"/>
+    <polyline points="43,82 48,86 57,78"/>
+  </svg>`,
+  adapt: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 16 14 L 44 14 L 58 28 L 58 84 L 16 84 Z"/>
+    <polyline points="44,14 44,28 58,28"/>
+    <line x1="24" y1="40" x2="50" y2="40"/>
+    <line x1="24" y1="49" x2="50" y2="49"/>
+    <rect x="24" y="56" width="26" height="10" fill="currentColor" stroke="none" opacity="0.5"/>
+    <line x1="24" y1="75" x2="40" y2="75"/>
+    <path d="M 76 14 L 79 23 L 88 26 L 79 29 L 76 38 L 73 29 L 64 26 L 73 23 Z" fill="currentColor" stroke="none" opacity="0.9"/>
+    <path d="M 82 52 L 83.5 56.5 L 88 58 L 83.5 59.5 L 82 64 L 80.5 59.5 L 76 58 L 80.5 56.5 Z" fill="currentColor" stroke="none" opacity="0.9"/>
+  </svg>`,
+  gear: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="50" cy="50" r="36"/>
+    <circle cx="50" cy="50" r="13"/>
+    <circle cx="50" cy="26" r="4.5"/>
+    <circle cx="67" cy="33" r="4.5"/>
+    <circle cx="74" cy="50" r="4.5"/>
+    <circle cx="67" cy="67" r="4.5" fill="currentColor" stroke="none" opacity="0.5"/>
+    <circle cx="50" cy="74" r="4.5"/>
+    <circle cx="33" cy="67" r="4.5"/>
+    <circle cx="26" cy="50" r="4.5"/>
+    <circle cx="33" cy="33" r="4.5"/>
+  </svg>`,
+  pulse: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="16,16 16,84 88,84"/>
+    <polygon points="22,58 36,50 48,54 62,38 78,30 78,48 62,56 48,72 36,68 22,76" fill="currentColor" stroke="none" opacity="0.2"/>
+    <polyline points="22,67 36,59 48,63 62,47 78,39"/>
+    <circle cx="22" cy="67" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="36" cy="59" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="48" cy="63" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="62" cy="47" r="2" fill="currentColor" stroke="none"/>
+    <circle cx="78" cy="39" r="4" fill="currentColor" stroke="none"/>
+  </svg>`,
+  frames: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="14" y="14" width="22" height="18" rx="2"/>
+    <rect x="39" y="14" width="22" height="18" rx="2"/>
+    <rect x="64" y="14" width="22" height="18" rx="2" stroke-dasharray="3 3"/>
+    <rect x="14" y="37" width="22" height="18" rx="2" stroke-dasharray="3 3"/>
+    <rect x="39" y="37" width="22" height="18" rx="2" fill="currentColor" stroke="none" opacity="0.5"/>
+    <rect x="64" y="37" width="22" height="18" rx="2"/>
+    <path d="M 24 68 Q 50 92 76 68"/>
+    <polyline points="68,66 76,68 74,76"/>
+  </svg>`,
   puck: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M 50 15 L 20 85 L 80 85 Z"/>
     <line x1="30" y1="61" x2="70" y2="61"/>
@@ -683,12 +814,14 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-cadence",
     icon: ICONS.cadence,
+    star: true,
+    task: "Give teachers one place to plan and pace instruction, while preserving their autonomy to adapt it to their students.",
     problem: "Teachers had no single place to plan and pace instruction, relying instead on a patchwork of disconnected tools, paper guides, and habits.",
     insight: "99% of first-90-day activity was planning-related, confirming that planning was the primary job teachers came to the experience to accomplish.",
     solution: "Unified static, paper-based district pacing guides and school calendars with digital lesson plans, assignments, and instructional materials in one planning workflow. Provides districts a way to establish instructional direction while preserving teacher autonomy to adapt pacing, combine or clip lessons, add flex days, and schedule assignments.",
     impactStat: null,
-    impactBody: "Made dedicated planning and pacing available to every teacher across every grade band and subject area, giving teachers a flexible way to adapt pacing to their students' needs and arrive prepared for instruction.",
-    platformStat: "500K+",
+    impactBody: "Made dedicated planning and pacing available to every teacher across every age group and subject area, giving teachers a flexible way to adapt pacing to their students' needs and arrive prepared for instruction.",
+    platformStat: "550K+",
     platformBody: "users across the platform.",
     tech: null,
     video: "https://go.kiddom.co/cadence",
@@ -701,29 +834,31 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-bilingual",
     icon: ICONS.bilingual,
-    origin: `Built on the translation capability first developed for <strong>AI Tree Tool</strong>.`,
+    star: true,
+    connections: [{ id: "aitree", text: "Built on the translation capability first developed for AI Tree Tool." }],
+    task: "Give English learners real Spanish-language support without replacing English, and build it on the translation capability already in place.",
     problem: "English learners needed Spanish-language support, but a full-translation toggle replaces English rather than supporting real bilingual learning.",
     solution: "Built a side-by-side English/Spanish view designed around language acquisition, prioritizing Spanish based on its relevance to 76%+ of English learners nationally.",
     impactStat: null,
     impactBody: "Bilingual expansion into Spanish-language and dual-immersion classrooms, enabling districts with growing demand for bilingual instruction to provide instructional materials in both English and Spanish.",
     tech: "Chose a cross-referenced-locale architecture over heavier inline node-threading with Engineering. That cut engineering complexity while still supporting variable classroom language needs, since not every classroom needs the same language pairing or density of support.",
-    techLabel: "Technical Decision",
     video: "https://go.kiddom.co/bilingual-view",
     doc: null
   },
   {
     id: "keyboard",
-    blurb: "Grade-band math keyboards for authentic notation.",
+    blurb: "Age-specific math keyboards for authentic notation.",
     title: "Math Keyboard",
     sub: "Kiddom · 2026",
     palette: "pal-keyboard",
     icon: ICONS.keyboard,
-    problem: "Students needed to enter real mathematical notation in written responses, but no single keyboard design works across every grade band from K–2 to high school.",
-    solution: "Built a grade-band-specific math keyboard system spanning K–2, 3–5, middle school, and high school/teacher, with MathML support via MathJax, a Text Mode toggle for mixed math/text answers, teacher “preview as student,” and auto-shortcut symbol conversion restricted to high-school/teacher level.",
+    star: true,
+    task: "Design a keyboard that students of any age can use to enter real mathematical notation in written responses.",
+    problem: "Students needed to enter real mathematical notation in written responses, but no single keyboard design works for every age group.",
+    solution: "Built a set of math keyboards matched to students’ age and experience, plus a Text Mode toggle for mixed math and text answers and a “preview as student” view for teachers.",
     impactStat: null,
-    impactBody: "Enabled students across every grade band to express mathematical reasoning in authentic notation, while keeping the interaction model appropriately simple for younger learners and more powerful for advanced students.",
-    tech: "Rather than expose the full symbol set to every learner, differentiated keyboard capabilities by grade band. Provides simplicity for younger students and introduces shortcut-driven efficiency only when learners were ready for it.",
-    techLabel: "Product Decision",
+    impactBody: "Students across math and science can now express mathematical reasoning in authentic notation, with a simple keyboard for younger learners and shortcut-driven efficiency for older ones.",
+    tech: "Rather than expose the full symbol set to every learner, I matched keyboard capability to the student. Shortcuts that convert typed text into symbols automatically are limited to the high school and teacher level.",
     video: null,
     doc: "https://support.kiddom.co/en/articles/14725065-math-keyboard"
   },
@@ -734,12 +869,13 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-calculator",
     icon: ICONS.calculator,
+    star: true,
+    task: "Give teachers control over calculator access in Show Your Work questions without undermining what each question assesses.",
     problem: "Show Your Work questions needed calculator access for computation-heavy problems, but giving unrestricted access on every question risked undermining what was actually being assessed.",
     solution: "Built teacher-controlled, per-question calculator access inside Show Work questions, with Basic, Scientific, or no calculator options configurable independently for each question within the same assignment, without affecting auto-grading.",
     impactStat: null,
     impactBody: "Gave teachers control over calculator access at the question level, allowing them to match tools to what each question is designed to assess without restricting or enabling calculators across the entire assignment.",
     tech: "Captured Show Work alongside calculator-enabled responses, preserving the student's reasoning for future AI-powered feedback.",
-    techLabel: "Product Foundation",
     video: null,
     doc: "https://support.kiddom.co/en/articles/15461433-using-the-student-calculator-in-show-work-questions"
   },
@@ -750,12 +886,13 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-protractor",
     icon: ICONS.protractor,
+    star: true,
+    task: "Let students measure angles inside the digital drawing tool, replacing the paper-and-photo workaround.",
     problem: "Measuring angles on a digital assignment required a disconnected, multi-step workaround: draw on paper, measure with a physical protractor, then photograph and submit.",
     solution: "Built a digital protractor directly inside the drawing tool. Students draw the angle, then place, rotate, resize, and flip the protractor over it, reading the angle measurement in real time without leaving the assignment.",
     impactStat: null,
     impactBody: "Replaced a multi-step, paper-dependent workflow with a single in-tool interaction, allowing students to measure and submit their work digitally while eliminating photographed paper artifacts for teachers to interpret and grade.",
     tech: "Kept measurement inside the drawing workflow so students could construct and measure the angle in the same workspace, rather than switching between tools or activities.",
-    techLabel: "Product Decision",
     video: null,
     doc: "https://support.kiddom.co/en/articles/14725022-what-are-student-math-tools"
   },
@@ -766,7 +903,9 @@ const CASES = [
     sub: "Kiddom · 2025",
     palette: "pal-course",
     icon: ICONS.crosswalk,
-    origin: "Built from the patterns identified while developing state adoption packages for Texas, Florida, and Tennessee.",
+    star: true,
+    connections: [{ id: "ose", text: "Built from the patterns identified while developing state adoption packages for Texas, Florida, and Tennessee." }],
+    task: "Replace fragmented, spreadsheet-based state adoption builds with a repeatable system that cuts errors and QA burden.",
     problem: "State adoption is a critical path to volume, but building state-specific courses was fragmented across spreadsheets and contractors, increasing errors and QA burden as more contributors got involved.",
     solution: "Built Course Builder, a reusable system that takes a state's standards sequence, the source curriculum's sequence, and a crosswalk between them to automatically generate a reordered, renumbered draft course and flag standards-alignment gaps for Content Generation. The system replaces fragmented spreadsheet coordination with a repeatable workflow for future state adoption builds.",
     impactStat: "45%",
@@ -777,19 +916,19 @@ const CASES = [
   },
   {
     id: "aitree",
-    blurb: "LLM content-quality checks and English-to-Spanish translation.",
+    blurb: "Age-specific English-to-Spanish translation, plus LLM content-quality checks.",
     title: "AI Tree Tool",
     sub: "Kiddom · 2025",
     palette: "pal-aitree",
     icon: ICONS.aitree,
-    problem: "As curriculum content scaled across 400+ course trees, manual review couldn't keep pace with mounting grammar, formatting, and broken-link errors — eroding user trust.",
-    solution: "Built an extensible LLM-powered content-quality system, adding specialized prompts as new needs surfaced: grammar checking, book-title capitalization and poem formatting, broken-link detection and correction, and English-to-Spanish translation with grade-band-specific outputs.",
-    impactStat: null,
-    impactBody: `Reduced content errors from <strong class="stat">1,000+</strong> to <strong class="stat">&lt;100</strong> after deploying the tool across the full 400+ course-tree library.`,
-    evolutionLabel: "Evolution",
-    evolution: `The translation capability later became the technical foundation for <strong>Bilingual View & Print.</strong>`,
-    tech: "Initial single-prompt translation produced inconsistent quality across grade bands. Redesigned the translation system around grade-band-specific prompting and validated output with a calibrated three-pass human evaluation framework before launch.",
-    techLabel: "AI Evaluation",
+    star: true,
+    connections: [{ id: "bilingual", text: "The translation capability later became the technical foundation for Bilingual View & Print." }],
+    task: "Own the translation capability end to end: fast enough to scale, accurate enough for teachers to trust, and tuned to each age group.",
+    problem: "State adoption of new curriculum requires publishers to also provide Spanish-language support.",
+    solution: "Built an LLM-powered English-to-Spanish translation system that produces age-specific outputs.",
+    impactStat: "118",
+    impactBody: "math course trees translated into Spanish, QA'd, and launched as of July 2026, giving up to 200K students access to their math curriculum in Spanish.",
+    tech: "Initial single-prompt translation produced inconsistent quality across age groups. Redesigned the translation system around age-specific prompting and validated output with a calibrated three-pass human evaluation framework before launch.<br><br>Because the system was built to take specialized prompts, I extended it beyond translation to content-quality checks: grammar, book-title capitalization and poem formatting, and broken-link detection and correction. Deployed across the full 400+ course-tree library, the checks reduced content errors from 1,000+ to under 100.",
     video: null,
     doc: null
   },
@@ -800,12 +939,13 @@ const CASES = [
     sub: "Kiddom · 2024",
     palette: "pal-assessment",
     icon: ICONS.assessment,
+    star: true,
+    task: "Automate the creation of NGSS-aligned science assessments so teachers aren't hand-grading essay-style tasks to get timely feedback.",
     problem: "OpenSciEd's assessments relied heavily on essay-style Claim-Evidence-Reasoning tasks, which were pedagogically strong but too time-consuming for teachers to hand-grade at the pace needed for timely student feedback.",
     solution: "Built a Streamlit-based assessment generator to automate the creation of three-dimensional, NGSS-aligned science questions. I designed the generator around Science and Engineering Practices (SEPs), DOK levels, state assessment formats, and multiple response types, including both Claim-Evidence-Reasoning and more autogradable formats.",
     impactStat: null,
     impactBody: "Turned a manual assessment-authoring workflow into a working generation tool that could produce alternative OpenSciEd assessments across formats and state testing contexts without replacing the pedagogical rigor of the source curriculum.",
     tech: "Kept Claim-Evidence-Reasoning question generation available rather than restricting the generator to autogradable question types. CER is itself a Science and Engineering Practice, so the generator treated question format as a design choice based on the assessment goal rather than assuming automation should replace constructed response.",
-    techLabel: "Product Decision",
     video: null,
     doc: null
   },
@@ -816,14 +956,14 @@ const CASES = [
     sub: "Kiddom · TX, FL, TN · 2023–25",
     palette: "pal-ose",
     icon: ICONS.books,
+    star: true,
+    connections: [{ id: "course-builder", text: "Building these state adoption packages manually revealed a repeatable standards-mapping workflow, which I later productized into State Adoption Course Builder for future builds." }],
+    task: "Align OpenSciEd and OpenStax science curricula to each state's standards framework without diluting their pedagogy.",
     problem: "OpenSciEd and OpenStax's NGSS-aligned curricula needed to align with each state's standards framework, requiring modifications and gap-filling content without diluting pedagogical integrity.",
     solution: "Translated OpenSciEd and OpenStax science curricula into state-specific adoption packages across Texas, Florida, and Tennessee. Mapped source curricula against state standards, identified instructional gaps, and authored the content needed to meet local requirements while preserving the pedagogy of the original materials. Each adoption shipped as teacher and student workbooks alongside digital curriculum.",
     impactStat: null,
     impactBody: `Delivered adoption-ready curriculum across three states and multiple science disciplines, supporting districts with different standards requirements while preserving the integrity of the source curricula. The largest adoption serves <strong class="stat">60,000+</strong> students in Knox County, Tennessee.`,
-    evolutionLabel: "Evolution",
-    evolution: `Building these state adoption packages manually revealed a repeatable standards-mapping workflow, which I later productized into <strong>State Adoption Course Builder</strong> for future builds.`,
     tech: "Mapped OpenSciEd's NGSS-aligned curriculum against state-specific standards, using pedagogical judgment to determine where standards diverged, what instructional content was missing, and how to fill those gaps without disrupting the intended learning progression.",
-    techLabel: "Domain Expertise",
     video: null,
     doc: null
   },
@@ -834,13 +974,73 @@ const CASES = [
     sub: "Personal Project · August 2026",
     palette: "pal-neondrift",
     icon: ICONS.puck,
+    personal: true,
     problem: "Quick asynchronous games introduce friction before the first move, forcing players to install and open a separate app and constantly switch back to the conversation where they're actually talking.",
     solution: "Built Neon Drift as an iMessage extension rather than a standalone app, keeping the game inside the conversation where the invitation, turn-taking, and social interaction already happen. Designed an 8-turn ruleset playable in ~2 minutes, with a persistent game bubble and personalized game state living inside the extension UI.",
     impactLabel: "What I Learned",
     impactStat: null,
     impactBody: "Used the project to deepen my hands-on skills in refactoring, physics modeling, and UI/UX design. Refactored the physics model around real Coulomb friction and meaningful physical parameters rather than arbitrary game-tuning values, making the game feel more like the physical system it represents. I also refined my interaction design instincts around keeping asynchronous game state inside the extension rather than turning every turn into a new message.",
     tech: "Chose a persistent game bubble rather than sending a new iMessage after every turn. The conversation remains the social layer; the extension owns the changing game state.",
-    techLabel: "Product Decision",
+    video: null,
+    doc: null
+  },
+  {
+    id: "lesson-adapt",
+    soon: true,
+    blurb: "A teacher-facing prototype that adapts a lesson they already teach.",
+    title: "AI Lesson Adaptation Prototype",
+    sub: "Personal Project · Interview prototype · 2026",
+    palette: "pal-lesson",
+    icon: ICONS.adapt,
+    personal: true,
+    video: null,
+    doc: null
+  },
+  {
+    id: "parts-store",
+    soon: true,
+    blurb: "A parts catalog that starts from the machine, not the part number.",
+    title: "Parts Store Prototype",
+    sub: "Personal Project · Interview prototype · 2026",
+    palette: "pal-parts",
+    icon: ICONS.gear,
+    personal: true,
+    video: null,
+    doc: null
+  },
+  {
+    id: "content-tracker",
+    soon: true,
+    blurb: "A local tool that tracks media assets and decides when each is ready to post again.",
+    title: "Content Tracker",
+    sub: "Personal Project · 2026",
+    palette: "pal-content",
+    icon: ICONS.frames,
+    personal: true,
+    video: null,
+    doc: null
+  },
+  {
+    id: "health-tools",
+    soon: true,
+    blurb: "Two connected trackers for true walking calories and a six-week body recomposition plan.",
+    title: "Health Tracking Tools",
+    sub: "Personal Project · 2026",
+    palette: "pal-health",
+    icon: ICONS.pulse,
+    personal: true,
+    video: null,
+    doc: null
+  },
+  {
+    id: "job-search",
+    soon: true,
+    blurb: "A daily pipeline that finds, scores, and queues the roles worth my time.",
+    title: "Job Search Automation",
+    sub: "Personal Project · 2026",
+    palette: "pal-jobsearch",
+    icon: ICONS.funnel,
+    personal: true,
     video: null,
     doc: null
   }
@@ -858,14 +1058,20 @@ const CASES = [
   let lastFocus = null;
 
   const EXT = `<svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
-  const PLAY = `<svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>`;
+
+  const tilesEl = document.getElementById('banner-tiles');
+  if (tilesEl) {
+    tilesEl.innerHTML = CASES.map((c) =>
+      `<div class="banner-tile ${c.palette}"><span class="card-icon">${c.icon}</span></div>`
+    ).join('');
+  }
 
   function renderGrid() {
     gridEl.innerHTML = '';
     CASES.forEach((c) => {
       const el = document.createElement('button');
       el.type = 'button';
-      el.className = 'case-card';
+      el.className = 'case-card' + (c.soon ? ' is-soon' : '');
       el.dataset.id = c.id;
       el.innerHTML = `
         <div class="case-top">
@@ -874,19 +1080,53 @@ const CASES = [
         <h3 class="case-title">${c.cardTitle || c.title}</h3>
         <p class="case-blurb">${c.blurb || ''}</p>
         <div class="case-foot">
+          <span class="case-sub">${c.personal ? 'Personal project' : c.sub.replace(/\s*·\s*\d{4}(–\d{2,4})?$/, '')}</span>
           <span class="case-eye" aria-hidden="true" title="View details">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
           </span>
         </div>
       `;
-      el.addEventListener('click', () => openCase(c.id, 'grid'));
+      if (c.soon) {
+        el.setAttribute('aria-disabled', 'true');
+        el.title = 'Details are in review';
+        el.insertAdjacentHTML('beforeend', '<span class="case-soon">In review</span>');
+        el.querySelector('.case-eye svg').insertAdjacentHTML('beforeend', '<line x1="3" y1="3" x2="21" y2="21"/>');
+        el.querySelector('.case-eye').title = 'Details in review';
+        el.addEventListener('click', () => track('case_unavailable_clicked', { case_id: c.id, case_title: c.title }));
+      } else {
+        el.addEventListener('click', () => openCase(c.id, 'grid'));
+      }
       gridEl.appendChild(el);
     });
+    fitBlurbs();
   }
+
+  // The card is a fixed square, so show only as many whole blurb lines as fit under the title.
+  function fitBlurbs() {
+    gridEl.querySelectorAll('.case-card').forEach((card) => {
+      const blurb = card.querySelector('.case-blurb');
+      if (!blurb || getComputedStyle(blurb).display === 'none') return;
+      blurb.style.webkitLineClamp = 3;
+      const cs = getComputedStyle(card);
+      const room = card.getBoundingClientRect().bottom - parseFloat(cs.paddingBottom)
+        - card.querySelector('.case-foot').offsetHeight - blurb.getBoundingClientRect().top;
+      const lines = Math.max(1, Math.min(3, Math.floor(room / parseFloat(getComputedStyle(blurb).lineHeight))));
+      blurb.style.webkitLineClamp = lines;
+      blurb.style.lineClamp = lines;
+    });
+  }
+  window.addEventListener('resize', fitBlurbs);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBlurbs);
+
+  const SYS = `<svg class="sys-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.4 6.8 10.6 15.7M16.6 6.8 13.4 15.7M7.5 6h9"/></svg>`;
+  const ARROW = `<svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+  const connectionsBlock = (c) => `<div class="sys-block"><div class="sys-head">${SYS}<span>Thinking in systems</span></div>${c.connections.map((k) => { const t = CASES.find((x) => x.id === k.id); return `<div class="sys-row"><p class="sys-text">${k.text}</p><button type="button" class="sys-link" data-case="${k.id}">${t.title}${ARROW}</button></div>`; }).join('')}</div>`;
+  const platformField = (c) => `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>`;
+  const hasFooter = (c) => c.tech || c.video || c.doc || c.connections || (c.star && (c.insight || c.platformStat || c.platformBody));
 
   function openCase(id, source) {
     const c = CASES.find(x => x.id === id);
-    if (!c) return;
+    if (!c || c.soon) return;
     track('case_opened', { case_id: c.id, case_title: c.title, source: source || 'chat_link' });
     lastFocus = document.activeElement;
     sheetEl.innerHTML = `
@@ -895,30 +1135,44 @@ const CASES = [
       <h3 class="rolo-title">${c.title}</h3>
       <div class="rolo-sub">${c.sub}</div>
       <div class="rolo-full">
-        ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><p class="field-body">${c.origin}</p></div>` : ''}
-        <div class="field"><span class="field-label">Problem</span><p class="field-body">${c.problem}</p></div>
-        ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
-        <div class="field"><span class="field-label">Solution</span><p class="field-body">${c.solution}</p></div>
-        <div class="field"><span class="field-label">${c.impactLabel || 'Impact'}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
-        ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>` : ''}
-        ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><p class="field-body">${c.evolution}</p></div>` : ''}
-        ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button><div class="tech-details">${c.tech}</div>` : ''}
-        ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener">${PLAY}Watch product video</a></div>` : ''}
-        ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">${EXT}Read support docs</a></div>` : ''}
+        <div class="field"><span class="field-label">${c.star ? 'Situation' : 'Problem'}</span><p class="field-body">${c.problem}</p></div>
+        ${!c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
+        ${c.star && c.task ? `<div class="field"><span class="field-label">Task</span><p class="field-body">${c.task}</p></div>` : ''}
+        <div class="field"><span class="field-label">${c.star ? 'Action' : (c.personal ? 'What I built' : 'Solution')}</span><p class="field-body">${c.solution}</p></div>
+        ${c.impactBody ? `<div class="field"><span class="field-label">${c.impactLabel || (c.star ? 'Result' : 'Impact')}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>` : ''}
+        ${!c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
+        ${hasFooter(c) ? `<div class="case-footer">
+          ${c.connections ? connectionsBlock(c) : ''}
+          ${c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
+          ${c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
+          ${(c.tech || c.video || c.doc) ? `<div class="case-actions">
+            ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Key decision'}">+ ${c.techLabel || 'Key decision'}</button>` : ''}
+            ${c.video ? `<a class="video-link" href="${c.video}" target="_blank" rel="noopener">Product video${EXT}</a>` : ''}
+            ${c.doc ? `<a class="video-link" href="${c.doc}" target="_blank" rel="noopener">Support docs${EXT}</a>` : ''}
+          </div>` : ''}
+          ${c.tech ? `<div class="tech-details">${c.tech}</div>` : ''}
+        </div>` : ''}
       </div>
     `;
     sheetEl.querySelector('.rolo-close').addEventListener('click', closeCase);
+    sheetEl.querySelectorAll('.sys-link').forEach((b) => b.addEventListener('click', () => openCase(b.dataset.case, 'case_connection')));
     sheetEl.querySelectorAll('a.video-link').forEach((a) => {
       a.addEventListener('click', () => track('case_link_clicked', { case_id: c.id, link_type: a.href === c.video ? 'video' : 'docs' }));
     });
     const techBtn = sheetEl.querySelector('.expand-toggle');
     if (techBtn) {
       techBtn.addEventListener('click', () => {
-        const td = techBtn.nextElementSibling;
+        const td = sheetEl.querySelector('.tech-details');
         td.classList.toggle('is-open');
         const label = techBtn.dataset.techLabel;
-        techBtn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
-        if (td.classList.contains('is-open')) track('case_details_expanded', { case_id: c.id });
+        const open = td.classList.contains('is-open');
+        techBtn.textContent = open ? '– Hide ' + label.toLowerCase() : '+ ' + label;
+        techBtn.setAttribute('aria-expanded', open);
+        if (open) track('case_details_expanded', { case_id: c.id });
+        if (open) {
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          td.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+        }
       });
     }
     modalEl.classList.add('is-open');
@@ -1032,11 +1286,13 @@ const CASES = [
   }
 
   /* Scheduled motion, repeating every 60s from page load (t = 0 is the greeting):
-       0-5s   wave 3 times and blink 3 times
-       0s, 30s one steam loop
+       0s, 15s, 30s, 45s   wave 3 times, blink 3 times, tilt the head once
+       0s, 30s             one steam loop
      The cup is still the rest of the time. */
   const CYCLE_MS = 60000;
+  const BURST_AT = [0, 15000, 30000, 45000];
   const BLINK_AT = [400, 1900, 3400];
+  const TILT_AT = 200;
   const STEAM_AT = [0, 30000];
   const STEAM_FRAME_MS = 150;
 
@@ -1044,6 +1300,11 @@ const CASES = [
     if (document.hidden) return;
     headAvatarEl.classList.add('is-waving');
     setTimeout(() => headAvatarEl.classList.remove('is-waving'), 1400 * 3 + 100);
+  }
+  function tilt() {
+    if (document.hidden) return;
+    headAvatarEl.classList.add('is-tilting');
+    setTimeout(() => headAvatarEl.classList.remove('is-tilting'), 1700);
   }
   function blink() {
     if (document.hidden) return;
@@ -1060,9 +1321,13 @@ const CASES = [
       headAv.steam(frame);
     }, STEAM_FRAME_MS);
   }
-  function runCycle() {
+  function runBurst() {
     wave();
+    setTimeout(tilt, TILT_AT);
     BLINK_AT.forEach((ms) => setTimeout(blink, ms));
+  }
+  function runCycle() {
+    BURST_AT.forEach((ms) => setTimeout(runBurst, ms));
     STEAM_AT.forEach((ms) => setTimeout(steamLoop, ms));
   }
 
@@ -1297,7 +1562,7 @@ const CASES = [
         { brk: true },
         'When early translations in the [[case:aitree|AI Tree Tool]] varied in quality across age groups, she redesigned the approach around age-specific prompts. She partnered with subject matter experts to develop a quality rubric and with ML engineers to define inference guidelines.',
         { brk: true },
-        'Outputs went through up to three rounds of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.',
+        'Outputs went through three passes of expert review and refinement, each a pass or fail with notes on why and where the engine should look for better context, to drive higher-fidelity results before launch.',
       ] },
     { id: 'teams', chip: 'How does Kerry work with teams?',
       say: [
@@ -1314,7 +1579,7 @@ const CASES = [
         "She works best in remote roles with Central time zone overlap, and is open to hybrid roles in the Chicago area. If that sounds like a fit, Kerry would love to learn more about the role.",
         { brk: true },
         { cta: true },
-        'Prefer email? Reach Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
+        'Prefer email? Contact Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
       ] },
   ];
   const BY_ID = Object.fromEntries(SPINE.map((t) => [t.id, t]));

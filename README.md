@@ -24,8 +24,9 @@ then `track()` does nothing. Localhost is ignored.
 | Event | Properties |
 |---|---|
 | `chip_clicked` | `chip_id`, `chip_text`, `via` (`chip` / `header_schedule`), `position`, `questions_asked_before` |
-| `case_opened` | `case_id`, `case_title`, `source` (`grid` / `chat_link`) |
-| `case_details_expanded` | `case_id` |
+| `case_opened` | `case_id`, `case_title`, `source` (`grid` / `chat_link` / `case_connection`) |
+| `case_unavailable_clicked` | `case_id`, `case_title` (an "In review" card that has no details yet) |
+| `case_details_expanded` | `case_id` (the "Key decision" toggle) |
 | `case_link_clicked` | `case_id`, `link_type` (`video` / `docs`) |
 | `schedule_clicked` | `location` (`header` / `chat_answer`) |
 
@@ -56,3 +57,6 @@ use the manual CSV export in GoatCounter's settings.
 
 Pull before editing. This repo gets changes from more than one machine, and
 a stale local clone will make `git push` fail.
+
+Case cards are tracked by their `id` in the `CASES` list, so a new card is tracked automatically.
+When a card goes live (drops `soon`), its clicks switch from `case_unavailable_clicked` to `case_opened`.
