@@ -1647,7 +1647,7 @@ const CASES = [
     try {
       const t = BY_ID[id];
       track('chip_clicked', {
-        chip_id: id, chip_text: t.chip,
+        chip_id: id, chip_title: t.chip,
         chips_shown: lastShown.slice(),                          // chip_ids on screen at this tap (stable if SPINE is reordered)
         via: (meta && meta.via) || 'header_schedule',
         position: (meta && meta.position) || null,
