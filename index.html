@@ -703,7 +703,7 @@ const CASES = [
     solution: "Unified static, paper-based district pacing guides and school calendars with digital lesson plans, assignments, and instructional materials in one planning workflow. Provides districts a way to establish instructional direction while preserving teacher autonomy to adapt pacing, combine or clip lessons, add flex days, and schedule assignments.",
     impactStat: null,
     impactBody: "Made dedicated planning and pacing available to every teacher across every grade band and subject area, giving teachers a flexible way to adapt pacing to their students' needs and arrive prepared for instruction.",
-    platformStat: "500K+",
+    platformStat: "550K+",
     platformBody: "users across the platform.",
     tech: null,
     video: "https://go.kiddom.co/cadence",
@@ -716,6 +716,8 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-bilingual",
     icon: ICONS.bilingual,
+    star: true,
+    task: "Give English learners real Spanish-language support without replacing English, and build it on the translation capability already in place.",
     origin: `Built on the translation capability first developed for <strong>AI Tree Tool</strong>.`,
     problem: "English learners needed Spanish-language support, but a full-translation toggle replaces English rather than supporting real bilingual learning.",
     solution: "Built a side-by-side English/Spanish view designed around language acquisition, prioritizing Spanish based on its relevance to 76%+ of English learners nationally.",
@@ -733,6 +735,8 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-keyboard",
     icon: ICONS.keyboard,
+    star: true,
+    task: "Let students enter real mathematical notation in written responses at every grade band, from K–2 through high school.",
     problem: "Students needed to enter real mathematical notation in written responses, but no single keyboard design works across every grade band from K–2 to high school.",
     solution: "Built a grade-band-specific math keyboard system spanning K–2, 3–5, middle school, and high school/teacher, with MathML support via MathJax, a Text Mode toggle for mixed math/text answers, teacher “preview as student,” and auto-shortcut symbol conversion restricted to high-school/teacher level.",
     impactStat: null,
@@ -749,6 +753,8 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-calculator",
     icon: ICONS.calculator,
+    star: true,
+    task: "Give teachers control over calculator access in Show Your Work questions without undermining what each question assesses.",
     problem: "Show Your Work questions needed calculator access for computation-heavy problems, but giving unrestricted access on every question risked undermining what was actually being assessed.",
     solution: "Built teacher-controlled, per-question calculator access inside Show Work questions, with Basic, Scientific, or no calculator options configurable independently for each question within the same assignment, without affecting auto-grading.",
     impactStat: null,
@@ -765,6 +771,8 @@ const CASES = [
     sub: "Kiddom · 2026",
     palette: "pal-protractor",
     icon: ICONS.protractor,
+    star: true,
+    task: "Let students measure angles inside the digital drawing tool, replacing the paper-and-photo workaround.",
     problem: "Measuring angles on a digital assignment required a disconnected, multi-step workaround: draw on paper, measure with a physical protractor, then photograph and submit.",
     solution: "Built a digital protractor directly inside the drawing tool. Students draw the angle, then place, rotate, resize, and flip the protractor over it, reading the angle measurement in real time without leaving the assignment.",
     impactStat: null,
@@ -781,6 +789,8 @@ const CASES = [
     sub: "Kiddom · 2025",
     palette: "pal-course",
     icon: ICONS.crosswalk,
+    star: true,
+    task: "Replace fragmented, spreadsheet-based state adoption builds with a repeatable system that cuts errors and QA burden.",
     origin: "Built from the patterns identified while developing state adoption packages for Texas, Florida, and Tennessee.",
     problem: "State adoption is a critical path to volume, but building state-specific courses was fragmented across spreadsheets and contractors, increasing errors and QA burden as more contributors got involved.",
     solution: "Built Course Builder, a reusable system that takes a state's standards sequence, the source curriculum's sequence, and a crosswalk between them to automatically generate a reordered, renumbered draft course and flag standards-alignment gaps for Content Generation. The system replaces fragmented spreadsheet coordination with a repeatable workflow for future state adoption builds.",
@@ -797,6 +807,8 @@ const CASES = [
     sub: "Kiddom · 2025",
     palette: "pal-aitree",
     icon: ICONS.aitree,
+    star: true,
+    task: "Catch grammar, formatting, and broken-link errors across 400+ course trees faster than manual review could.",
     problem: "As curriculum content scaled across 400+ course trees, manual review couldn't keep pace with mounting grammar, formatting, and broken-link errors — eroding user trust.",
     solution: "Built an extensible LLM-powered content-quality system, adding specialized prompts as new needs surfaced: grammar checking, book-title capitalization and poem formatting, broken-link detection and correction, and English-to-Spanish translation with grade-band-specific outputs.",
     impactStat: null,
@@ -815,6 +827,8 @@ const CASES = [
     sub: "Kiddom · 2024",
     palette: "pal-assessment",
     icon: ICONS.assessment,
+    star: true,
+    task: "Automate the creation of NGSS-aligned science assessments so teachers aren't hand-grading essay-style tasks to get timely feedback.",
     problem: "OpenSciEd's assessments relied heavily on essay-style Claim-Evidence-Reasoning tasks, which were pedagogically strong but too time-consuming for teachers to hand-grade at the pace needed for timely student feedback.",
     solution: "Built a Streamlit-based assessment generator to automate the creation of three-dimensional, NGSS-aligned science questions. I designed the generator around Science and Engineering Practices (SEPs), DOK levels, state assessment formats, and multiple response types, including both Claim-Evidence-Reasoning and more autogradable formats.",
     impactStat: null,
@@ -831,6 +845,8 @@ const CASES = [
     sub: "Kiddom · TX, FL, TN · 2023–25",
     palette: "pal-ose",
     icon: ICONS.books,
+    star: true,
+    task: "Align OpenSciEd and OpenStax science curricula to each state's standards framework without diluting their pedagogy.",
     problem: "OpenSciEd and OpenStax's NGSS-aligned curricula needed to align with each state's standards framework, requiring modifications and gap-filling content without diluting pedagogical integrity.",
     solution: "Translated OpenSciEd and OpenStax science curricula into state-specific adoption packages across Texas, Florida, and Tennessee. Mapped source curricula against state standards, identified instructional gaps, and authored the content needed to meet local requirements while preserving the pedagogy of the original materials. Each adoption shipped as teacher and student workbooks alongside digital curriculum.",
     impactStat: null,
@@ -849,6 +865,8 @@ const CASES = [
     sub: "Personal Project · August 2026",
     palette: "pal-neondrift",
     icon: ICONS.puck,
+    star: true,
+    task: "Design a quick asynchronous game that lives inside the iMessage conversation instead of a separate app.",
     problem: "Quick asynchronous games introduce friction before the first move, forcing players to install and open a separate app and constantly switch back to the conversation where they're actually talking.",
     solution: "Built Neon Drift as an iMessage extension rather than a standalone app, keeping the game inside the conversation where the invitation, turn-taking, and social interaction already happen. Designed an 8-turn ruleset playable in ~2 minutes, with a persistent game bubble and personalized game state living inside the extension UI.",
     impactLabel: "What I Learned",
@@ -924,7 +942,7 @@ const CASES = [
         ${!c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
         ${c.star && c.task ? `<div class="field"><span class="field-label">Task</span><p class="field-body">${c.task}</p></div>` : ''}
         <div class="field"><span class="field-label">${c.star ? 'Action' : 'Solution'}</span><p class="field-body">${c.solution}</p></div>
-        <div class="field"><span class="field-label">${c.star ? 'Result' : (c.impactLabel || 'Impact')}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
+        <div class="field"><span class="field-label">${c.impactLabel || (c.star ? 'Result' : 'Impact')}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
         ${!c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
         ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><p class="field-body">${c.evolution}</p></div>` : ''}
         ${hasFooter(c) ? `<div class="case-footer">

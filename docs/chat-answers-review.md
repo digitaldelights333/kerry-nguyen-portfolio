@@ -28,8 +28,6 @@ Every answer then offers two related chips plus a dashed **Something else** chip
 Kerry is a product manager with nine years of experience across K-12 STEM classrooms, curriculum development, and AI product management.
 She builds 0-to-1 products at increasing scale, from the classroom to nationwide products reaching over 550K users.
 
-Note: the Cadence case study and other site copy still say 500K+ users.
-
 ### How did Kerry get into product?
 (Chip was "What's Kerry's background?")
 
@@ -180,7 +178,7 @@ Link: View the full case study
 Most of the collection comes from Kerry's work at Kiddom, 2023 to 2026.
 
 ### How big is the impact?
-Kerry's work has reached 500K+ users nationally and 60K+ students statewide. For example, Cadence serves 500K+ users across the platform, and the largest state curriculum adoption serves 60,000+ students in Knox County, Tennessee.
+Kerry's work has reached 550K+ users nationally and 60K+ students statewide. For example, Cadence serves 550K+ users across the platform, and the largest state curriculum adoption serves 60,000+ students in Knox County, Tennessee.
 Link: Browse the collection
 
 ### What is Kerry working on now?
