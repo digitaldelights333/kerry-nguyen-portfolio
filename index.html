@@ -7,7 +7,7 @@
 <meta name="description" content="A science educator turned product builder. 0→1 learning products at classroom, statewide, and nationwide scale.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #EFEBE6;
@@ -50,15 +50,17 @@
   }
 
   /* ===== HERO ===== */
-  header.hero { padding: 40px 0 64px; }
+  header.hero { padding: 0 0 64px; }
 
   /* ----- Banner ----- */
   .banner {
-    max-width: 1000px; margin: 0 auto 20px;
-    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: 36px; align-items: center; padding: 48px 44px;
-    border: 1px solid var(--rule-2); border-radius: 22px;
+    margin: 0 0 32px;
+    border-bottom: 1px solid var(--rule-2);
     background: linear-gradient(120deg, #F3DFC0 0%, #E9B79A 55%, #B85450 130%);
+  }
+  .banner-in {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 36px; align-items: center; padding-top: 56px; padding-bottom: 56px;
   }
   .banner-tag {
     display: block; margin: 0 0 16px;
@@ -66,12 +68,12 @@
     color: var(--accent-deep);
   }
   .banner-name {
-    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-family: "DM Serif Display", Georgia, serif; font-weight: 400;
     font-size: clamp(2.8rem, 6.4vw, 4.8rem); line-height: 0.95; letter-spacing: -0.02em;
     margin: 0 0 14px; color: var(--ink);
   }
   .banner-role {
-    font-family: "Instrument Serif", Georgia, serif; font-size: 1.3rem; line-height: 1.4;
+    font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 1.3rem; line-height: 1.4;
     color: var(--ink-2); margin: 0; max-width: 44ch; text-wrap: pretty;
   }
   .banner-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
@@ -86,7 +88,7 @@
   }
   .banner-tile .card-icon { width: 58%; height: 58%; }
   @media (max-width: 820px) {
-    .banner { grid-template-columns: 1fr; gap: 26px; padding: 32px 22px 28px; }
+    .banner-in { grid-template-columns: 1fr; gap: 26px; padding-top: 36px; padding-bottom: 32px; }
   }
 
   /* ----- Chat card ----- */
@@ -117,7 +119,7 @@
   .chat-schedule:hover { background: var(--accent); color: #fff; }
   .chat-id { min-width: 0; padding-top: 28px; }   /* lines the name up with the cup, not the steam above it */
   .chat-name {
-    font-family: "Instrument Serif", Georgia, serif; font-size: 26px; line-height: 1.1;
+    font-family: "DM Serif Display", Georgia, serif; font-size: 26px; line-height: 1.1;
     color: var(--ink);
   }
 
@@ -245,12 +247,23 @@
   .chat-avatar[data-state="talking"] .av-all { animation: av-talk .5s ease-in-out infinite; }
   .chat-avatar[data-state="thinking"] .av-all { transform: rotate(-5deg); transition: transform .25s; }
   .chat-avatar.is-waving .av-arm-r { animation: av-wave 1.4s ease-in-out 3; }
+  .chat-avatar.is-tilting[data-state="idle"] .av-all { animation: av-tilt 1.6s ease-in-out 1; }
   .av-arm-r { transform-origin: 85% 85%; }
 
   @keyframes av-wave-soft {
     0%, 100% { transform: rotate(0); }
     30% { transform: rotate(-12deg); }
     70% { transform: rotate(14deg); }
+  }
+  @keyframes av-tilt {
+    0%, 100% { transform: rotate(0); }
+    30% { transform: rotate(-6deg); }
+    65% { transform: rotate(4deg); }
+  }
+  @keyframes av-tilt-soft {
+    0%, 100% { transform: rotate(0); }
+    40% { transform: rotate(-3deg); }
+    70% { transform: rotate(2deg); }
   }
   @keyframes av-talk { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-3%) scale(1.03, .97); } }
   @keyframes av-wave {
@@ -264,6 +277,7 @@
     .chat *, .chat *::before { animation: none !important; transition: none !important; }
     /* The greeting wave stays, in a gentler form: smaller swing, no lift. */
     .chat-avatar.is-waving .av-arm-r { animation: av-wave-soft 1.4s ease-in-out 3 !important; }
+    .chat-avatar.is-tilting[data-state="idle"] .av-all { animation: av-tilt-soft 1.6s ease-in-out 1 !important; }
   }
   @media (max-width: 720px) {
     .chat-head { padding: 12px 16px; gap: 12px; }
@@ -290,11 +304,11 @@
     display: flex; align-items: baseline; gap: 24px; margin-bottom: 0;
   }
   .section-head .section-num {
-    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: 11.5px; letter-spacing: 0.22em; text-transform: uppercase;
     color: var(--accent); white-space: nowrap;
   }
   .section-head h2 {
-    font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+    font-family: "DM Serif Display", Georgia, serif; font-weight: 400;
     font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1; margin: 0; color: var(--ink);
   }
   .section-head .rule { flex: 1; height: 1px; background: var(--rule); align-self: center; }
@@ -339,7 +353,7 @@
     flex-shrink: 0; padding-bottom: 0.12em;   /* room for descenders (g, p, y) under the clamp */
   }
   .case-blurb {
-    font-family: "DM Sans"; font-size: 12px; line-height: 1.4; color: var(--ink-2); margin: 0;
+    font-size: 12px; line-height: 1.4; color: var(--ink-2); margin: 0;
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   .case-foot {
@@ -347,7 +361,7 @@
   }
   .case-sub {
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    font-family: "DM Sans"; font-size: 10.5px; color: var(--muted);
+    font-size: 10.5px; color: var(--muted);
   }
   .case-eye {
     width: 22px; height: 22px; flex-shrink: 0; color: var(--muted); opacity: 0.75;
@@ -420,26 +434,26 @@
     letter-spacing: -0.01em; margin: 0 0 4px; color: var(--ink);
   }
   .rolo-sub {
-    font-family: "DM Sans"; font-size: 12.5px; color: var(--muted);
+    font-size: 12.5px; color: var(--muted);
     margin-bottom: 16px;
   }
 
   /* Full P/S/I only shown when open */
   .rolo-full {
     display: none;
-    font-family: "DM Sans"; font-size: 14px; line-height: 1.6; color: var(--ink-2);
+    font-size: 14px; line-height: 1.6; color: var(--ink-2);
   }
 
   .rolo-full .field {
     display: grid; grid-template-columns: 90px 1fr; gap: 16px; margin-bottom: 14px;
   }
   .rolo-full .field-label {
-    font-family: "DM Sans"; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--accent); padding-top: 2px;
   }
   .rolo-full .field-body { margin: 0; }
   .rolo-full .field-body strong.stat {
-    display: inline-block; font-family: "Instrument Serif", Georgia, serif;
+    display: inline-block; font-family: "DM Serif Display", Georgia, serif;
     font-size: 28px; color: var(--accent); line-height: 1; margin-right: 6px; vertical-align: -3px;
   }
   .rolo-full .case-footer {
@@ -492,7 +506,7 @@
   footer.foot { padding: 48px 0 72px; margin-top: 48px; border-top: 1px solid var(--rule); }
   .foot-inner {
     display: flex; justify-content: center; align-items: baseline;
-    font-family: "DM Sans"; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--muted);
   }
   .foot-inner a { color: var(--muted); text-decoration: none; }
@@ -524,16 +538,18 @@
 
 <!-- ============ HERO + BIO ============ -->
 <header class="hero">
-  <div class="wrap">
-    <section class="banner" aria-label="Kerry Nguyen">
+  <section class="banner" aria-label="Kerry Nguyen">
+    <div class="wrap banner-in">
       <div>
         <span class="banner-tag">Product Portfolio</span>
         <h1 class="banner-name">Kerry Nguyen</h1>
         <p class="banner-role">Product manager, builder, and educator. Ask Java, my portfolio assistant, about my work, or browse the case studies below.</p>
       </div>
       <div class="banner-tiles" id="banner-tiles" aria-hidden="true"></div>
-    </section>
+    </div>
+  </section>
 
+  <div class="wrap">
     <section class="chat" id="home" aria-label="Chat with Kerry's portfolio assistant">
       <div class="chat-head">
         <div class="chat-avatar" id="chat-avatar" data-state="idle" aria-hidden="true"></div>
@@ -609,8 +625,8 @@ const ICONS = {
     <line x1="60" y1="38" x2="84" y2="38"/>
     <line x1="60" y1="46" x2="78" y2="46"/>
     <line x1="60" y1="54" x2="84" y2="54"/>
-    <text x="28" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="12" stroke="none" fill="currentColor">EN</text>
-    <text x="72" y="74" text-anchor="middle" font-family="Georgia,serif" font-size="12" stroke="none" fill="currentColor">ES</text>
+    <text x="28" y="74" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" stroke="none" fill="currentColor">EN</text>
+    <text x="72" y="74" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" stroke="none" fill="currentColor">ES</text>
   </svg>`,
   aitree: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="50" cy="20" r="6" fill="currentColor" stroke="none"/>
@@ -1251,11 +1267,13 @@ const CASES = [
   }
 
   /* Scheduled motion, repeating every 60s from page load (t = 0 is the greeting):
-       0-5s   wave 3 times and blink 3 times
-       0s, 30s one steam loop
+       0s, 15s, 30s, 45s   wave 3 times, blink 3 times, tilt the head once
+       0s, 30s             one steam loop
      The cup is still the rest of the time. */
   const CYCLE_MS = 60000;
+  const BURST_AT = [0, 15000, 30000, 45000];
   const BLINK_AT = [400, 1900, 3400];
+  const TILT_AT = 200;
   const STEAM_AT = [0, 30000];
   const STEAM_FRAME_MS = 150;
 
@@ -1263,6 +1281,11 @@ const CASES = [
     if (document.hidden) return;
     headAvatarEl.classList.add('is-waving');
     setTimeout(() => headAvatarEl.classList.remove('is-waving'), 1400 * 3 + 100);
+  }
+  function tilt() {
+    if (document.hidden) return;
+    headAvatarEl.classList.add('is-tilting');
+    setTimeout(() => headAvatarEl.classList.remove('is-tilting'), 1700);
   }
   function blink() {
     if (document.hidden) return;
@@ -1279,9 +1302,13 @@ const CASES = [
       headAv.steam(frame);
     }, STEAM_FRAME_MS);
   }
-  function runCycle() {
+  function runBurst() {
     wave();
+    setTimeout(tilt, TILT_AT);
     BLINK_AT.forEach((ms) => setTimeout(blink, ms));
+  }
+  function runCycle() {
+    BURST_AT.forEach((ms) => setTimeout(runBurst, ms));
     STEAM_AT.forEach((ms) => setTimeout(steamLoop, ms));
   }
 
@@ -1532,7 +1559,7 @@ const CASES = [
         "She works best in remote roles with Central time zone overlap, and is open to hybrid roles in the Chicago area. If that sounds like a fit, Kerry would love to learn more about the role.",
         { brk: true },
         { cta: true },
-        'Prefer email? Reach Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
+        'Prefer email? Contact Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
       ] },
   ];
   const BY_ID = Object.fromEntries(SPINE.map((t) => [t.id, t]));
