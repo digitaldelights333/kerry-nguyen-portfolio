@@ -221,12 +221,23 @@
   .chat-avatar[data-state="talking"] .av-all { animation: av-talk .5s ease-in-out infinite; }
   .chat-avatar[data-state="thinking"] .av-all { transform: rotate(-5deg); transition: transform .25s; }
   .chat-avatar.is-waving .av-arm-r { animation: av-wave 1.4s ease-in-out 3; }
+  .chat-avatar.is-tilting[data-state="idle"] .av-all { animation: av-tilt 1.6s ease-in-out 1; }
   .av-arm-r { transform-origin: 85% 85%; }
 
   @keyframes av-wave-soft {
     0%, 100% { transform: rotate(0); }
     30% { transform: rotate(-12deg); }
     70% { transform: rotate(14deg); }
+  }
+  @keyframes av-tilt {
+    0%, 100% { transform: rotate(0); }
+    30% { transform: rotate(-6deg); }
+    65% { transform: rotate(4deg); }
+  }
+  @keyframes av-tilt-soft {
+    0%, 100% { transform: rotate(0); }
+    40% { transform: rotate(-3deg); }
+    70% { transform: rotate(2deg); }
   }
   @keyframes av-talk { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-3%) scale(1.03, .97); } }
   @keyframes av-wave {
@@ -240,6 +251,7 @@
     .chat *, .chat *::before { animation: none !important; transition: none !important; }
     /* The greeting wave stays, in a gentler form: smaller swing, no lift. */
     .chat-avatar.is-waving .av-arm-r { animation: av-wave-soft 1.4s ease-in-out 3 !important; }
+    .chat-avatar.is-tilting[data-state="idle"] .av-all { animation: av-tilt-soft 1.6s ease-in-out 1 !important; }
   }
   @media (max-width: 720px) {
     .chat-head { padding: 12px 16px; gap: 12px; }
@@ -1008,11 +1020,13 @@ const CASES = [
   }
 
   /* Scheduled motion, repeating every 60s from page load (t = 0 is the greeting):
-       0-5s   wave 3 times and blink 3 times
-       0s, 30s one steam loop
+       0s, 15s, 30s, 45s   wave 3 times, blink 3 times, tilt the head once
+       0s, 30s             one steam loop
      The cup is still the rest of the time. */
   const CYCLE_MS = 60000;
+  const BURST_AT = [0, 15000, 30000, 45000];
   const BLINK_AT = [400, 1900, 3400];
+  const TILT_AT = 200;
   const STEAM_AT = [0, 30000];
   const STEAM_FRAME_MS = 150;
 
@@ -1020,6 +1034,11 @@ const CASES = [
     if (document.hidden) return;
     headAvatarEl.classList.add('is-waving');
     setTimeout(() => headAvatarEl.classList.remove('is-waving'), 1400 * 3 + 100);
+  }
+  function tilt() {
+    if (document.hidden) return;
+    headAvatarEl.classList.add('is-tilting');
+    setTimeout(() => headAvatarEl.classList.remove('is-tilting'), 1700);
   }
   function blink() {
     if (document.hidden) return;
@@ -1036,9 +1055,13 @@ const CASES = [
       headAv.steam(frame);
     }, STEAM_FRAME_MS);
   }
-  function runCycle() {
+  function runBurst() {
     wave();
+    setTimeout(tilt, TILT_AT);
     BLINK_AT.forEach((ms) => setTimeout(blink, ms));
+  }
+  function runCycle() {
+    BURST_AT.forEach((ms) => setTimeout(runBurst, ms));
     STEAM_AT.forEach((ms) => setTimeout(steamLoop, ms));
   }
 

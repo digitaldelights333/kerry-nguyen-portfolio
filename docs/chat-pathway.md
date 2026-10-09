@@ -181,6 +181,7 @@ Pacing: when a bubble finishes, the next bubble appears almost immediately as ty
 
 ## Look and feel
 
+- Java's header motion runs on a 60 second loop. At 0s, 15s, 30s and 45s Java waves 3 times, blinks 3 times and tilts their head once. Steam rises at 0s and 30s. Java is still the rest of the time.
 - Bubbles use an iMessage-style pointer (short, about 9px, curved like the Messages tail): a small tail hangs below the bottom corner on the speaker's side while all four bubble corners stay rounded. Java's tails point down-left toward the mug, the visitor's down-right toward a generic user icon. The tail is a small drawn shape using the bubble colors (#EFEBE6 fill and #D5CFC7 outline for Java, #B85450 for the visitor), so it needs updating if those colors change.
 - The visitor's question (the chip text, or "Schedule a call" from the header) appears as a right-aligned bubble with a generic user icon (a neutral head-and-shoulders circle), mirroring Java's avatar.
 - Chat links to case studies ("Cadence", "AI Tree Tool", "builder", "Bilingual View & Print") open the detailed view (the modal) on the new case studies grid. "View all case studies" scrolls to the grid.
