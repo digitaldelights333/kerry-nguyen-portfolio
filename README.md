@@ -17,9 +17,8 @@ sits just above `</head>` in `index.html`.
 ## Event tracking (PostHog)
 
 Question chips and case study cards send named events to PostHog (cookieless,
-no consent banner). Setup: create a free PostHog project, then replace
-`phc_REPLACE_WITH_PROJECT_KEY` in `index.html` (search `POSTHOG_KEY`). Until
-then `track()` does nothing. Localhost is ignored.
+no consent banner). The project key is set in `index.html` (search `POSTHOG_KEY`).
+Localhost is ignored. Events are sent through `track(name, props)`.
 
 | Event | Properties |
 |---|---|
