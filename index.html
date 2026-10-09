@@ -317,16 +317,12 @@
     background: var(--surface); border: 1px solid var(--rule-2);
     border-radius: 4px; box-shadow: var(--shadow-card);
     padding: 16px; text-align: left; font: inherit; color: inherit;
-    display: flex; flex-direction: column; cursor: pointer; min-height: 0; overflow: hidden;
+    display: flex; flex-direction: column; cursor: pointer; min-height: 0; overflow: hidden; position: relative;
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.25s ease, border-color 0.2s ease;
   }
   .case-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow-active); }
 
   .case-top { margin-bottom: 12px; flex-shrink: 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-  .case-tag {
-    font-family: "DM Sans"; font-size: 11px; line-height: 1; padding: 5px 9px; border-radius: 999px;
-    color: var(--muted); background: var(--surface); border: 1px solid var(--rule-2); white-space: nowrap;
-  }
   .case-tile {
     width: 46px; height: 46px; border-radius: 3px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
@@ -343,11 +339,24 @@
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   .case-foot {
-    flex-shrink: 0; margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px;
+    flex-shrink: 0; margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px;
   }
   .case-sub {
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-family: "DM Sans"; font-size: 10.5px; color: var(--muted);
+  }
+  /* Coming soon: dimmed, not clickable, with a corner ribbon */
+  .case-card.is-soon { cursor: default; }
+  .case-card.is-soon:hover { transform: none; border-color: var(--rule-2); box-shadow: var(--shadow-card); }
+  .case-card.is-soon .case-tile, .case-card.is-soon .case-title, .case-card.is-soon .case-blurb, .case-card.is-soon .case-sub {
+    filter: grayscale(1); opacity: 0.55;
+  }
+  .case-card.is-soon .case-eye { visibility: hidden; }
+  .case-soon {
+    position: absolute; top: 14px; right: -34px; width: 124px; padding: 4px 0; transform: rotate(45deg);
+    text-align: center; font-family: "DM Sans"; font-size: 11px; line-height: 1.2; letter-spacing: 0.02em;
+    color: var(--ink-2); background: var(--surface-2); border-top: 1px solid var(--rule-2); border-bottom: 1px solid var(--rule-2);
+    pointer-events: none;
   }
   .case-eye {
     width: 22px; height: 22px; flex-shrink: 0; color: var(--muted); opacity: 0.75;
@@ -945,6 +954,7 @@ const CASES = [
   },
   {
     id: "lesson-adapt",
+    soon: true,
     blurb: "A teacher-facing prototype that adapts a lesson they already teach.",
     title: "AI Lesson Adaptation Prototype",
     sub: "Personal Project · Interview prototype · 2026",
@@ -961,6 +971,7 @@ const CASES = [
   },
   {
     id: "parts-store",
+    soon: true,
     blurb: "A parts catalog that starts from the machine, not the part number.",
     title: "Parts Store Prototype",
     sub: "Personal Project · Interview prototype · 2026",
@@ -977,6 +988,7 @@ const CASES = [
   },
   {
     id: "job-search",
+    soon: true,
     blurb: "A daily pipeline that finds, scores, and queues the roles worth my time.",
     title: "Job Search Automation",
     sub: "Personal Project · 2026",
@@ -993,6 +1005,7 @@ const CASES = [
   },
   {
     id: "content-tracker",
+    soon: true,
     blurb: "A local tool that tracks media assets and decides when each is ready to post again.",
     title: "Content Tracker",
     sub: "Personal Project · 2026",
@@ -1009,6 +1022,7 @@ const CASES = [
   },
   {
     id: "health-tools",
+    soon: true,
     blurb: "Two connected trackers: true walking calories, and a daily log for a fat-loss plan.",
     title: "Health Tracking Tools",
     sub: "Personal Project · 2026",
@@ -1050,22 +1064,28 @@ const CASES = [
     CASES.forEach((c) => {
       const el = document.createElement('button');
       el.type = 'button';
-      el.className = 'case-card';
+      el.className = 'case-card' + (c.soon ? ' is-soon' : '');
       el.dataset.id = c.id;
       el.innerHTML = `
         <div class="case-top">
           <div class="case-tile ${c.palette}"><span class="card-icon">${c.icon}</span></div>
-          ${c.personal ? '<span class="case-tag">Personal</span>' : ''}
         </div>
         <h3 class="case-title">${c.cardTitle || c.title}</h3>
         <p class="case-blurb">${c.blurb || ''}</p>
         <div class="case-foot">
+          <span class="case-sub">${c.personal ? 'Personal project' : c.sub}</span>
           <span class="case-eye" aria-hidden="true" title="View details">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
           </span>
         </div>
       `;
-      el.addEventListener('click', () => openCase(c.id));
+      if (c.soon) {
+        el.setAttribute('aria-disabled', 'true');
+        el.title = 'Details coming soon';
+        el.insertAdjacentHTML('beforeend', '<span class="case-soon">Coming soon</span>');
+      } else {
+        el.addEventListener('click', () => openCase(c.id));
+      }
       gridEl.appendChild(el);
     });
     fitBlurbs();
