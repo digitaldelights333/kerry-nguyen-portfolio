@@ -22,7 +22,7 @@ Localhost is ignored. Events are sent through `track(name, props)`.
 
 | Event | Properties |
 |---|---|
-| `chip_clicked` | `chip_id`, `chip_title`, `chips_shown` (chip_ids on screen), `via` (`chip` / `header_schedule`), `position`, `questions_asked_before` |
+| `chip_clicked` | `chip_id`, `chip_title`, `chips_shown` (chip_ids on screen), `position` (1-3 in the chip row; empty when asked from the header button), `questions_asked_before` |
 | `case_opened` | `case_id`, `case_title`, `source` (`grid` / `chat_link` / `case_connection`), `from_case_id` |
 | `case_unavailable_clicked` | `case_id`, `case_title` (an "In review" card that has no details yet) |
 | `case_details_expanded` | `case_id`, `case_title`, `expander_label` (the "Key decision" toggle) |

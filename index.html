@@ -1633,7 +1633,7 @@ const CASES = [
       b.className = 'chip';
       b.textContent = BY_ID[id].chip;
       b.style.animationDelay = (reduceMotion ? 0 : i * 45) + 'ms';
-      b.addEventListener('click', () => ask(id, undefined, { via: 'chip', position: i + 1 }));
+      b.addEventListener('click', () => ask(id, undefined, { position: i + 1 }));
       row.appendChild(b);
     });
     logEl.appendChild(row);
@@ -1649,7 +1649,6 @@ const CASES = [
       track('chip_clicked', {
         chip_id: id, chip_title: t.chip,
         chips_shown: lastShown.slice(),                          // chip_ids on screen at this tap (stable if SPINE is reordered)
-        via: (meta && meta.via) || 'header_schedule',
         position: (meta && meta.position) || null,
         questions_asked_before: visited.size
       });
