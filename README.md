@@ -14,6 +14,23 @@ sits just above `</head>` in `index.html`.
 - **Dashboard:** https://digitaldelights333.goatcounter.com
 - **Tracking started:** 2026-09-02
 
+## Event tracking (PostHog)
+
+Question chips and case study cards send named events to PostHog (cookieless,
+no consent banner). Setup: create a free PostHog project, then replace
+`phc_REPLACE_WITH_PROJECT_KEY` in `index.html` (search `POSTHOG_KEY`). Until
+then `track()` does nothing. Localhost is ignored.
+
+| Event | Properties |
+|---|---|
+| `chip_clicked` | `chip_id`, `chip_text`, `via` (`chip` / `header_schedule`), `position`, `questions_asked_before` |
+| `case_opened` | `case_id`, `case_title`, `source` (`grid` / `chat_link`) |
+| `case_details_expanded` | `case_id` |
+| `case_link_clicked` | `case_id`, `link_type` (`video` / `docs`) |
+| `schedule_clicked` | `location` (`header` / `chat_answer`) |
+
+Query them in PostHog under Product analytics (Trends, Funnels) or the SQL editor.
+
 ### Viewing all traffic since launch
 
 The dashboard defaults to a recent window. To see everything, set the start
