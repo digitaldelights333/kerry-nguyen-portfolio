@@ -1,0 +1,199 @@
+{
+ "character": "Coffee (Adobe Character Animator starter puppet)",
+ "scale": 0.5,
+ "canvas": {
+  "w": 436,
+  "h": 464
+ },
+ "parts": {
+  "back-arm-right": {
+   "file": "back-arm-right.png",
+   "x": 0,
+   "y": 248,
+   "w": 100,
+   "h": 103
+  },
+  "back-arm-left": {
+   "file": "back-arm-left.png",
+   "x": 238,
+   "y": 248,
+   "w": 100,
+   "h": 103
+  },
+  "body": {
+   "file": "body.png",
+   "x": 8,
+   "y": 145,
+   "w": 428,
+   "h": 320
+  },
+  "steam-1": {
+   "file": "steam-1.png",
+   "x": 152,
+   "y": 132,
+   "w": 79,
+   "h": 58
+  },
+  "steam-2": {
+   "file": "steam-2.png",
+   "x": 152,
+   "y": 86,
+   "w": 86,
+   "h": 103
+  },
+  "steam-3": {
+   "file": "steam-3.png",
+   "x": 118,
+   "y": 76,
+   "w": 119,
+   "h": 114
+  },
+  "steam-4": {
+   "file": "steam-4.png",
+   "x": 79,
+   "y": 44,
+   "w": 158,
+   "h": 144
+  },
+  "steam-5": {
+   "file": "steam-5.png",
+   "x": 79,
+   "y": 8,
+   "w": 158,
+   "h": 181
+  },
+  "steam-6": {
+   "file": "steam-6.png",
+   "x": 79,
+   "y": 0,
+   "w": 158,
+   "h": 189
+  },
+  "steam-7": {
+   "file": "steam-7.png",
+   "x": 79,
+   "y": 0,
+   "w": 158,
+   "h": 156
+  },
+  "steam-8": {
+   "file": "steam-8.png",
+   "x": 79,
+   "y": 0,
+   "w": 149,
+   "h": 110
+  },
+  "steam-9": {
+   "file": "steam-9.png",
+   "x": 79,
+   "y": 0,
+   "w": 149,
+   "h": 100
+  },
+  "steam-10": {
+   "file": "steam-10.png",
+   "x": 79,
+   "y": 0,
+   "w": 149,
+   "h": 68
+  },
+  "steam-11": {
+   "file": "steam-11.png",
+   "x": 141,
+   "y": 0,
+   "w": 87,
+   "h": 32
+  },
+  "blush": {
+   "file": "blush.png",
+   "x": 66,
+   "y": 306,
+   "w": 206,
+   "h": 41
+  },
+  "eye-right-default": {
+   "file": "eye-right-default.png",
+   "x": 88,
+   "y": 268,
+   "w": 38,
+   "h": 39
+  },
+  "eye-right-blink": {
+   "file": "eye-right-blink.png",
+   "x": 84,
+   "y": 281,
+   "w": 46,
+   "h": 27
+  },
+  "eye-left-default": {
+   "file": "eye-left-default.png",
+   "x": 209,
+   "y": 268,
+   "w": 38,
+   "h": 39
+  },
+  "eye-left-blink": {
+   "file": "eye-left-blink.png",
+   "x": 205,
+   "y": 281,
+   "w": 45,
+   "h": 27
+  },
+  "mouth-1": {
+   "file": "mouth-1.png",
+   "x": 146,
+   "y": 294,
+   "w": 48,
+   "h": 13
+  },
+  "mouth-2": {
+   "file": "mouth-2.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 18
+  },
+  "mouth-3": {
+   "file": "mouth-3.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 23
+  },
+  "mouth-4": {
+   "file": "mouth-4.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 28
+  },
+  "mouth-5": {
+   "file": "mouth-5.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 30
+  },
+  "mouth-6": {
+   "file": "mouth-6.png",
+   "x": 144,
+   "y": 294,
+   "w": 50,
+   "h": 32
+  },
+  "front-arm-right": {
+   "file": "front-arm-right.png",
+   "x": 22,
+   "y": 270,
+   "w": 56,
+   "h": 56
+  },
+  "front-arm-left": {
+   "file": "front-arm-left.png",
+   "x": 260,
+   "y": 270,
+   "w": 56,
+   "h": 56
+  }
+ }
+}
