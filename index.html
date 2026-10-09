@@ -580,18 +580,18 @@
       <div>
         <span class="banner-tag">Product Portfolio</span>
         <h1 class="banner-name">Kerry Nguyen</h1>
-        <p class="banner-role">Product manager, builder, and educator. Ask Java, my portfolio assistant, about my work, or browse the case studies below.</p>
+        <p class="banner-role">Product manager, builder, and educator. Ask Java, my portfolio guide, about my work, or browse the case studies below.</p>
       </div>
       <div class="banner-tiles" id="banner-tiles" aria-hidden="true"></div>
     </div>
   </section>
 
   <div class="wrap">
-    <section class="chat" id="home" aria-label="Chat with Kerry's portfolio assistant">
+    <section class="chat" id="home" aria-label="Chat with Kerry's portfolio guide">
       <div class="chat-head">
         <div class="chat-avatar" id="chat-avatar" data-state="idle" aria-hidden="true"></div>
         <div class="chat-id">
-          <div class="chat-name" id="chat-name">Portfolio assistant</div>
+          <div class="chat-name" id="chat-name">Portfolio guide</div>
         </div>
         <button type="button" class="chat-schedule" id="chat-schedule">Schedule a call</button>
       </div>
@@ -1253,7 +1253,7 @@ const CASES = [
   renderGrid();
 })();
 /* =====================================================================
-   HERO CHAT — scripted portfolio assistant (no AI / no API calls)
+   HERO CHAT — scripted portfolio guide (no AI / no API calls)
    Edit ASSISTANT_NAME, SCHEDULE_URL and SPINE below. The chip pathway is in docs/chat-pathway.md.
 ===================================================================== */
 (function () {
@@ -1732,8 +1732,8 @@ const CASES = [
     asking = true;   // header button and chips wait until the welcome is finished
     await pause(400);
     const hello = ASSISTANT_NAME
-      ? `Hi there! I'm ${ASSISTANT_NAME}, Kerry's product portfolio assistant.`
-      : "Hi there! I'm Kerry's product portfolio assistant.";
+      ? `Hi there! I'm ${ASSISTANT_NAME}, your guide to Kerry's portfolio.`
+      : "Hi there! I'm your guide to Kerry's portfolio.";
     await botSay([hello]);
     await botSay(["I'm a big fan of her work. Select a question below and I'll show you why."]);
     showChips(WELCOME_CHIPS);
