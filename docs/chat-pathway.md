@@ -1,7 +1,7 @@
 # Chat pathway (locked in)
 
 Written by Kerry, saved here as written. **Applied to `index.html`** (inline chips, header button, eight-chip spine, slot rule, closer). Chip 5 was confirmed on 2026-10-08.
-This file replaces the chip wording and tree in `docs/chat-answers-review.md`, which is kept for history.
+This file replaced the earlier chip wording and tree (an older review document, since removed from the repo; see git history).
 
 New requirements in this version:
 - Chips appear **inline with the response**, not in a row at the bottom of the chat window.
