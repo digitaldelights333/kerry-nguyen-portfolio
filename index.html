@@ -439,6 +439,24 @@
   .rolo-full .case-footer {
     margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule-2);
   }
+  .rolo-full .sys-block {
+    display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px;
+    padding: 14px 16px; background: var(--surface-2); border-radius: 8px;
+  }
+  .rolo-full .sys-head {
+    display: flex; align-items: center; gap: 8px; color: var(--accent);
+    font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .rolo-full .sys-icon { width: 18px; height: 18px; flex: none; }
+  .rolo-full .sys-row { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .rolo-full .sys-text { margin: 0; }
+  .rolo-full .sys-link {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font: inherit; font-size: 14px; line-height: 1.2; padding: 9px 15px; border-radius: 999px;
+    color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-2); cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .rolo-full .sys-link:hover { border-color: var(--accent); color: var(--accent); background: #fff; }
   .rolo-full .case-actions {
     display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;
   }
@@ -714,8 +732,8 @@ const CASES = [
     palette: "pal-bilingual",
     icon: ICONS.bilingual,
     star: true,
+    connections: [{ id: "aitree", text: "Built on the translation capability first developed for AI Tree Tool." }],
     task: "Give English learners real Spanish-language support without replacing English, and build it on the translation capability already in place.",
-    origin: `Built on the translation capability first developed for <strong>AI Tree Tool</strong>.`,
     problem: "English learners needed Spanish-language support, but a full-translation toggle replaces English rather than supporting real bilingual learning.",
     solution: "Built a side-by-side English/Spanish view designed around language acquisition, prioritizing Spanish based on its relevance to 76%+ of English learners nationally.",
     impactStat: null,
@@ -783,8 +801,8 @@ const CASES = [
     palette: "pal-course",
     icon: ICONS.crosswalk,
     star: true,
+    connections: [{ id: "ose", text: "Built from the patterns identified while developing state adoption packages for Texas, Florida, and Tennessee." }],
     task: "Replace fragmented, spreadsheet-based state adoption builds with a repeatable system that cuts errors and QA burden.",
-    origin: "Built from the patterns identified while developing state adoption packages for Texas, Florida, and Tennessee.",
     problem: "State adoption is a critical path to volume, but building state-specific courses was fragmented across spreadsheets and contractors, increasing errors and QA burden as more contributors got involved.",
     solution: "Built Course Builder, a reusable system that takes a state's standards sequence, the source curriculum's sequence, and a crosswalk between them to automatically generate a reordered, renumbered draft course and flag standards-alignment gaps for Content Generation. The system replaces fragmented spreadsheet coordination with a repeatable workflow for future state adoption builds.",
     impactStat: "45%",
@@ -801,13 +819,12 @@ const CASES = [
     palette: "pal-aitree",
     icon: ICONS.aitree,
     star: true,
+    connections: [{ id: "bilingual", text: "The translation capability later became the technical foundation for Bilingual View & Print." }],
     task: "Catch grammar, formatting, and broken-link errors across 400+ course trees faster than manual review could.",
     problem: "As curriculum content scaled across 400+ course trees, manual review couldn't keep pace with mounting grammar, formatting, and broken-link errors — eroding user trust.",
     solution: "Built an extensible LLM-powered content-quality system, adding specialized prompts as new needs surfaced: grammar checking, book-title capitalization and poem formatting, broken-link detection and correction, and English-to-Spanish translation with grade-band-specific outputs.",
     impactStat: null,
     impactBody: `Reduced content errors from <strong class="stat">1,000+</strong> to <strong class="stat">&lt;100</strong> after deploying the tool across the full 400+ course-tree library.`,
-    evolutionLabel: "Evolution",
-    evolution: `The translation capability later became the technical foundation for <strong>Bilingual View & Print.</strong>`,
     tech: "Initial single-prompt translation produced inconsistent quality across grade bands. Redesigned the translation system around grade-band-specific prompting and validated output with a calibrated three-pass human evaluation framework before launch.",
     video: null,
     doc: null
@@ -837,13 +854,12 @@ const CASES = [
     palette: "pal-ose",
     icon: ICONS.books,
     star: true,
+    connections: [{ id: "course-builder", text: "Building these state adoption packages manually revealed a repeatable standards-mapping workflow, which I later productized into State Adoption Course Builder for future builds." }],
     task: "Align OpenSciEd and OpenStax science curricula to each state's standards framework without diluting their pedagogy.",
     problem: "OpenSciEd and OpenStax's NGSS-aligned curricula needed to align with each state's standards framework, requiring modifications and gap-filling content without diluting pedagogical integrity.",
     solution: "Translated OpenSciEd and OpenStax science curricula into state-specific adoption packages across Texas, Florida, and Tennessee. Mapped source curricula against state standards, identified instructional gaps, and authored the content needed to meet local requirements while preserving the pedagogy of the original materials. Each adoption shipped as teacher and student workbooks alongside digital curriculum.",
     impactStat: null,
     impactBody: `Delivered adoption-ready curriculum across three states and multiple science disciplines, supporting districts with different standards requirements while preserving the integrity of the source curricula. The largest adoption serves <strong class="stat">60,000+</strong> students in Knox County, Tennessee.`,
-    evolutionLabel: "Evolution",
-    evolution: `Building these state adoption packages manually revealed a repeatable standards-mapping workflow, which I later productized into <strong>State Adoption Course Builder</strong> for future builds.`,
     tech: "Mapped OpenSciEd's NGSS-aligned curriculum against state-specific standards, using pedagogical judgment to determine where standards diverged, what instructional content was missing, and how to fill those gaps without disrupting the intended learning progression.",
     video: null,
     doc: null
@@ -912,8 +928,11 @@ const CASES = [
     });
   }
 
+  const SYS = `<svg class="sys-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.4 6.8 10.6 15.7M16.6 6.8 13.4 15.7M7.5 6h9"/></svg>`;
+  const ARROW = `<svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>`;
+  const connectionsBlock = (c) => `<div class="sys-block"><div class="sys-head">${SYS}<span>Systems thinking</span></div>${c.connections.map((k) => { const t = CASES.find((x) => x.id === k.id); return `<div class="sys-row"><p class="sys-text">${k.text}</p><button type="button" class="sys-link" data-case="${k.id}">${t.title}${ARROW}</button></div>`; }).join('')}</div>`;
   const platformField = (c) => `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>`;
-  const hasFooter = (c) => c.tech || c.video || c.doc || (c.star && (c.insight || c.platformStat || c.platformBody));
+  const hasFooter = (c) => c.tech || c.video || c.doc || c.connections || (c.star && (c.insight || c.platformStat || c.platformBody));
 
   function openCase(id) {
     const c = CASES.find(x => x.id === id);
@@ -925,15 +944,14 @@ const CASES = [
       <h3 class="rolo-title">${c.title}</h3>
       <div class="rolo-sub">${c.sub}</div>
       <div class="rolo-full">
-        ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><p class="field-body">${c.origin}</p></div>` : ''}
         <div class="field"><span class="field-label">${c.star ? 'Situation' : 'Problem'}</span><p class="field-body">${c.problem}</p></div>
         ${!c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
         ${c.star && c.task ? `<div class="field"><span class="field-label">Task</span><p class="field-body">${c.task}</p></div>` : ''}
         <div class="field"><span class="field-label">${c.star ? 'Action' : 'Solution'}</span><p class="field-body">${c.solution}</p></div>
         <div class="field"><span class="field-label">${c.impactLabel || (c.star ? 'Result' : 'Impact')}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
         ${!c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
-        ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><p class="field-body">${c.evolution}</p></div>` : ''}
         ${hasFooter(c) ? `<div class="case-footer">
+          ${c.connections ? connectionsBlock(c) : ''}
           ${c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
           ${c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
           ${(c.tech || c.video || c.doc) ? `<div class="case-actions">
@@ -946,6 +964,7 @@ const CASES = [
       </div>
     `;
     sheetEl.querySelector('.rolo-close').addEventListener('click', closeCase);
+    sheetEl.querySelectorAll('.sys-link').forEach((b) => b.addEventListener('click', () => openCase(b.dataset.case)));
     const techBtn = sheetEl.querySelector('.expand-toggle');
     if (techBtn) {
       techBtn.addEventListener('click', () => {
