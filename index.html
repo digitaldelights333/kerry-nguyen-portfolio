@@ -436,23 +436,29 @@
     display: inline-block; font-family: "Instrument Serif", Georgia, serif;
     font-size: 28px; color: var(--accent); line-height: 1; margin-right: 6px; vertical-align: -3px;
   }
-  .rolo-full .expand-toggle {
-    margin-top: 18px; padding: 10px 14px; background: transparent; border: 1px dashed var(--rule-2);
-    color: var(--muted); font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em;
-    text-transform: uppercase; cursor: pointer; border-radius: 3px;
+  .rolo-full .case-footer {
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule-2);
   }
+  .rolo-full .case-actions {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;
+  }
+  .rolo-full .expand-toggle,
+  .rolo-full .video-link {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
+    border: 1px solid var(--rule-2); border-radius: 999px; background: transparent;
+    font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; transition: border-color .15s, color .15s;
+  }
+  .rolo-full .expand-toggle { color: var(--muted); }
+  .rolo-full .video-link { color: var(--accent); }
   .rolo-full .expand-toggle:hover { color: var(--ink); border-color: var(--ink); }
+  .rolo-full .video-link:hover { border-color: var(--accent); }
   .rolo-full .tech-details {
     display: none; margin-top: 14px; padding: 14px 16px; background: var(--surface-2);
     border-left: 3px solid var(--accent); font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
   }
   .rolo-full .tech-details.is-open { display: block; }
 
-  .rolo-full .video-link {
-    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
-    font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--accent);
-  }
   .play-icon {
     width: 10px; height: 10px; display: inline-block;
     color: currentColor; flex-shrink: 0;
@@ -900,6 +906,9 @@ const CASES = [
     });
   }
 
+  const platformField = (c) => `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>`;
+  const hasFooter = (c) => c.tech || c.video || c.doc || (c.star && (c.insight || c.platformStat || c.platformBody));
+
   function openCase(id) {
     const c = CASES.find(x => x.id === id);
     if (!c) return;
@@ -912,22 +921,29 @@ const CASES = [
       <div class="rolo-full">
         ${c.origin ? `<div class="field"><span class="field-label">${c.originLabel || 'Origin'}</span><p class="field-body">${c.origin}</p></div>` : ''}
         <div class="field"><span class="field-label">${c.star ? 'Situation' : 'Problem'}</span><p class="field-body">${c.problem}</p></div>
-        ${c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
+        ${!c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
         ${c.star && c.task ? `<div class="field"><span class="field-label">Task</span><p class="field-body">${c.task}</p></div>` : ''}
         <div class="field"><span class="field-label">${c.star ? 'Action' : 'Solution'}</span><p class="field-body">${c.solution}</p></div>
         <div class="field"><span class="field-label">${c.star ? 'Result' : (c.impactLabel || 'Impact')}</span><p class="field-body">${c.impactStat ? `<strong class="stat">${c.impactStat}</strong>` : ''}${c.impactBody}</p></div>
-        ${(c.platformStat || c.platformBody) ? `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>` : ''}
+        ${!c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
         ${c.evolution ? `<div class="field"><span class="field-label">${c.evolutionLabel || 'Evolution'}</span><p class="field-body">${c.evolution}</p></div>` : ''}
-        ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button><div class="tech-details">${c.tech}</div>` : ''}
-        ${c.video ? `<div><a class="video-link" href="${c.video}" target="_blank" rel="noopener">${PLAY}Watch product video</a></div>` : ''}
-        ${c.doc ? `<div><a class="video-link" href="${c.doc}" target="_blank" rel="noopener">${EXT}Read support docs</a></div>` : ''}
+        ${hasFooter(c) ? `<div class="case-footer">
+          ${c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
+          ${c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
+          ${(c.tech || c.video || c.doc) ? `<div class="case-actions">
+            ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button>` : ''}
+            ${c.video ? `<a class="video-link" href="${c.video}" target="_blank" rel="noopener">${PLAY}Watch product video</a>` : ''}
+            ${c.doc ? `<a class="video-link" href="${c.doc}" target="_blank" rel="noopener">${EXT}Read support docs</a>` : ''}
+          </div>` : ''}
+          ${c.tech ? `<div class="tech-details">${c.tech}</div>` : ''}
+        </div>` : ''}
       </div>
     `;
     sheetEl.querySelector('.rolo-close').addEventListener('click', closeCase);
     const techBtn = sheetEl.querySelector('.expand-toggle');
     if (techBtn) {
       techBtn.addEventListener('click', () => {
-        const td = techBtn.nextElementSibling;
+        const td = sheetEl.querySelector('.tech-details');
         td.classList.toggle('is-open');
         const label = techBtn.dataset.techLabel;
         techBtn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
