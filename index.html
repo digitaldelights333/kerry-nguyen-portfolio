@@ -724,7 +724,6 @@ const CASES = [
     impactStat: null,
     impactBody: "Bilingual expansion into Spanish-language and dual-immersion classrooms, enabling districts with growing demand for bilingual instruction to provide instructional materials in both English and Spanish.",
     tech: "Chose a cross-referenced-locale architecture over heavier inline node-threading with Engineering. That cut engineering complexity while still supporting variable classroom language needs, since not every classroom needs the same language pairing or density of support.",
-    techLabel: "Technical Decision",
     video: "https://go.kiddom.co/bilingual-view",
     doc: null
   },
@@ -742,7 +741,6 @@ const CASES = [
     impactStat: null,
     impactBody: "Enabled students across every grade band to express mathematical reasoning in authentic notation, while keeping the interaction model appropriately simple for younger learners and more powerful for advanced students.",
     tech: "Rather than expose the full symbol set to every learner, differentiated keyboard capabilities by grade band. Provides simplicity for younger students and introduces shortcut-driven efficiency only when learners were ready for it.",
-    techLabel: "Product Decision",
     video: null,
     doc: "https://support.kiddom.co/en/articles/14725065-math-keyboard"
   },
@@ -760,7 +758,6 @@ const CASES = [
     impactStat: null,
     impactBody: "Gave teachers control over calculator access at the question level, allowing them to match tools to what each question is designed to assess without restricting or enabling calculators across the entire assignment.",
     tech: "Captured Show Work alongside calculator-enabled responses, preserving the student's reasoning for future AI-powered feedback.",
-    techLabel: "Product Foundation",
     video: null,
     doc: "https://support.kiddom.co/en/articles/15461433-using-the-student-calculator-in-show-work-questions"
   },
@@ -778,7 +775,6 @@ const CASES = [
     impactStat: null,
     impactBody: "Replaced a multi-step, paper-dependent workflow with a single in-tool interaction, allowing students to measure and submit their work digitally while eliminating photographed paper artifacts for teachers to interpret and grade.",
     tech: "Kept measurement inside the drawing workflow so students could construct and measure the angle in the same workspace, rather than switching between tools or activities.",
-    techLabel: "Product Decision",
     video: null,
     doc: "https://support.kiddom.co/en/articles/14725022-what-are-student-math-tools"
   },
@@ -816,7 +812,6 @@ const CASES = [
     evolutionLabel: "Evolution",
     evolution: `The translation capability later became the technical foundation for <strong>Bilingual View & Print.</strong>`,
     tech: "Initial single-prompt translation produced inconsistent quality across grade bands. Redesigned the translation system around grade-band-specific prompting and validated output with a calibrated three-pass human evaluation framework before launch.",
-    techLabel: "AI Evaluation",
     video: null,
     doc: null
   },
@@ -834,7 +829,6 @@ const CASES = [
     impactStat: null,
     impactBody: "Turned a manual assessment-authoring workflow into a working generation tool that could produce alternative OpenSciEd assessments across formats and state testing contexts without replacing the pedagogical rigor of the source curriculum.",
     tech: "Kept Claim-Evidence-Reasoning question generation available rather than restricting the generator to autogradable question types. CER is itself a Science and Engineering Practice, so the generator treated question format as a design choice based on the assessment goal rather than assuming automation should replace constructed response.",
-    techLabel: "Product Decision",
     video: null,
     doc: null
   },
@@ -854,7 +848,6 @@ const CASES = [
     evolutionLabel: "Evolution",
     evolution: `Building these state adoption packages manually revealed a repeatable standards-mapping workflow, which I later productized into <strong>State Adoption Course Builder</strong> for future builds.`,
     tech: "Mapped OpenSciEd's NGSS-aligned curriculum against state-specific standards, using pedagogical judgment to determine where standards diverged, what instructional content was missing, and how to fill those gaps without disrupting the intended learning progression.",
-    techLabel: "Domain Expertise",
     video: null,
     doc: null
   },
@@ -873,7 +866,6 @@ const CASES = [
     impactStat: null,
     impactBody: "Used the project to deepen my hands-on skills in refactoring, physics modeling, and UI/UX design. Refactored the physics model around real Coulomb friction and meaningful physical parameters rather than arbitrary game-tuning values, making the game feel more like the physical system it represents. I also refined my interaction design instincts around keeping asynchronous game state inside the extension rather than turning every turn into a new message.",
     tech: "Chose a persistent game bubble rather than sending a new iMessage after every turn. The conversation remains the social layer; the extension owns the changing game state.",
-    techLabel: "Product Decision",
     video: null,
     doc: null
   }
@@ -949,7 +941,7 @@ const CASES = [
           ${c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
           ${c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
           ${(c.tech || c.video || c.doc) ? `<div class="case-actions">
-            ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Technical details'}">+ ${c.techLabel || 'Technical details'}</button>` : ''}
+            ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Key Decision'}">+ ${c.techLabel || 'Key Decision'}</button>` : ''}
             ${c.video ? `<a class="video-link" href="${c.video}" target="_blank" rel="noopener">${PLAY}Watch product video</a>` : ''}
             ${c.doc ? `<a class="video-link" href="${c.doc}" target="_blank" rel="noopener">${EXT}Read support docs</a>` : ''}
           </div>` : ''}
@@ -964,7 +956,13 @@ const CASES = [
         const td = sheetEl.querySelector('.tech-details');
         td.classList.toggle('is-open');
         const label = techBtn.dataset.techLabel;
-        techBtn.textContent = td.classList.contains('is-open') ? '– Hide ' + label : '+ ' + label;
+        const open = td.classList.contains('is-open');
+        techBtn.textContent = open ? '– Hide ' + label : '+ ' + label;
+        techBtn.setAttribute('aria-expanded', open);
+        if (open) {
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          td.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+        }
       });
     }
     modalEl.classList.add('is-open');
