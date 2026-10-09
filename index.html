@@ -459,12 +459,8 @@
   }
   .rolo-full .tech-details.is-open { display: block; }
 
-  .play-icon {
-    width: 10px; height: 10px; display: inline-block;
-    color: currentColor; flex-shrink: 0;
-  }
   .doc-icon {
-    width: 11px; height: 11px; display: inline-block;
+    width: 12px; height: 12px; display: inline-block;
     color: currentColor; flex-shrink: 0;
   }
 
@@ -883,7 +879,6 @@ const CASES = [
   let lastFocus = null;
 
   const EXT = `<svg class="doc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
-  const PLAY = `<svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 1.5v9l7.5-4.5z" fill="currentColor"/></svg>`;
 
   const tilesEl = document.getElementById('banner-tiles');
   if (tilesEl) {
@@ -942,8 +937,8 @@ const CASES = [
           ${c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
           ${(c.tech || c.video || c.doc) ? `<div class="case-actions">
             ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Key Decision'}">+ ${c.techLabel || 'Key Decision'}</button>` : ''}
-            ${c.video ? `<a class="video-link" href="${c.video}" target="_blank" rel="noopener">${PLAY}Watch product video</a>` : ''}
-            ${c.doc ? `<a class="video-link" href="${c.doc}" target="_blank" rel="noopener">${EXT}Read support docs</a>` : ''}
+            ${c.video ? `<a class="video-link" href="${c.video}" target="_blank" rel="noopener">Product Video${EXT}</a>` : ''}
+            ${c.doc ? `<a class="video-link" href="${c.doc}" target="_blank" rel="noopener">Support Docs${EXT}</a>` : ''}
           </div>` : ''}
           ${c.tech ? `<div class="tech-details">${c.tech}</div>` : ''}
         </div>` : ''}
