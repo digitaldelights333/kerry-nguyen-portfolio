@@ -442,17 +442,18 @@
   .rolo-full .case-actions {
     display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px;
   }
+  /* Chips match the chat UI chip (.chip): sentence case, quiet ink, accent on hover */
   .rolo-full .expand-toggle,
   .rolo-full .video-link {
-    display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
-    border: 1px solid var(--rule-2); border-radius: 999px; background: transparent;
-    font-family: "DM Sans"; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-    cursor: pointer; text-decoration: none; transition: border-color .15s, color .15s;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font: inherit; font-size: 14px; line-height: 1.2; letter-spacing: 0; text-transform: none;
+    padding: 9px 15px; border-radius: 999px;
+    color: var(--ink-2); background: var(--surface); border: 1px solid var(--rule-2);
+    cursor: pointer; text-decoration: none;
+    transition: border-color .15s, color .15s, background .15s;
   }
-  .rolo-full .expand-toggle { color: var(--muted); }
-  .rolo-full .video-link { color: var(--accent); }
-  .rolo-full .expand-toggle:hover { color: var(--ink); border-color: var(--ink); }
-  .rolo-full .video-link:hover { border-color: var(--accent); }
+  .rolo-full .expand-toggle:hover,
+  .rolo-full .video-link:hover { border-color: var(--accent); color: var(--accent); background: #fff; }
   .rolo-full .tech-details {
     display: none; margin-top: 14px; padding: 14px 16px; background: var(--surface-2);
     border-left: 3px solid var(--accent); font-size: 13.5px; line-height: 1.55; color: var(--ink-2);
@@ -460,7 +461,7 @@
   .rolo-full .tech-details.is-open { display: block; }
 
   .doc-icon {
-    width: 12px; height: 12px; display: inline-block;
+    width: 14px; height: 14px; display: block;
     color: currentColor; flex-shrink: 0;
   }
 
@@ -936,9 +937,9 @@ const CASES = [
           ${c.star && c.insight ? `<div class="field"><span class="field-label">Product Insight</span><p class="field-body">${c.insight}</p></div>` : ''}
           ${c.star && (c.platformStat || c.platformBody) ? platformField(c) : ''}
           ${(c.tech || c.video || c.doc) ? `<div class="case-actions">
-            ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Key Decision'}">+ ${c.techLabel || 'Key Decision'}</button>` : ''}
-            ${c.video ? `<a class="video-link" href="${c.video}" target="_blank" rel="noopener">Product Video${EXT}</a>` : ''}
-            ${c.doc ? `<a class="video-link" href="${c.doc}" target="_blank" rel="noopener">Support Docs${EXT}</a>` : ''}
+            ${c.tech ? `<button class="expand-toggle" data-tech-label="${c.techLabel || 'Key decision'}">+ ${c.techLabel || 'Key decision'}</button>` : ''}
+            ${c.video ? `<a class="video-link" href="${c.video}" target="_blank" rel="noopener">Product video${EXT}</a>` : ''}
+            ${c.doc ? `<a class="video-link" href="${c.doc}" target="_blank" rel="noopener">Support docs${EXT}</a>` : ''}
           </div>` : ''}
           ${c.tech ? `<div class="tech-details">${c.tech}</div>` : ''}
         </div>` : ''}
@@ -952,7 +953,7 @@ const CASES = [
         td.classList.toggle('is-open');
         const label = techBtn.dataset.techLabel;
         const open = td.classList.contains('is-open');
-        techBtn.textContent = open ? '– Hide ' + label : '+ ' + label;
+        techBtn.textContent = open ? '– Hide ' + label.toLowerCase() : '+ ' + label;
         techBtn.setAttribute('aria-expanded', open);
         if (open) {
           const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
