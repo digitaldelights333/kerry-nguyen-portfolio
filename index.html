@@ -1646,12 +1646,12 @@ const CASES = [
     asking = true;
     try {
       const t = BY_ID[id];
-      track('chip_clicked', {
+      const fromRow = !!(meta && meta.position);   // false when the header button asked the question
+      track('chip_clicked', Object.assign({
         chip_id: id, chip_title: t.chip,
-        chips_shown: lastShown.slice(),                          // chip_ids on screen at this tap (stable if SPINE is reordered)
-        position: (meta && meta.position) || null,
+        position: fromRow ? meta.position : null,
         questions_asked_before: visited.size
-      });
+      }, fromRow ? { chips_shown: lastShown.slice() } : {}));   // chip_ids on screen; only meaningful for a row tap
       lastShown.forEach((shownId) => { if (shownId !== id) ignored[shownId] = (ignored[shownId] || 0) + 1; });
       visited.add(id);
       clearChips();
