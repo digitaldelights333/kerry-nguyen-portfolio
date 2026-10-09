@@ -1080,7 +1080,7 @@ const CASES = [
         <h3 class="case-title">${c.cardTitle || c.title}</h3>
         <p class="case-blurb">${c.blurb || ''}</p>
         <div class="case-foot">
-          <span class="case-sub">${c.personal ? 'Personal project' : c.sub.replace(/\s*·\s*\d{4}(–\d{2,4})?$/, '')}</span>
+          <span class="case-sub">${c.personal ? 'Personal project' : c.sub.split(' · ')[0]}</span>
           <span class="case-eye" aria-hidden="true" title="View details">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
           </span>
