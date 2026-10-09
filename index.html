@@ -1437,7 +1437,7 @@ const CASES = [
     a.className = className;
     a.href = SCHEDULE_URL;
     a.textContent = label;
-    a.addEventListener('click', () => track('schedule_clicked', { button_id: 'call chat' }));
+    a.addEventListener('click', () => track('schedule_clicked', { button_id: 'call_chat' }));
     if (SCHEDULE_URL === '#') {
       a.title = 'Booking link coming soon';
       a.addEventListener('click', (e) => e.preventDefault());
@@ -1669,7 +1669,7 @@ const CASES = [
   // "looking for next" question, and the Schedule a call button in that answer opens the link.
   const headSchedule = document.getElementById('chat-schedule');
   if (headSchedule) headSchedule.addEventListener('click', () => {
-    track('schedule_clicked', { button_id: 'call header' });
+    track('schedule_clicked', { button_id: 'call_header' });
     ask('looking', 'Schedule a call');
   });
 
