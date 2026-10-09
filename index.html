@@ -974,11 +974,6 @@ const CASES = [
     palette: "pal-lesson",
     icon: ICONS.adapt,
     personal: true,
-    problem: "Teachers trained in an instructional framework still spend about two hours adapting each lesson by hand to apply it.",
-    solution: "Built an interactive pilot walkthrough with a launch plan. It follows one teacher through five stories: upload a lesson and generate an adaptation, leave while it generates, edit or regenerate any part before sharing, reuse a colleague's adaptation from a shared library, and rate it after teaching. Each story has acceptance criteria.",
-    impactLabel: "What I learned",
-    impactBody: "Writing acceptance criteria as Given, When, Then for each story forced me to decide what the system does at every step, including when the teacher leaves mid-generation. Marking where the prototype departs from production, such as a screen that waits for a click instead of advancing on its own, kept it honest about what it demonstrates.",
-    tech: "Ratings are thumbs only, with no comment box. A thumbs-down asks which part was missing and feeds the generation engine. Nothing reaches the shared library until the teacher saves it.",
     video: null,
     doc: null
   },
@@ -991,11 +986,6 @@ const CASES = [
     palette: "pal-parts",
     icon: ICONS.gear,
     personal: true,
-    problem: "Parts buyers often know their machine, not the part number.",
-    solution: "Built a three-level prototype: all categories, then a category, then a single part page. An add-equipment flow sets the machine as context, so part and bundle pages show fit badges. It also has a frequently-bought-together sidebar, a language menu, an account menu, and a cart.",
-    impactLabel: "What I learned",
-    impactBody: "Fit is the interaction that makes a parts catalog useful, and a static three-level prototype was enough to test where it belongs: set once in the header, then confirmed on every part and bundle. I learned to treat part numbers, categories, and fit as one data model before designing any page.",
-    tech: "The selected machine sits in the header, so each part page can answer whether it fits without asking again.",
     video: null,
     doc: null
   },
@@ -1008,11 +998,6 @@ const CASES = [
     palette: "pal-jobsearch",
     icon: ICONS.funnel,
     personal: true,
-    problem: "A remote EdTech product search means checking dozens of career pages and job boards across different applicant tracking systems, and most postings aren't a fit.",
-    solution: "Built a daily pipeline that pulls postings from six applicant tracking systems, job aggregators, and LinkedIn alert emails. It applies hard filters for product title, remote, and salary floor, then has Claude score each posting against my resume, with fit to the education domain weighted most heavily. Roles above a threshold become cards on my Trello board for me to research, and postings with no readable description go to a manual-review list.",
-    impactLabel: "What I learned",
-    impactBody: "Every applicant tracking system fails differently. Workday boards disagree on pagination, so I dedupe by job path and don't trust the reported total, and iCIMS serves its job list only inside an iframe, so a plain request returns an empty shell. I also decide education fit in code before the model sees a posting, so the weighting is explicit and editable instead of buried in a prompt.",
-    tech: "Domain fit is a score, not a gate. Education-adjacent roles still surface but rank below core EdTech, so strong adjacent matches aren't lost.",
     video: null,
     doc: null
   },
@@ -1025,11 +1010,6 @@ const CASES = [
     palette: "pal-content",
     icon: ICONS.frames,
     personal: true,
-    problem: "Reusing content across several accounts without repeating it too soon meant keeping track by memory or spreadsheet.",
-    solution: "Built a private tool with a Python backend and React front end that runs only on my own machine. It scans a content folder where each subfolder is a project, reads each file's length, and makes thumbnails. For every account it labels each asset as never used, scheduled, resting, or ready to recycle, using a 105-day rule. It proposes a month of posts at a time against each account's weekly cadence, alternating between assets ready to recycle and fresh ones. A nightly scan and digest report which accounts are behind.",
-    impactLabel: "What I learned",
-    impactBody: "Identifying files by a content hash, the first 16 characters of a SHA-256, made renames and moves free, but it meant every scan had to be incremental to stay fast on a large library. Running the nightly scan on a schedule and generating posts additively taught me to design each automated step so it can run again safely.",
-    tech: "Each file's ID is a hash of its contents, so renaming or moving a file never breaks its posting history. Proposed posts are added on top of what exists, so a new run never moves anything I'm reviewing, have scheduled, or have posted.",
     video: null,
     doc: null
   },
@@ -1042,11 +1022,6 @@ const CASES = [
     palette: "pal-health",
     icon: ICONS.pulse,
     personal: true,
-    problem: "Fitness apps overstate what a walk burns, and food logging is slow enough that I'd quit.",
-    solution: "Built two connected trackers. Treadmill Ledger uses the ACSM equations to compute each walk's net calories after subtracting resting metabolism, with pace, effort level, and estimated steps. The 6-Week Reset Tracker is a daily log for a six-week body recomposition plan. I describe a meal in plain English and Claude estimates calories and protein, and the tracker also logs weight, sleep, steps, and water. It pulls steps in from the ledger and charts weight against a planned pace.",
-    impactLabel: "What I learned",
-    impactBody: "The ACSM walking equation loses accuracy at slow paces, and the running equation takes over at higher speeds, so I flagged those cases instead of hiding them. Storing each walk with the body weight it was calculated at keeps history stable as weight changes. Asking Claude for structured JSON with a range and its assumptions made meal estimates easy to display and edit.",
-    tech: "Every number shows its uncertainty. The ledger flags paces below 1.9 mph, where the equation loses accuracy. Meal estimates show a range and the assumptions behind it. The weight chart adds a 7-day average beside each weigh-in, so daily noise doesn't read as failure.",
     video: null,
     doc: null
   }
@@ -1131,7 +1106,7 @@ const CASES = [
 
   function openCase(id) {
     const c = CASES.find(x => x.id === id);
-    if (!c) return;
+    if (!c || c.soon) return;
     lastFocus = document.activeElement;
     sheetEl.innerHTML = `
       <button class="rolo-close" aria-label="Close">×</button>
