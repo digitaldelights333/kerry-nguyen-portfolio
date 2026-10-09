@@ -337,10 +337,6 @@
   .case-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: var(--shadow-active); }
 
   .case-top { margin-bottom: 12px; flex-shrink: 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-  .case-tag {
-    font-family: "DM Sans"; font-size: 11px; line-height: 1; padding: 5px 9px; border-radius: 999px;
-    color: var(--muted); background: var(--surface); border: 1px solid var(--rule-2); white-space: nowrap;
-  }
   .case-tile {
     width: 46px; height: 46px; border-radius: 3px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
@@ -357,7 +353,7 @@
     display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   .case-foot {
-    flex-shrink: 0; margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px;
+    flex-shrink: 0; margin-top: auto; padding-top: 6px; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px;
   }
   .case-sub {
     min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -1071,11 +1067,11 @@ const CASES = [
       el.innerHTML = `
         <div class="case-top">
           <div class="case-tile ${c.palette}"><span class="card-icon">${c.icon}</span></div>
-          ${c.personal ? '<span class="case-tag">Personal</span>' : ''}
         </div>
         <h3 class="case-title">${c.cardTitle || c.title}</h3>
         <p class="case-blurb">${c.blurb || ''}</p>
         <div class="case-foot">
+          <span class="case-sub">${c.personal ? 'Personal project' : c.sub}</span>
           <span class="case-eye" aria-hidden="true" title="View details">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
           </span>
