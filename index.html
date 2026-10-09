@@ -539,14 +539,25 @@
 <!-- GoatCounter analytics (privacy-friendly, no cookies) -->
 <script data-goatcounter="https://digitaldelights333.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-  <script>
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    posthog.init('phc_xwXhoLYCo2yQNpWFJ9fXmKdxzKNymTvhuiUoPV2spju6', {
-      api_host: 'https://us.i.posthog.com',
-      defaults: '2025-05-24',
-      person_profiles: 'identified_only'
+<!-- PostHog event tracking (cookieless: no cookies or localStorage, so no consent banner).
+     Project API key is public by design. Localhost and private networks are not tracked. -->
+<script>
+  window.POSTHOG_KEY = 'phc_xwXhoLYCo2yQNpWFJ9fXmKdxzKNymTvhuiUoPV2spju6';
+  window.POSTHOG_HOST = 'https://us.i.posthog.com';       // use https://eu.i.posthog.com for an EU project
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify reset opt_out_capturing opt_in_capturing".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  if (!/^(localhost|127\.|10\.|192\.168\.)/.test(location.hostname)) {
+    posthog.init(window.POSTHOG_KEY, {
+      api_host: window.POSTHOG_HOST,
+      persistence: 'memory',        // cookieless
+      autocapture: false,           // only the named events below
+      disable_session_recording: true
     });
-  </script>
+  }
+  // track('event_name', { property: value }). Safe to call anywhere; never throws.
+  window.track = function (name, props) {
+    try { if (window.posthog && posthog.__loaded) posthog.capture(name, props || {}); } catch (e) {}
+  };
+</script>
 </head>
 <body>
 
@@ -1081,8 +1092,9 @@ const CASES = [
         el.insertAdjacentHTML('beforeend', '<span class="case-soon">In review</span>');
         el.querySelector('.case-eye svg').insertAdjacentHTML('beforeend', '<line x1="3" y1="3" x2="21" y2="21"/>');
         el.querySelector('.case-eye').title = 'Details in review';
+        el.addEventListener('click', () => track('case_unavailable_clicked', { case_id: c.id, case_title: c.title }));
       } else {
-        el.addEventListener('click', () => openCase(c.id));
+        el.addEventListener('click', () => openCase(c.id, 'grid'));
       }
       gridEl.appendChild(el);
     });
@@ -1112,9 +1124,10 @@ const CASES = [
   const platformField = (c) => `<div class="field"><span class="field-label">Platform Scale</span><p class="field-body">${c.platformStat ? `<strong class="stat">${c.platformStat}</strong>` : ''}${c.platformBody || ''}</p></div>`;
   const hasFooter = (c) => c.tech || c.video || c.doc || c.connections || (c.star && (c.insight || c.platformStat || c.platformBody));
 
-  function openCase(id) {
+  function openCase(id, source) {
     const c = CASES.find(x => x.id === id);
     if (!c || c.soon) return;
+    track('case_opened', { case_id: c.id, case_title: c.title, source: source || 'chat_link' });
     lastFocus = document.activeElement;
     sheetEl.innerHTML = `
       <button class="rolo-close" aria-label="Close">×</button>
@@ -1142,7 +1155,10 @@ const CASES = [
       </div>
     `;
     sheetEl.querySelector('.rolo-close').addEventListener('click', closeCase);
-    sheetEl.querySelectorAll('.sys-link').forEach((b) => b.addEventListener('click', () => openCase(b.dataset.case)));
+    sheetEl.querySelectorAll('.sys-link').forEach((b) => b.addEventListener('click', () => openCase(b.dataset.case, 'case_connection')));
+    sheetEl.querySelectorAll('a.video-link').forEach((a) => {
+      a.addEventListener('click', () => track('case_link_clicked', { case_id: c.id, link_type: a.href === c.video ? 'video' : 'docs' }));
+    });
     const techBtn = sheetEl.querySelector('.expand-toggle');
     if (techBtn) {
       techBtn.addEventListener('click', () => {
@@ -1152,6 +1168,7 @@ const CASES = [
         const open = td.classList.contains('is-open');
         techBtn.textContent = open ? '– Hide ' + label.toLowerCase() : '+ ' + label;
         techBtn.setAttribute('aria-expanded', open);
+        if (open) track('case_details_expanded', { case_id: c.id });
         if (open) {
           const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           td.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
@@ -1417,6 +1434,7 @@ const CASES = [
     a.className = className;
     a.href = SCHEDULE_URL;
     a.textContent = label;
+    a.addEventListener('click', () => track('schedule_clicked', { location: className === 'chat-cta' ? 'chat_answer' : 'header' }));
     if (SCHEDULE_URL === '#') {
       a.title = 'Booking link coming soon';
       a.addEventListener('click', (e) => e.preventDefault());
@@ -1612,7 +1630,7 @@ const CASES = [
       b.className = 'chip';
       b.textContent = BY_ID[id].chip;
       b.style.animationDelay = (reduceMotion ? 0 : i * 45) + 'ms';
-      b.addEventListener('click', () => ask(id));
+      b.addEventListener('click', () => ask(id, undefined, { via: 'chip', position: i + 1 }));
       row.appendChild(b);
     });
     logEl.appendChild(row);
@@ -1620,11 +1638,17 @@ const CASES = [
   }
 
   let asking = false;   // ignore taps while an answer is still being written
-  async function ask(id, label) {
+  async function ask(id, label, meta) {
     if (asking) return;
     asking = true;
     try {
       const t = BY_ID[id];
+      track('chip_clicked', {
+        chip_id: id, chip_text: t.chip,
+        via: (meta && meta.via) || 'header_schedule',
+        position: (meta && meta.position) || null,
+        questions_asked_before: visited.size
+      });
       lastShown.forEach((shownId) => { if (shownId !== id) ignored[shownId] = (ignored[shownId] || 0) + 1; });
       visited.add(id);
       clearChips();
