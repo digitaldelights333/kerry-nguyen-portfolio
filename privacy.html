@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy · Kerry Nguyen Portfolio</title>
+<meta name="description" content="How the portfolio's availability feature uses Google Calendar free/busy data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#EFEBE6; --ink:#1A1814; --ink-2:#33312D; --accent:#B85450; --accent-deep:#7D3212; --rule:#D5CFC7; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",ui-sans-serif,system-ui,sans-serif; font-size:17px; line-height:1.6; }
+  main { max-width: 680px; margin: 0 auto; padding: 56px 24px 72px; }
+  h1 { font-family:"DM Serif Display",Georgia,serif; font-weight:400; font-size:40px; line-height:1.1; margin:0 0 8px; }
+  h2 { font-size:19px; margin:32px 0 8px; }
+  p, li { color:var(--ink-2); }
+  a { color:var(--accent); } a:hover { color:var(--accent-deep); }
+  .meta { color:#7A6B5B; font-size:15px; margin:0 0 24px; }
+  hr { border:0; border-top:1px solid var(--rule); margin:32px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Privacy</h1>
+  <p class="meta">Kerry Nguyen Portfolio · Last updated October 12, 2026</p>
+
+  <p>This site includes an Availability section that shows when Kerry is open for a conversation. This page explains what that feature does with Google Calendar data.</p>
+
+  <h2>What the app accesses</h2>
+  <p>The site owner has authorized a small service, "Portfolio Availability," to read free/busy information from the owner's own Google Calendar. It uses the <code>calendar.freebusy</code> scope, which returns only the times a calendar is busy. It cannot read event titles, descriptions, attendees, locations, or any other event details.</p>
+
+  <h2>How it is used</h2>
+  <p>The service compares busy times against working hours and publishes only the resulting open time windows on the site. The busy times themselves are not stored or shown.</p>
+
+  <h2>Visitors</h2>
+  <p>Visitors do not sign in to anything and are never asked to connect a Google account. The availability feature collects no personal data from visitors. The site separately uses cookieless analytics (GoatCounter and PostHog) to count page views and clicks.</p>
+
+  <h2>Sharing and storage</h2>
+  <p>Google Calendar data is not sold, shared with third parties, or used for advertising. Open time windows are cached briefly (about 10 minutes) so the site loads quickly. Access can be revoked at any time from the owner's Google Account permissions page.</p>
+
+  <h2>Google API Services</h2>
+  <p>Use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy#limited-use">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+  <hr>
+  <p>Questions: <a href="mailto:nguyenkerry1@gmail.com">nguyenkerry1@gmail.com</a> · <a href="./">Back to portfolio</a></p>
+</main>
+</body>
+</html>
