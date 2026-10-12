@@ -8,10 +8,12 @@ Static HTML, no build step. Open `index.html` locally or serve the directory.
 
 ## Availability
 
-The Availability section lists open time slots from Kerry's Google Calendar without exposing any
-event details. It is fed by a small Cloudflare Worker in `worker/` that uses the free/busy API.
-See `worker/README.md` for setup. The section stays hidden until `AVAILABILITY_URL` in
-`index.html` is set.
+Java's answer to "Schedule a call" lists Kerry's open time windows (next five days with openings,
+in the visitor's time zone) just above the "Book a quick intro call" button, without exposing any
+event details. The data comes from a small Cloudflare Worker in `worker/` that uses Google's
+free/busy API. See `worker/README.md` for setup. Set `AVAILABILITY_URL` in the chat script in
+`index.html`; if it is empty, or the Worker is unreachable, the block is skipped silently and the
+answer reads as before.
 
 ## Analytics
 

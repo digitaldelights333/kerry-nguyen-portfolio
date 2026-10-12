@@ -50,19 +50,6 @@
   }
 
 
-  /* ===== AVAILABILITY ===== */
-  .avail { padding: 8px 0 72px; }
-  .avail[hidden] { display: none; }
-  .avail-note { color: var(--soft); font-size: 15.5px; margin: 16px 0 20px; max-width: 62ch; }
-  .avail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
-  .avail-day {
-    background: var(--surface); border: 1px solid var(--rule); border-radius: 14px;
-    padding: 14px 16px; box-shadow: var(--shadow-card);
-  }
-  .avail-day h3 { margin: 0 0 8px; font-size: 15px; font-weight: 600; color: var(--ink); }
-  .avail-day ul { list-style: none; margin: 0; padding: 0; font-size: 15px; color: var(--ink-2); }
-  .avail-day li + li { margin-top: 4px; }
-
   /* ===== HERO ===== */
   header.hero { padding: 0 0 64px; }
 
@@ -232,6 +219,12 @@
   }
   .chat-link:hover { color: var(--accent-deep); }
   a.chat-link { display: inline; }
+  .chat-avail { margin: 4px 0 12px; font-size: 15px; }
+  .chat-avail-head { margin: 0 0 6px; color: var(--soft); font-size: 14px; }
+  .chat-avail ul { list-style: none; margin: 0; padding: 0; }
+  .chat-avail li { padding: 5px 0; border-top: 1px solid var(--rule); color: var(--ink-2); }
+  .chat-avail li:first-child { border-top: 0; }
+  .chat-avail li b { display: inline-block; min-width: 112px; }
   .chat-cta {
     display: inline-flex; align-items: center; gap: 8px; margin: 4px 0 10px;
     font: inherit; font-size: 14.5px; font-weight: 500; line-height: 1;
@@ -636,18 +629,6 @@
 
   <div class="case-modal" id="case-modal" aria-hidden="true">
     <div class="case-sheet" id="case-sheet" role="dialog" aria-modal="true"></div>
-  </div>
-</section>
-
-<!-- ============ AVAILABILITY ============ -->
-<section class="avail" id="availability" aria-label="Kerry's availability" hidden>
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Availability</h2>
-      <div class="rule"></div>
-    </div>
-    <p class="avail-note" id="avail-note"></p>
-    <div class="avail-grid" id="avail-grid"></div>
   </div>
 </section>
 
@@ -1279,51 +1260,6 @@ const CASES = [
   renderGrid();
 })();
 /* =====================================================================
-   AVAILABILITY — open slots only, from the free/busy Worker in /worker.
-   Set AVAILABILITY_URL to the deployed Worker URL. Empty keeps the section hidden.
-===================================================================== */
-(function () {
-  const AVAILABILITY_URL = 'https://kerry-availability.nguyenkerry1.workers.dev';
-  const MAX_DAYS = 10;
-  const section = document.getElementById('availability');
-  if (!section || !AVAILABILITY_URL) return;
-
-  fetch(AVAILABILITY_URL).then((r) => (r.ok ? r.json() : Promise.reject()))
-    .then((data) => {
-      const dayFmt = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
-      const timeFmt = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
-      const days = new Map();
-      for (const s of data.slots || []) {
-        const start = new Date(s.start), end = new Date(s.end);
-        // Slots that cross local midnight are rare; they are listed on the day they start.
-        const key = start.getFullYear() + '-' + start.getMonth() + '-' + start.getDate();
-        if (!days.has(key)) days.set(key, { label: dayFmt.format(start), ranges: [] });
-        days.get(key).ranges.push(timeFmt.format(start) + ' – ' + timeFmt.format(end));
-      }
-      if (!days.size) return;
-      const grid = document.getElementById('avail-grid');
-      for (const d of [...days.values()].slice(0, MAX_DAYS)) {
-        const card = document.createElement('div');
-        card.className = 'avail-day';
-        const h = document.createElement('h3');
-        h.textContent = d.label;
-        const ul = document.createElement('ul');
-        for (const r of d.ranges) { const li = document.createElement('li'); li.textContent = r; ul.appendChild(li); }
-        card.append(h, ul);
-        grid.appendChild(card);
-      }
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const note = document.getElementById('avail-note');
-      note.textContent = 'Open windows for a conversation, shown in your time zone (' + tz + '). ';
-      const a = document.createElement('a');
-      a.href = 'mailto:nguyenkerry1@gmail.com?subject=Time%20to%20connect';
-      a.textContent = 'Email Kerry';
-      note.append(a, ' with a time that works.');
-      section.hidden = false;
-    })
-    .catch(() => { /* leave the section hidden */ });
-})();
-/* =====================================================================
    HERO CHAT — scripted portfolio guide (no AI / no API calls)
    Edit ASSISTANT_NAME, SCHEDULE_URL and SPINE below. The chip pathway is in docs/chat-pathway.md.
 ===================================================================== */
@@ -1331,6 +1267,24 @@ const CASES = [
   const ASSISTANT_NAME = 'Java';
   const EMAIL = 'nguyenkerry1@gmail.com';
   const SCHEDULE_URL = 'https://calendar.app.google/T8VRGxhvNJ9Gtgd47';   // Google Calendar appointment schedule, opens in a new tab
+  const AVAILABILITY_URL = 'https://kerry-availability.nguyenkerry1.workers.dev';   // free/busy Worker in /worker; empty hides availability
+  const AVAIL_MAX_DAYS = 5;
+
+  // Open slots grouped by the visitor's local day. Fetched once at page load so the answer is instant.
+  // Resolves to [] on any failure, and the chat then skips the availability block.
+  const availabilityPromise = !AVAILABILITY_URL ? Promise.resolve([]) :
+    fetch(AVAILABILITY_URL).then((r) => (r.ok ? r.json() : Promise.reject())).then((data) => {
+      const dayFmt = new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+      const timeFmt = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
+      const days = new Map();
+      for (const s of data.slots || []) {
+        const start = new Date(s.start), end = new Date(s.end);
+        const key = start.getFullYear() + '-' + start.getMonth() + '-' + start.getDate();   // slots crossing local midnight list on their start day
+        if (!days.has(key)) days.set(key, { label: dayFmt.format(start), ranges: [] });
+        days.get(key).ranges.push(timeFmt.format(start) + ' – ' + timeFmt.format(end));
+      }
+      return [...days.values()].slice(0, AVAIL_MAX_DAYS);
+    }).catch(() => []);
 
   const logEl = document.getElementById('chat-log');
   const headAvatarEl = document.getElementById('chat-avatar');
@@ -1635,6 +1589,26 @@ const CASES = [
         bubble.appendChild(p);
         await typeText(p, part);
         await sleep(120);
+      } else if (part && part.avail) {
+        const days = await Promise.race([availabilityPromise, new Promise((r) => setTimeout(() => r([]), 3000))]);
+        if (days.length) {
+          const box = document.createElement('div');
+          box.className = 'chat-avail';
+          const head = document.createElement('p');
+          head.className = 'chat-avail-head';
+          head.textContent = 'Kerry’s open windows, in your time zone (' + Intl.DateTimeFormat().resolvedOptions().timeZone + '):';
+          const ul = document.createElement('ul');
+          for (const d of days) {
+            const li = document.createElement('li');
+            const b = document.createElement('b');
+            b.textContent = d.label;
+            li.append(b, d.ranges.join(', '));
+            ul.appendChild(li);
+          }
+          box.append(head, ul);
+          bubble.appendChild(box);
+          scrollLog();
+        }
       } else if (part && part.cta) {
         const wrap = document.createElement('div');
         wrap.appendChild(scheduleLink('chat-cta', 'Book a quick intro call'));
@@ -1708,6 +1682,7 @@ const CASES = [
         { brk: true },
         "She works best in remote roles with Central time zone overlap, and is open to hybrid roles in the Chicago area. If that sounds like a fit, Kerry would love to learn more about the role.",
         { brk: true },
+        { avail: true },
         { cta: true },
         'Prefer email? Contact Kerry at [[href:mailto:' + EMAIL + '|' + EMAIL + ']].',
       ] },

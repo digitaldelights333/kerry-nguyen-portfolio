@@ -30,7 +30,8 @@ It cannot read event details even if the secrets leaked.
    npx wrangler deploy
    ```
 4. **Point the site at it:** set `AVAILABILITY_URL` in `index.html` (search `AVAILABILITY_URL`)
-   to the Worker URL printed by `wrangler deploy`. While it is empty the section stays hidden.
+   to the Worker URL printed by `wrangler deploy`. While it is empty, Java's "Schedule a call"
+   answer shows no availability block.
 
 ## Configuration
 
