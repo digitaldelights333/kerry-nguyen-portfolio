@@ -6,13 +6,6 @@ Live site: https://digitaldelights333.github.io/kerry-nguyen-portfolio/
 
 Static HTML, no build step. Open `index.html` locally or serve the directory.
 
-## Availability
-
-The Availability section lists open time slots from Kerry's Google Calendar without exposing any
-event details. It is fed by a small Cloudflare Worker in `worker/` that uses the free/busy API.
-See `worker/README.md` for setup. The section stays hidden until `AVAILABILITY_URL` in
-`index.html` is set.
-
 ## Analytics
 
 GoatCounter is installed (cookieless, no consent banner needed). The snippet

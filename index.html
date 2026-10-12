@@ -49,20 +49,6 @@
     .wrap { padding: 0 24px; }
   }
 
-
-  /* ===== AVAILABILITY ===== */
-  .avail { padding: 8px 0 72px; }
-  .avail[hidden] { display: none; }
-  .avail-note { color: var(--soft); font-size: 15.5px; margin: 16px 0 20px; max-width: 62ch; }
-  .avail-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
-  .avail-day {
-    background: var(--surface); border: 1px solid var(--rule); border-radius: 14px;
-    padding: 14px 16px; box-shadow: var(--shadow-card);
-  }
-  .avail-day h3 { margin: 0 0 8px; font-size: 15px; font-weight: 600; color: var(--ink); }
-  .avail-day ul { list-style: none; margin: 0; padding: 0; font-size: 15px; color: var(--ink-2); }
-  .avail-day li + li { margin-top: 4px; }
-
   /* ===== HERO ===== */
   header.hero { padding: 0 0 64px; }
 
@@ -636,18 +622,6 @@
 
   <div class="case-modal" id="case-modal" aria-hidden="true">
     <div class="case-sheet" id="case-sheet" role="dialog" aria-modal="true"></div>
-  </div>
-</section>
-
-<!-- ============ AVAILABILITY ============ -->
-<section class="avail" id="availability" aria-label="Kerry's availability" hidden>
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Availability</h2>
-      <div class="rule"></div>
-    </div>
-    <p class="avail-note" id="avail-note"></p>
-    <div class="avail-grid" id="avail-grid"></div>
   </div>
 </section>
 
@@ -1277,51 +1251,6 @@ const CASES = [
   window.showCase = openCase;
 
   renderGrid();
-})();
-/* =====================================================================
-   AVAILABILITY — open slots only, from the free/busy Worker in /worker.
-   Set AVAILABILITY_URL to the deployed Worker URL. Empty keeps the section hidden.
-===================================================================== */
-(function () {
-  const AVAILABILITY_URL = 'https://kerry-availability.nguyenkerry1.workers.dev';
-  const MAX_DAYS = 10;
-  const section = document.getElementById('availability');
-  if (!section || !AVAILABILITY_URL) return;
-
-  fetch(AVAILABILITY_URL).then((r) => (r.ok ? r.json() : Promise.reject()))
-    .then((data) => {
-      const dayFmt = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
-      const timeFmt = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
-      const days = new Map();
-      for (const s of data.slots || []) {
-        const start = new Date(s.start), end = new Date(s.end);
-        // Slots that cross local midnight are rare; they are listed on the day they start.
-        const key = start.getFullYear() + '-' + start.getMonth() + '-' + start.getDate();
-        if (!days.has(key)) days.set(key, { label: dayFmt.format(start), ranges: [] });
-        days.get(key).ranges.push(timeFmt.format(start) + ' – ' + timeFmt.format(end));
-      }
-      if (!days.size) return;
-      const grid = document.getElementById('avail-grid');
-      for (const d of [...days.values()].slice(0, MAX_DAYS)) {
-        const card = document.createElement('div');
-        card.className = 'avail-day';
-        const h = document.createElement('h3');
-        h.textContent = d.label;
-        const ul = document.createElement('ul');
-        for (const r of d.ranges) { const li = document.createElement('li'); li.textContent = r; ul.appendChild(li); }
-        card.append(h, ul);
-        grid.appendChild(card);
-      }
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const note = document.getElementById('avail-note');
-      note.textContent = 'Open windows for a conversation, shown in your time zone (' + tz + '). ';
-      const a = document.createElement('a');
-      a.href = 'mailto:nguyenkerry1@gmail.com?subject=Time%20to%20connect';
-      a.textContent = 'Email Kerry';
-      note.append(a, ' with a time that works.');
-      section.hidden = false;
-    })
-    .catch(() => { /* leave the section hidden */ });
 })();
 /* =====================================================================
    HERO CHAT — scripted portfolio guide (no AI / no API calls)
