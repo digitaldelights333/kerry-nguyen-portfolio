@@ -993,23 +993,6 @@ const CASES = [
     doc: null
   },
   {
-    id: "neondrift",
-    blurb: "A two-minute async physics based game, played inside iMessage.",
-    title: "Neon Drift",
-    sub: "Personal Project · August 2026",
-    palette: "pal-neondrift",
-    icon: ICONS.puck,
-    personal: true,
-    problem: "Quick asynchronous games introduce friction before the first move, forcing players to install and open a separate app and constantly switch back to the conversation where they're actually talking.",
-    solution: "Built Neon Drift as an iMessage extension rather than a standalone app, keeping the game inside the conversation where the invitation, turn-taking, and social interaction already happen. Designed an 8-turn ruleset playable in ~2 minutes, with a persistent game bubble and personalized game state living inside the extension UI.",
-    impactLabel: "What I Learned",
-    impactStat: null,
-    impactBody: "Used the project to deepen my hands-on skills in refactoring, physics modeling, and UI/UX design. Refactored the physics model around real Coulomb friction and meaningful physical parameters rather than arbitrary game-tuning values, making the game feel more like the physical system it represents. I also refined my interaction design instincts around keeping asynchronous game state inside the extension rather than turning every turn into a new message.",
-    tech: "Chose a persistent game bubble rather than sending a new iMessage after every turn. The conversation remains the social layer; the extension owns the changing game state.",
-    video: null,
-    doc: null
-  },
-  {
     id: "research-ops",
     blurb: "Two apps that capture an operations team's work as it happens.",
     title: "Research-Operations Workflow System",
@@ -1024,6 +1007,23 @@ const CASES = [
     impactStat: null,
     impactBody: "The operations team pilots both apps first, then the request app goes to the wider organization. Dashboards follow once the pilot produces clean data.",
     tech: "Recorded every step as a dated event with an owner. Nothing sits in a gap between people, and measurement becomes a byproduct of doing the work.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "neondrift",
+    blurb: "A two-minute async physics based game, played inside iMessage.",
+    title: "Neon Drift",
+    sub: "Personal Project · August 2026",
+    palette: "pal-neondrift",
+    icon: ICONS.puck,
+    personal: true,
+    problem: "Quick asynchronous games introduce friction before the first move, forcing players to install and open a separate app and constantly switch back to the conversation where they're actually talking.",
+    solution: "Built Neon Drift as an iMessage extension rather than a standalone app, keeping the game inside the conversation where the invitation, turn-taking, and social interaction already happen. Designed an 8-turn ruleset playable in ~2 minutes, with a persistent game bubble and personalized game state living inside the extension UI.",
+    impactLabel: "What I Learned",
+    impactStat: null,
+    impactBody: "Used the project to deepen my hands-on skills in refactoring, physics modeling, and UI/UX design. Refactored the physics model around real Coulomb friction and meaningful physical parameters rather than arbitrary game-tuning values, making the game feel more like the physical system it represents. I also refined my interaction design instincts around keeping asynchronous game state inside the extension rather than turning every turn into a new message.",
+    tech: "Chose a persistent game bubble rather than sending a new iMessage after every turn. The conversation remains the social layer; the extension owns the changing game state.",
     video: null,
     doc: null
   },
