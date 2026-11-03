@@ -540,6 +540,7 @@
   .pal-course { background: linear-gradient(135deg, #B85450 0%, #6A2E2C 100%); }
   .pal-ose { background: linear-gradient(135deg, #7D3212 0%, #33312D 100%); }
   .pal-assessment { background: linear-gradient(135deg, #E8D5AE 0%, #7A6B5B 100%); }
+  .pal-research { background: linear-gradient(135deg, #7A6B5B 0%, #B85450 100%); }
   .pal-lesson { background: linear-gradient(135deg, #E8D5AE 0%, #B85450 100%); }
   .pal-parts { background: linear-gradient(135deg, #C9BEA9 0%, #33312D 100%); }
   .pal-jobsearch { background: linear-gradient(135deg, #5F5546 0%, #33312D 100%); }
@@ -720,6 +721,18 @@ const ICONS = {
     <rect x="66" y="40" width="4" height="9" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
     <rect x="66" y="53" width="4" height="9" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
     <rect x="66" y="66" width="4" height="9" rx="1" fill="currentColor" stroke="none" opacity="0.5"/>
+  </svg>`,
+  research: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="14" width="30" height="72" rx="3"/>
+    <line x1="12" y1="30" x2="42" y2="30"/>
+    <line x1="12" y1="46" x2="42" y2="46"/>
+    <line x1="12" y1="62" x2="42" y2="62"/>
+    <line x1="27" y1="14" x2="27" y2="86"/>
+    <line x1="48" y1="50" x2="64" y2="50"/>
+    <polyline points="58,43 65,50 58,57"/>
+    <rect x="70" y="22" width="20" height="56" rx="3"/>
+    <polyline points="75,40 79,44 86,34"/>
+    <polyline points="75,58 79,62 86,52"/>
   </svg>`,
   crosswalk: `<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="25" cy="22" r="4"/>
@@ -993,6 +1006,24 @@ const CASES = [
     impactStat: null,
     impactBody: "Used the project to deepen my hands-on skills in refactoring, physics modeling, and UI/UX design. Refactored the physics model around real Coulomb friction and meaningful physical parameters rather than arbitrary game-tuning values, making the game feel more like the physical system it represents. I also refined my interaction design instincts around keeping asynchronous game state inside the extension rather than turning every turn into a new message.",
     tech: "Chose a persistent game bubble rather than sending a new iMessage after every turn. The conversation remains the social layer; the extension owns the changing game state.",
+    video: null,
+    doc: null
+  },
+  {
+    id: "research-ops",
+    blurb: "Two apps that capture an operations team's work as it happens.",
+    title: "Research-Operations Workflow System",
+    sub: "Personal Project · Self-initiated · Healthcare R&D · 2026",
+    palette: "pal-research",
+    icon: ICONS.research,
+    personal: true,
+    problem: "An operations team ran on paper forms, email threads, and a hand-entered spreadsheet. The data was entered after the fact, so it held only what someone had time to type. The team couldn't measure its own work, so it couldn't agree on what to measure.",
+    insight: "The information already existed, it just wasn't centralized. The fix wasn't a better spreadsheet. It was to capture each step as it happens.",
+    solution: "Built two apps, one where people submit requests and one where the team fulfills them, so the work itself produces the data and nobody retypes anything. They run on tools the team already owned, at no new cost.",
+    impactLabel: "Where It Stands",
+    impactStat: null,
+    impactBody: "The operations team pilots both apps first, then the request app goes to the wider organization. Dashboards follow once the pilot produces clean data.",
+    tech: "Recorded every step as a dated event with an owner. Nothing sits in a gap between people, and measurement becomes a byproduct of doing the work.",
     video: null,
     doc: null
   },
